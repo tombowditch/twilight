@@ -299,6 +299,8 @@
 <span id="296">296</span>
 <span id="297">297</span>
 <span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
 </pre><pre class="rust">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">activity_button</span>;
 
@@ -311,13 +313,15 @@
 <span class="kw">mod</span> <span class="ident">activity_timestamps</span>;
 <span class="kw">mod</span> <span class="ident">activity_type</span>;
 <span class="kw">mod</span> <span class="ident">client_status</span>;
+<span class="kw">mod</span> <span class="ident">minimal_activity</span>;
 <span class="kw">mod</span> <span class="ident">status</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
     <span class="ident">activity::Activity</span>, <span class="ident">activity_assets::ActivityAssets</span>, <span class="ident">activity_button::ActivityButton</span>,
     <span class="ident">activity_emoji::ActivityEmoji</span>, <span class="ident">activity_flags::ActivityFlags</span>, <span class="ident">activity_party::ActivityParty</span>,
     <span class="ident">activity_secrets::ActivitySecrets</span>, <span class="ident">activity_timestamps::ActivityTimestamps</span>,
-    <span class="ident">activity_type::ActivityType</span>, <span class="ident">client_status::ClientStatus</span>, <span class="ident">status::Status</span>,
+    <span class="ident">activity_type::ActivityType</span>, <span class="ident">client_status::ClientStatus</span>, <span class="ident">minimal_activity::MinimalActivity</span>,
+    <span class="ident">status::Status</span>,
 };
 
 <span class="kw">use</span> <span class="kw">crate</span>::{

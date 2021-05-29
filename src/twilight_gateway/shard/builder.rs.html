@@ -358,6 +358,35 @@
 <span id="355">355</span>
 <span id="356">356</span>
 <span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::Config</span>, <span class="ident">Shard</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -614,6 +643,35 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Default is no presence, which defaults to strictly being &quot;online&quot;</span>
     <span class="doccomment">/// with no special qualities.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Set the bot user&#39;s presence to idle with the status &quot;Not accepting</span>
+    <span class="doccomment">/// commands&quot;:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```no_run</span>
+    <span class="doccomment">/// use twilight_gateway::{Intents, Shard};</span>
+    <span class="doccomment">/// use twilight_model::gateway::{</span>
+    <span class="doccomment">///     payload::update_status::UpdateStatusInfo,</span>
+    <span class="doccomment">///     presence::{ActivityType, MinimalActivity, Status},</span>
+    <span class="doccomment">/// };</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// let shard = Shard::builder(&quot;token&quot;, Intents::empty())</span>
+    <span class="doccomment">///     .presence(UpdateStatusInfo::new(</span>
+    <span class="doccomment">///         Some(vec![MinimalActivity {</span>
+    <span class="doccomment">///             kind: ActivityType::Playing,</span>
+    <span class="doccomment">///             name: &quot;Not accepting commands&quot;.into(),</span>
+    <span class="doccomment">///             url: None,</span>
+    <span class="doccomment">///         }</span>
+    <span class="doccomment">///         .into()]),</span>
+    <span class="doccomment">///         false,</span>
+    <span class="doccomment">///         None,</span>
+    <span class="doccomment">///         Status::Idle,</span>
+    <span class="doccomment">///     ));</span>
+    <span class="doccomment">/// # Ok(()) }</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">presence</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">presence</span>: <span class="ident">UpdateStatusInfo</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">presence</span>.<span class="ident">replace</span>(<span class="ident">presence</span>);
 
