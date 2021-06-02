@@ -229,10 +229,10 @@
 <span class="doccomment">/// Discord API version used by this crate.</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">API_VERSION</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">8</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">client::Client</span>,
-    <span class="ident">error</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>},
-};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">client::Client</span>, <span class="ident">error::Error</span>};
+
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::error::Result</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;native&quot;</span>,
