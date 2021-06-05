@@ -48,12 +48,14 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
     <span class="ident">guild</span>::{
-        <span class="ident">DefaultMessageNotificationLevel</span>, <span class="ident">ExplicitContentFilter</span>, <span class="ident">MfaLevel</span>, <span class="ident">Permissions</span>, <span class="ident">PremiumTier</span>,
-        <span class="ident">SystemChannelFlags</span>, <span class="ident">VerificationLevel</span>,
+        <span class="ident">DefaultMessageNotificationLevel</span>, <span class="ident">ExplicitContentFilter</span>, <span class="ident">MfaLevel</span>, <span class="ident">NSFWLevel</span>, <span class="ident">Permissions</span>,
+        <span class="ident">PremiumTier</span>, <span class="ident">SystemChannelFlags</span>, <span class="ident">VerificationLevel</span>,
     },
     <span class="ident">id</span>::{<span class="ident">ApplicationId</span>, <span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">UserId</span>},
 };
@@ -78,7 +80,9 @@
     <span class="kw">pub</span> <span class="ident">member_count</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">mfa_level</span>: <span class="ident">MfaLevel</span>,
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.4.3&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;no longer provided by discord, see #839&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">nsfw</span>: <span class="ident">bool</span>,
+    <span class="kw">pub</span> <span class="ident">nsfw_level</span>: <span class="ident">NSFWLevel</span>,
     <span class="kw">pub</span> <span class="ident">owner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">owner_id</span>: <span class="ident">UserId</span>,
     <span class="kw">pub</span> <span class="ident">permissions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Permissions</span><span class="op">&gt;</span>,

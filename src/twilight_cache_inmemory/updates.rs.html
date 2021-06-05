@@ -1300,6 +1300,11 @@
 <span id="1297">1297</span>
 <span id="1298">1298</span>
 <span id="1299">1299</span>
+<span id="1300">1300</span>
+<span id="1301">1301</span>
+<span id="1302">1302</span>
+<span id="1303">1303</span>
+<span id="1304">1304</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::ResourceType</span>, <span class="ident">InMemoryCache</span>};
 <span class="kw">use</span> <span class="ident">dashmap::DashMap</span>;
@@ -1574,7 +1579,7 @@
             <span class="ident">guild</span>.<span class="ident">max_presences</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">max_presences</span>.<span class="ident">unwrap_or</span>(<span class="number">25000</span>));
             <span class="ident">guild</span>.<span class="ident">mfa_level</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">mfa_level</span>;
             <span class="ident">guild</span>.<span class="ident">name</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>();
-            <span class="ident">guild</span>.<span class="ident">nsfw</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">nsfw</span>;
+            <span class="ident">guild</span>.<span class="ident">nsfw_level</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">nsfw_level</span>;
             <span class="ident">guild</span>.<span class="ident">owner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">owner</span>;
             <span class="ident">guild</span>.<span class="ident">owner_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">owner_id</span>;
             <span class="ident">guild</span>.<span class="ident">permissions</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">permissions</span>;
@@ -2056,7 +2061,8 @@
         <span class="ident">gateway::payload</span>::{<span class="ident">reaction_remove_emoji::PartialEmoji</span>, <span class="ident">ChannelDelete</span>},
         <span class="ident">guild</span>::{
             <span class="ident">DefaultMessageNotificationLevel</span>, <span class="ident">ExplicitContentFilter</span>, <span class="ident">Guild</span>, <span class="ident">Member</span>, <span class="ident">MfaLevel</span>,
-            <span class="ident">PartialGuild</span>, <span class="ident">PartialMember</span>, <span class="ident">PremiumTier</span>, <span class="ident">SystemChannelFlags</span>, <span class="ident">VerificationLevel</span>,
+            <span class="ident">NSFWLevel</span>, <span class="ident">PartialGuild</span>, <span class="ident">PartialMember</span>, <span class="ident">PremiumTier</span>, <span class="ident">SystemChannelFlags</span>,
+            <span class="ident">VerificationLevel</span>,
         },
         <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>, <span class="ident">UserId</span>},
         <span class="ident">user::User</span>,
@@ -2215,6 +2221,7 @@
         <span class="ident">cache</span>
     }
 
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_guild_update</span>() {
         <span class="kw">let</span> <span class="ident">cache</span> <span class="op">=</span> <span class="ident">InMemoryCache::new</span>();
@@ -2244,6 +2251,7 @@
             <span class="ident">mfa_level</span>: <span class="ident">MfaLevel::None</span>,
             <span class="ident">name</span>: <span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">nsfw</span>: <span class="bool-val">false</span>,
+            <span class="ident">nsfw_level</span>: <span class="ident">NSFWLevel::Default</span>,
             <span class="ident">owner_id</span>: <span class="ident">UserId</span>(<span class="number">1</span>),
             <span class="ident">owner</span>: <span class="prelude-val">None</span>,
             <span class="ident">permissions</span>: <span class="prelude-val">None</span>,
@@ -2268,6 +2276,7 @@
 
         <span class="ident">cache</span>.<span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="ident">GuildCreate</span>(<span class="ident">guild</span>.<span class="ident">clone</span>()));
 
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
         <span class="kw">let</span> <span class="ident">mutation</span> <span class="op">=</span> <span class="ident">PartialGuild</span> {
             <span class="ident">id</span>: <span class="ident">guild</span>.<span class="ident">id</span>,
             <span class="ident">afk_channel_id</span>: <span class="ident">guild</span>.<span class="ident">afk_channel_id</span>,
@@ -2286,7 +2295,8 @@
             <span class="ident">member_count</span>: <span class="ident">guild</span>.<span class="ident">member_count</span>,
             <span class="ident">mfa_level</span>: <span class="ident">guild</span>.<span class="ident">mfa_level</span>,
             <span class="ident">name</span>: <span class="string">&quot;test2222&quot;</span>.<span class="ident">to_owned</span>(),
-            <span class="ident">nsfw</span>: <span class="ident">guild</span>.<span class="ident">nsfw</span>,
+            <span class="ident">nsfw</span>: <span class="bool-val">false</span>,
+            <span class="ident">nsfw_level</span>: <span class="ident">guild</span>.<span class="ident">nsfw_level</span>,
             <span class="ident">owner_id</span>: <span class="ident">UserId</span>(<span class="number">2</span>),
             <span class="ident">owner</span>: <span class="ident">guild</span>.<span class="ident">owner</span>,
             <span class="ident">permissions</span>: <span class="ident">guild</span>.<span class="ident">permissions</span>,
