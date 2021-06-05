@@ -1305,6 +1305,8 @@
 <span id="1302">1302</span>
 <span id="1303">1303</span>
 <span id="1304">1304</span>
+<span id="1305">1305</span>
+<span id="1306">1306</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::ResourceType</span>, <span class="ident">InMemoryCache</span>};
 <span class="kw">use</span> <span class="ident">dashmap::DashMap</span>;
@@ -1566,6 +1568,7 @@
             <span class="kw">return</span>;
         }
 
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">guild</span>) <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">guilds</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">id</span>) {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guild</span> <span class="op">=</span> <span class="ident">Arc::make_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">guild</span>);
             <span class="ident">guild</span>.<span class="ident">afk_channel_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">afk_channel_id</span>;
@@ -2225,6 +2228,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_guild_update</span>() {
         <span class="kw">let</span> <span class="ident">cache</span> <span class="op">=</span> <span class="ident">InMemoryCache::new</span>();
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
         <span class="kw">let</span> <span class="ident">guild</span> <span class="op">=</span> <span class="ident">Guild</span> {
             <span class="ident">afk_channel_id</span>: <span class="prelude-val">None</span>,
             <span class="ident">afk_timeout</span>: <span class="number">0</span>,
