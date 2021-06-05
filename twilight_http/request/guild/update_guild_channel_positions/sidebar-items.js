@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Position",""],["UpdateGuildChannelPositions","Modify the positions of the channels."]]});

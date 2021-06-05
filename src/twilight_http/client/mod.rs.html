@@ -1909,6 +1909,12 @@
 <span id="1906">1906</span>
 <span id="1907">1907</span>
 <span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
+<span id="1911">1911</span>
+<span id="1912">1912</span>
+<span id="1913">1913</span>
+<span id="1914">1914</span>
 </pre><pre class="rust">
 <span class="kw">mod</span> <span class="ident">builder</span>;
 
@@ -1923,7 +1929,10 @@
             <span class="ident">create_stage_instance::CreateStageInstanceError</span>,
             <span class="ident">update_stage_instance::UpdateStageInstanceError</span>,
         },
-        <span class="ident">guild</span>::{<span class="ident">create_guild::CreateGuildError</span>, <span class="ident">create_guild_channel::CreateGuildChannelError</span>},
+        <span class="ident">guild</span>::{
+            <span class="ident">create_guild::CreateGuildError</span>, <span class="ident">create_guild_channel::CreateGuildChannelError</span>,
+            <span class="ident">update_guild_channel_positions::Position</span>,
+        },
         <span class="ident">prelude</span>::<span class="kw-2">*</span>,
         <span class="ident">GetUserApplicationInfo</span>, <span class="ident">Method</span>, <span class="ident">Request</span>,
     },
@@ -2608,10 +2617,13 @@
     <span class="doccomment">/// Modify the positions of the channels.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The minimum amount of channels to modify, is a swap between two channels.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function accepts an `Iterator` of `(ChannelId, u64)`. It also</span>
+    <span class="doccomment">/// accepts an `Iterator` of `Position`, which has extra fields.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_guild_channel_positions</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
-        <span class="ident">channel_positions</span>: <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">ChannelId</span>, <span class="ident">u64</span>)<span class="op">&gt;</span>,
+        <span class="ident">channel_positions</span>: <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Position</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UpdateGuildChannelPositions</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
         <span class="ident">UpdateGuildChannelPositions::new</span>(<span class="self">self</span>, <span class="ident">guild_id</span>, <span class="ident">channel_positions</span>)
     }
