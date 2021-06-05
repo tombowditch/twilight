@@ -109,6 +109,8 @@
 <span id="106">106</span>
 <span id="107">107</span>
 <span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
 
@@ -131,6 +133,7 @@
         <span class="kw">const</span> <span class="ident">USER_CURRENT</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span>;
         <span class="kw">const</span> <span class="ident">USER</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">9</span>;
         <span class="kw">const</span> <span class="ident">VOICE_STATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">10</span>;
+        <span class="kw">const</span> <span class="ident">STAGE_INSTANCE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">11</span>;
     }
 }
 
@@ -205,6 +208,7 @@
         <span class="macro">assert_eq!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span>, <span class="ident">ResourceType::USER_CURRENT</span>.<span class="ident">bits</span>());
         <span class="macro">assert_eq!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">9</span>, <span class="ident">ResourceType::USER</span>.<span class="ident">bits</span>());
         <span class="macro">assert_eq!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">10</span>, <span class="ident">ResourceType::VOICE_STATE</span>.<span class="ident">bits</span>());
+        <span class="macro">assert_eq!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">11</span>, <span class="ident">ResourceType::STAGE_INSTANCE</span>.<span class="ident">bits</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

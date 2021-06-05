@@ -299,6 +299,18 @@
 <span id="296">296</span>
 <span id="297">297</span>
 <span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::wildcard_imports</span>)]</span>
 
@@ -423,6 +435,12 @@
     <span class="ident">ShardPayload</span>(<span class="ident">Payload</span>),
     <span class="doccomment">/// A shard is now in a Resuming stage after a disconnect.</span>
     <span class="ident">ShardResuming</span>(<span class="ident">Resuming</span>),
+    <span class="doccomment">/// A stage instance was created in a stage channel.</span>
+    <span class="ident">StageInstanceCreate</span>(<span class="ident">StageInstanceCreate</span>),
+    <span class="doccomment">/// A stage instance was deleted in a stage channel.</span>
+    <span class="ident">StageInstanceDelete</span>(<span class="ident">StageInstanceDelete</span>),
+    <span class="doccomment">/// A stage instance was updated in a stage channel.</span>
+    <span class="ident">StageInstanceUpdate</span>(<span class="ident">StageInstanceUpdate</span>),
     <span class="doccomment">/// A user started typing in a channel.</span>
     <span class="ident">TypingStart</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">TypingStart</span><span class="op">&gt;</span>),
     <span class="doccomment">/// A guild is now unavailable.</span>
@@ -485,6 +503,9 @@
             <span class="self">Self</span><span class="ident">::ShardReconnecting</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ShardReconnecting</span>,
             <span class="self">Self</span><span class="ident">::ShardPayload</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ShardPayload</span>,
             <span class="self">Self</span><span class="ident">::ShardResuming</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ShardResuming</span>,
+            <span class="self">Self</span><span class="ident">::StageInstanceCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceCreate</span>,
+            <span class="self">Self</span><span class="ident">::StageInstanceDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceDelete</span>,
+            <span class="self">Self</span><span class="ident">::StageInstanceUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceUpdate</span>,
             <span class="self">Self</span><span class="ident">::TypingStart</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::TypingStart</span>,
             <span class="self">Self</span><span class="ident">::UnavailableGuild</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::UnavailableGuild</span>,
             <span class="self">Self</span><span class="ident">::UserUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::UserUpdate</span>,
@@ -531,6 +552,9 @@
             <span class="ident">DispatchEvent::ReactionRemoveEmoji</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::ReactionRemoveEmoji</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::Ready</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Ready</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::Resumed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Resumed</span>,
+            <span class="ident">DispatchEvent::StageInstanceCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::StageInstanceCreate</span>(<span class="ident">v</span>),
+            <span class="ident">DispatchEvent::StageInstanceDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::StageInstanceDelete</span>(<span class="ident">v</span>),
+            <span class="ident">DispatchEvent::StageInstanceUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::StageInstanceUpdate</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::TypingStart</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::TypingStart</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::UnavailableGuild</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnavailableGuild</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::UserUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UserUpdate</span>(<span class="ident">v</span>),

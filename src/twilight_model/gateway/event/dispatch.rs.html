@@ -312,6 +312,24 @@
 <span id="309">309</span>
 <span id="310">310</span>
 <span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="kw">super</span><span class="ident">::payload</span>::<span class="kw-2">*</span>, <span class="ident">Event</span>, <span class="ident">EventConversionError</span>, <span class="ident">EventType</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{
@@ -363,6 +381,9 @@
     <span class="ident">RoleCreate</span>(<span class="ident">RoleCreate</span>),
     <span class="ident">RoleDelete</span>(<span class="ident">RoleDelete</span>),
     <span class="ident">RoleUpdate</span>(<span class="ident">RoleUpdate</span>),
+    <span class="ident">StageInstanceCreate</span>(<span class="ident">StageInstanceCreate</span>),
+    <span class="ident">StageInstanceDelete</span>(<span class="ident">StageInstanceDelete</span>),
+    <span class="ident">StageInstanceUpdate</span>(<span class="ident">StageInstanceUpdate</span>),
     <span class="ident">TypingStart</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">TypingStart</span><span class="op">&gt;</span>),
     <span class="ident">UnavailableGuild</span>(<span class="ident">UnavailableGuild</span>),
     <span class="ident">UserUpdate</span>(<span class="ident">UserUpdate</span>),
@@ -408,6 +429,9 @@
             <span class="self">Self</span><span class="ident">::RoleCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::RoleCreate</span>,
             <span class="self">Self</span><span class="ident">::RoleDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::RoleDelete</span>,
             <span class="self">Self</span><span class="ident">::RoleUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::RoleUpdate</span>,
+            <span class="self">Self</span><span class="ident">::StageInstanceCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceCreate</span>,
+            <span class="self">Self</span><span class="ident">::StageInstanceDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceDelete</span>,
+            <span class="self">Self</span><span class="ident">::StageInstanceUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceUpdate</span>,
             <span class="self">Self</span><span class="ident">::TypingStart</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::TypingStart</span>,
             <span class="self">Self</span><span class="ident">::UnavailableGuild</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::UnavailableGuild</span>,
             <span class="self">Self</span><span class="ident">::UserUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::UserUpdate</span>,
@@ -456,6 +480,9 @@
             <span class="ident">Event::RoleCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::RoleCreate</span>(<span class="ident">v</span>),
             <span class="ident">Event::RoleDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::RoleDelete</span>(<span class="ident">v</span>),
             <span class="ident">Event::RoleUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::RoleUpdate</span>(<span class="ident">v</span>),
+            <span class="ident">Event::StageInstanceCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::StageInstanceCreate</span>(<span class="ident">v</span>),
+            <span class="ident">Event::StageInstanceDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::StageInstanceDelete</span>(<span class="ident">v</span>),
+            <span class="ident">Event::StageInstanceUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::StageInstanceUpdate</span>(<span class="ident">v</span>),
             <span class="ident">Event::TypingStart</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::TypingStart</span>(<span class="ident">v</span>),
             <span class="ident">Event::UnavailableGuild</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnavailableGuild</span>(<span class="ident">v</span>),
             <span class="ident">Event::UserUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UserUpdate</span>(<span class="ident">v</span>),
@@ -585,6 +612,15 @@
                 <span class="ident">deserializer</span>.<span class="ident">deserialize_ignored_any</span>(<span class="ident">IgnoredAny</span>)<span class="question-mark">?</span>;
 
                 <span class="ident">DispatchEvent::Resumed</span>
+            }
+            <span class="string">&quot;STAGE_INSTANCE_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::StageInstanceCreate</span>(<span class="ident">StageInstanceCreate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;STAGE_INSTANCE_DELETE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::StageInstanceDelete</span>(<span class="ident">StageInstanceDelete::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;STAGE_INSTANCE_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::StageInstanceUpdate</span>(<span class="ident">StageInstanceUpdate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
             }
             <span class="string">&quot;TYPING_START&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">DispatchEvent::TypingStart</span>(<span class="ident">Box::new</span>(<span class="ident">TypingStart::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>))

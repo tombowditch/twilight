@@ -260,6 +260,18 @@
 <span id="257">257</span>
 <span id="258">258</span>
 <span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
@@ -326,6 +338,9 @@
     <span class="ident">ShardReconnecting</span>,
     <span class="ident">ShardPayload</span>,
     <span class="ident">ShardResuming</span>,
+    <span class="ident">StageInstanceCreate</span>,
+    <span class="ident">StageInstanceDelete</span>,
+    <span class="ident">StageInstanceUpdate</span>,
     <span class="ident">TypingStart</span>,
     <span class="ident">UnavailableGuild</span>,
     <span class="ident">UserUpdate</span>,
@@ -370,6 +385,9 @@
             <span class="self">Self</span><span class="ident">::RoleCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;GUILD_ROLE_CREATE&quot;</span>),
             <span class="self">Self</span><span class="ident">::RoleDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;GUILD_ROLE_DELETE&quot;</span>),
             <span class="self">Self</span><span class="ident">::RoleUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;GUILD_ROLE_UPDATE&quot;</span>),
+            <span class="self">Self</span><span class="ident">::StageInstanceCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;STAGE_INSTANCE_CREATE&quot;</span>),
+            <span class="self">Self</span><span class="ident">::StageInstanceDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;STAGE_INSTANCE_DELETE&quot;</span>),
+            <span class="self">Self</span><span class="ident">::StageInstanceUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;STAGE_INSTANCE_UPDATE&quot;</span>),
             <span class="self">Self</span><span class="ident">::TypingStart</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;TYPING_START&quot;</span>),
             <span class="self">Self</span><span class="ident">::UnavailableGuild</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;UNAVAILABLE_GUILD&quot;</span>),
             <span class="self">Self</span><span class="ident">::UserUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;USER_UPDATE&quot;</span>),
@@ -430,6 +448,9 @@
             <span class="string">&quot;GUILD_ROLE_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::RoleCreate</span>),
             <span class="string">&quot;GUILD_ROLE_DELETE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::RoleDelete</span>),
             <span class="string">&quot;GUILD_ROLE_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::RoleUpdate</span>),
+            <span class="string">&quot;STAGE_INSTANCE_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::StageInstanceCreate</span>),
+            <span class="string">&quot;STAGE_INSTANCE_DELETE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::StageInstanceDelete</span>),
+            <span class="string">&quot;STAGE_INSTANCE_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::StageInstanceUpdate</span>),
             <span class="string">&quot;TYPING_START&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::TypingStart</span>),
             <span class="string">&quot;UNAVAILABLE_GUILD&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::UnavailableGuild</span>),
             <span class="string">&quot;USER_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::UserUpdate</span>),
@@ -512,6 +533,9 @@
         <span class="ident">assert_variant</span>(<span class="ident">EventType::ShardPayload</span>, <span class="string">&quot;SHARD_PAYLOAD&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::ShardReconnecting</span>, <span class="string">&quot;SHARD_RECONNECTING&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::ShardResuming</span>, <span class="string">&quot;SHARD_RESUMING&quot;</span>);
+        <span class="ident">assert_variant</span>(<span class="ident">EventType::StageInstanceCreate</span>, <span class="string">&quot;STAGE_INSTANCE_CREATE&quot;</span>);
+        <span class="ident">assert_variant</span>(<span class="ident">EventType::StageInstanceDelete</span>, <span class="string">&quot;STAGE_INSTANCE_DELETE&quot;</span>);
+        <span class="ident">assert_variant</span>(<span class="ident">EventType::StageInstanceUpdate</span>, <span class="string">&quot;STAGE_INSTANCE_UPDATE&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::TypingStart</span>, <span class="string">&quot;TYPING_START&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::UnavailableGuild</span>, <span class="string">&quot;UNAVAILABLE_GUILD&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::UserUpdate</span>, <span class="string">&quot;USER_UPDATE&quot;</span>);
