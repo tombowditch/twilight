@@ -218,6 +218,7 @@
 <span id="216">216</span>
 <span id="217">217</span>
 <span id="218">218</span>
+<span id="219">219</span>
 </pre><pre class="rust">
 <span class="kw">mod</span> <span class="ident">flags</span>;
 
@@ -238,7 +239,7 @@
     <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">guild_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GuildId</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Public flags of the application.</span>
-    <span class="kw">pub</span> <span class="ident">flags</span>: <span class="ident">ApplicationFlags</span>,
+    <span class="kw">pub</span> <span class="ident">flags</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ApplicationFlags</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">icon</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">ApplicationId</span>,
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
@@ -307,7 +308,7 @@
             <span class="ident">cover_image</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;cover image hash&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">description</span>: <span class="string">&quot;a pretty cool application&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">guild_id</span>: <span class="prelude-val">Some</span>(<span class="ident">GuildId</span>(<span class="number">1</span>)),
-            <span class="ident">flags</span>: <span class="ident">ApplicationFlags::EMBEDDED</span>,
+            <span class="ident">flags</span>: <span class="prelude-val">Some</span>(<span class="ident">ApplicationFlags::EMBEDDED</span>),
             <span class="ident">icon</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;icon hash&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">id</span>: <span class="ident">ApplicationId</span>(<span class="number">2</span>),
             <span class="ident">name</span>: <span class="string">&quot;cool application&quot;</span>.<span class="ident">to_owned</span>(),
@@ -363,6 +364,7 @@
                 <span class="ident">Token::NewtypeStruct</span> { <span class="ident">name</span>: <span class="string">&quot;GuildId&quot;</span> },
                 <span class="ident">Token::Str</span>(<span class="string">&quot;1&quot;</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;flags&quot;</span>),
+                <span class="ident">Token::Some</span>,
                 <span class="ident">Token::U64</span>(<span class="number">131_072</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;icon&quot;</span>),
                 <span class="ident">Token::Some</span>,
