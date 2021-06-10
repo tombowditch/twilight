@@ -1630,8 +1630,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns [`ReceivingEventError::AuthorizationInvalid`] if the provided authorization</span>
-    <span class="doccomment">/// is invalid.</span>
+    <span class="doccomment">/// Returns a [`ReceivingEventErrorType::AuthorizationInvalid`] error type</span>
+    <span class="doccomment">/// if the provided authorization is invalid.</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">next_payload</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ReceivingEventError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">compression</span>.<span class="ident">clear</span>();
 
