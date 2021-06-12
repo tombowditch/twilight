@@ -67,6 +67,10 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
 </pre><pre class="rust">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">identify</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">reaction_remove_emoji</span>;
@@ -86,6 +90,9 @@
 <span class="kw">mod</span> <span class="ident">guild_integrations_update</span>;
 <span class="kw">mod</span> <span class="ident">guild_update</span>;
 <span class="kw">mod</span> <span class="ident">heartbeat</span>;
+<span class="kw">mod</span> <span class="ident">integration_create</span>;
+<span class="kw">mod</span> <span class="ident">integration_delete</span>;
+<span class="kw">mod</span> <span class="ident">integration_update</span>;
 <span class="kw">mod</span> <span class="ident">invite_create</span>;
 <span class="kw">mod</span> <span class="ident">invite_delete</span>;
 <span class="kw">mod</span> <span class="ident">member_add</span>;
@@ -120,15 +127,16 @@
     <span class="ident">channel_delete::ChannelDelete</span>, <span class="ident">channel_pins_update::ChannelPinsUpdate</span>,
     <span class="ident">channel_update::ChannelUpdate</span>, <span class="ident">guild_create::GuildCreate</span>, <span class="ident">guild_delete::GuildDelete</span>,
     <span class="ident">guild_emojis_update::GuildEmojisUpdate</span>, <span class="ident">guild_integrations_update::GuildIntegrationsUpdate</span>,
-    <span class="ident">guild_update::GuildUpdate</span>, <span class="ident">heartbeat::Heartbeat</span>, <span class="ident">invite_create::InviteCreate</span>,
-    <span class="ident">invite_delete::InviteDelete</span>, <span class="ident">member_add::MemberAdd</span>, <span class="ident">member_chunk::MemberChunk</span>,
-    <span class="ident">member_remove::MemberRemove</span>, <span class="ident">member_update::MemberUpdate</span>, <span class="ident">message_create::MessageCreate</span>,
-    <span class="ident">message_delete::MessageDelete</span>, <span class="ident">message_delete_bulk::MessageDeleteBulk</span>,
-    <span class="ident">message_update::MessageUpdate</span>, <span class="ident">presence_update::PresenceUpdate</span>, <span class="ident">reaction_add::ReactionAdd</span>,
-    <span class="ident">reaction_remove::ReactionRemove</span>, <span class="ident">reaction_remove_all::ReactionRemoveAll</span>,
-    <span class="ident">reaction_remove_emoji::ReactionRemoveEmoji</span>, <span class="ident">ready::Ready</span>,
-    <span class="ident">request_guild_members::RequestGuildMembers</span>, <span class="ident">role_create::RoleCreate</span>, <span class="ident">role_delete::RoleDelete</span>,
-    <span class="ident">role_update::RoleUpdate</span>, <span class="ident">stage_instance_create::StageInstanceCreate</span>,
+    <span class="ident">guild_update::GuildUpdate</span>, <span class="ident">heartbeat::Heartbeat</span>, <span class="ident">integration_create::IntegrationCreate</span>,
+    <span class="ident">integration_delete::IntegrationDelete</span>, <span class="ident">integration_update::IntegrationUpdate</span>,
+    <span class="ident">invite_create::InviteCreate</span>, <span class="ident">invite_delete::InviteDelete</span>, <span class="ident">member_add::MemberAdd</span>,
+    <span class="ident">member_chunk::MemberChunk</span>, <span class="ident">member_remove::MemberRemove</span>, <span class="ident">member_update::MemberUpdate</span>,
+    <span class="ident">message_create::MessageCreate</span>, <span class="ident">message_delete::MessageDelete</span>,
+    <span class="ident">message_delete_bulk::MessageDeleteBulk</span>, <span class="ident">message_update::MessageUpdate</span>,
+    <span class="ident">presence_update::PresenceUpdate</span>, <span class="ident">reaction_add::ReactionAdd</span>, <span class="ident">reaction_remove::ReactionRemove</span>,
+    <span class="ident">reaction_remove_all::ReactionRemoveAll</span>, <span class="ident">reaction_remove_emoji::ReactionRemoveEmoji</span>,
+    <span class="ident">ready::Ready</span>, <span class="ident">request_guild_members::RequestGuildMembers</span>, <span class="ident">role_create::RoleCreate</span>,
+    <span class="ident">role_delete::RoleDelete</span>, <span class="ident">role_update::RoleUpdate</span>, <span class="ident">stage_instance_create::StageInstanceCreate</span>,
     <span class="ident">stage_instance_delete::StageInstanceDelete</span>, <span class="ident">stage_instance_update::StageInstanceUpdate</span>,
     <span class="ident">typing_start::TypingStart</span>, <span class="ident">unavailable_guild::UnavailableGuild</span>, <span class="ident">update_status::UpdateStatus</span>,
     <span class="ident">update_voice_state::UpdateVoiceState</span>, <span class="ident">user_update::UserUpdate</span>,

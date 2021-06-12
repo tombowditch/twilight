@@ -237,6 +237,15 @@
 <span id="235">235</span>
 <span id="236">236</span>
 <span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
 <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
@@ -283,6 +292,12 @@
         <span class="kw">const</span> <span class="ident">GUILD_INTEGRATIONS_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>;
         <span class="doccomment">/// A guild has been updated.</span>
         <span class="kw">const</span> <span class="ident">GUILD_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">14</span>;
+        <span class="doccomment">/// A guild integration was created.</span>
+        <span class="kw">const</span> <span class="ident">INTEGRATION_CREATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">60</span>;
+        <span class="doccomment">/// A guild integration was deleted.</span>
+        <span class="kw">const</span> <span class="ident">INTEGRATION_DELETE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">61</span>;
+        <span class="doccomment">/// A guild integration was updated.</span>
+        <span class="kw">const</span> <span class="ident">INTEGRATION_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">62</span>;
         <span class="doccomment">/// Invite for a channel has been created.</span>
         <span class="kw">const</span> <span class="ident">INVITE_CREATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">46</span>;
         <span class="doccomment">/// Invite for a channel has been deleted.</span>
@@ -386,6 +401,9 @@
             <span class="ident">EventType::GuildEmojisUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::GUILD_EMOJIS_UPDATE</span>,
             <span class="ident">EventType::GuildIntegrationsUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::GUILD_INTEGRATIONS_UPDATE</span>,
             <span class="ident">EventType::GuildUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::GUILD_UPDATE</span>,
+            <span class="ident">EventType::IntegrationCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INTEGRATION_CREATE</span>,
+            <span class="ident">EventType::IntegrationDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INTEGRATION_DELETE</span>,
+            <span class="ident">EventType::IntegrationUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INTEGRATION_UPDATE</span>,
             <span class="ident">EventType::InviteCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INVITE_CREATE</span>,
             <span class="ident">EventType::InviteDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INVITE_DELETE</span>,
             <span class="ident">EventType::MemberAdd</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::MEMBER_ADD</span>,

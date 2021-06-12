@@ -1161,6 +1161,9 @@
 <span id="1159">1159</span>
 <span id="1160">1160</span>
 <span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-standby</span>
 <span class="doccomment">//!</span>
@@ -1979,6 +1982,9 @@
         <span class="ident">Event::GuildEmojisUpdate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
         <span class="ident">Event::GuildIntegrationsUpdate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
         <span class="ident">Event::GuildUpdate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="number">0</span>.<span class="ident">id</span>),
+        <span class="ident">Event::IntegrationCreate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="number">0</span>.<span class="ident">guild_id</span>,
+        <span class="ident">Event::IntegrationDelete</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
+        <span class="ident">Event::IntegrationUpdate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="number">0</span>.<span class="ident">guild_id</span>,
         <span class="ident">Event::InviteCreate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
         <span class="ident">Event::InviteDelete</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
         <span class="ident">Event::MemberAdd</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="number">0</span>.<span class="ident">guild_id</span>),

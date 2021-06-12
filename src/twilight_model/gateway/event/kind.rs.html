@@ -271,6 +271,18 @@
 <span id="269">269</span>
 <span id="270">270</span>
 <span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
@@ -298,6 +310,9 @@
     <span class="ident">GuildEmojisUpdate</span>,
     <span class="ident">GuildIntegrationsUpdate</span>,
     <span class="ident">GuildUpdate</span>,
+    <span class="ident">IntegrationCreate</span>,
+    <span class="ident">IntegrationDelete</span>,
+    <span class="ident">IntegrationUpdate</span>,
     <span class="ident">InviteCreate</span>,
     <span class="ident">InviteDelete</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;GUILD_MEMBER_ADD&quot;</span>)]</span>
@@ -363,6 +378,9 @@
             <span class="self">Self</span><span class="ident">::GuildEmojisUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;GUILD_EMOJIS_UPDATE&quot;</span>),
             <span class="self">Self</span><span class="ident">::GuildIntegrationsUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;GUILD_INTEGRATIONS_UPDATE&quot;</span>),
             <span class="self">Self</span><span class="ident">::GuildUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;GUILD_UPDATE&quot;</span>),
+            <span class="self">Self</span><span class="ident">::IntegrationCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;INTEGRATION_CREATE&quot;</span>),
+            <span class="self">Self</span><span class="ident">::IntegrationDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;INTEGRATION_DELETE&quot;</span>),
+            <span class="self">Self</span><span class="ident">::IntegrationUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;INTEGRATION_UPDATE&quot;</span>),
             <span class="self">Self</span><span class="ident">::InviteCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;INVITE_CREATE&quot;</span>),
             <span class="self">Self</span><span class="ident">::InviteDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;INVITE_DELETE&quot;</span>),
             <span class="self">Self</span><span class="ident">::MemberAdd</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="string">&quot;GUILD_MEMBER_ADD&quot;</span>),
@@ -426,6 +444,9 @@
             <span class="string">&quot;GUILD_EMOJIS_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::GuildEmojisUpdate</span>),
             <span class="string">&quot;GUILD_INTEGRATIONS_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::GuildIntegrationsUpdate</span>),
             <span class="string">&quot;GUILD_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::GuildUpdate</span>),
+            <span class="string">&quot;INTEGRATION_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::IntegrationCreate</span>),
+            <span class="string">&quot;INTEGRATION_DELETE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::IntegrationDelete</span>),
+            <span class="string">&quot;INTEGRATION_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::IntegrationUpdate</span>),
             <span class="string">&quot;INVITE_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::InviteCreate</span>),
             <span class="string">&quot;INVITE_DELETE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::InviteDelete</span>),
             <span class="string">&quot;GUILD_MEMBER_ADD&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span><span class="ident">::MemberAdd</span>),
@@ -501,6 +522,9 @@
             <span class="string">&quot;GUILD_INTEGRATIONS_UPDATE&quot;</span>,
         );
         <span class="ident">assert_variant</span>(<span class="ident">EventType::GuildUpdate</span>, <span class="string">&quot;GUILD_UPDATE&quot;</span>);
+        <span class="ident">assert_variant</span>(<span class="ident">EventType::IntegrationCreate</span>, <span class="string">&quot;INTEGRATION_CREATE&quot;</span>);
+        <span class="ident">assert_variant</span>(<span class="ident">EventType::IntegrationDelete</span>, <span class="string">&quot;INTEGRATION_DELETE&quot;</span>);
+        <span class="ident">assert_variant</span>(<span class="ident">EventType::IntegrationUpdate</span>, <span class="string">&quot;INTEGRATION_UPDATE&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::InviteCreate</span>, <span class="string">&quot;INVITE_CREATE&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::InviteDelete</span>, <span class="string">&quot;INVITE_DELETE&quot;</span>);
         <span class="ident">assert_variant</span>(<span class="ident">EventType::MemberAdd</span>, <span class="string">&quot;GUILD_MEMBER_ADD&quot;</span>);
