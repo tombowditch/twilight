@@ -788,6 +788,16 @@
 <span id="786">786</span>
 <span id="787">787</span>
 <span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">DeError</span>, <span class="ident">Visitor</span>},
@@ -899,6 +909,10 @@
     <span class="ident">MaximumAttachmentsReached</span>,
     <span class="doccomment">/// Maximum number of invites reached (1000)</span>
     <span class="ident">MaximumInvitesReached</span>,
+    <span class="doccomment">/// Maximum number of animated emojis reached</span>
+    <span class="ident">MaximumAnimatedEmojisReached</span>,
+    <span class="doccomment">/// Maximum number of server members reached</span>
+    <span class="ident">MaximumGuildMembersReached</span>,
     <span class="doccomment">/// Guild already has a template</span>
     <span class="ident">GuildTemplateAlreadyExist</span>,
     <span class="doccomment">/// Maximum number of bans for non-guild members have been exceeded</span>
@@ -1056,6 +1070,8 @@
             <span class="self">Self</span><span class="ident">::MaximumGuildChannelsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30013</span>,
             <span class="self">Self</span><span class="ident">::MaximumAttachmentsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30015</span>,
             <span class="self">Self</span><span class="ident">::MaximumInvitesReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30016</span>,
+            <span class="self">Self</span><span class="ident">::MaximumAnimatedEmojisReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30018</span>,
+            <span class="self">Self</span><span class="ident">::MaximumGuildMembersReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30019</span>,
             <span class="self">Self</span><span class="ident">::GuildTemplateAlreadyExist</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30031</span>,
             <span class="self">Self</span><span class="ident">::MaximumNonGuildBansReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30035</span>,
             <span class="self">Self</span><span class="ident">::MaximumGuildBansFetchesReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30037</span>,
@@ -1163,6 +1179,8 @@
             <span class="number">30013</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumGuildChannelsReached</span>,
             <span class="number">30015</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumAttachmentsReached</span>,
             <span class="number">30016</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumInvitesReached</span>,
+            <span class="number">30018</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumAnimatedEmojisReached</span>,
+            <span class="number">30019</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumGuildMembersReached</span>,
             <span class="number">30031</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::GuildTemplateAlreadyExist</span>,
             <span class="number">30035</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumNonGuildBansReached</span>,
             <span class="number">30037</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumGuildBansFetchesReached</span>,
@@ -1270,6 +1288,8 @@
             <span class="self">Self</span><span class="ident">::MaximumGuildChannelsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of guild channels reached (500)&quot;</span>),
             <span class="self">Self</span><span class="ident">::MaximumAttachmentsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of attachments in a message reached (10)&quot;</span>),
             <span class="self">Self</span><span class="ident">::MaximumInvitesReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of invites reached (1000)&quot;</span>),
+            <span class="self">Self</span><span class="ident">::MaximumAnimatedEmojisReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum animated emojis reached&quot;</span>),
+            <span class="self">Self</span><span class="ident">::MaximumGuildMembersReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of server members reached&quot;</span>),
             <span class="self">Self</span><span class="ident">::GuildTemplateAlreadyExist</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Guild already has a template&quot;</span>),
             <span class="self">Self</span><span class="ident">::MaximumNonGuildBansReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of bans for non-guild members have been exceeded&quot;</span>),
             <span class="self">Self</span><span class="ident">::MaximumGuildBansFetchesReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of bans fetches has been reached&quot;</span>),
