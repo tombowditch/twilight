@@ -327,7 +327,6 @@
 <span id="325">325</span>
 <span id="326">326</span>
 <span id="327">327</span>
-<span id="328">328</span>
 </pre><pre class="rust">
 <span class="kw">mod</span> <span class="ident">channel</span>;
 <span class="kw">mod</span> <span class="ident">guild</span>;
@@ -335,12 +334,11 @@
 <span class="kw">mod</span> <span class="ident">target_type</span>;
 <span class="kw">mod</span> <span class="ident">welcome_screen</span>;
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
     <span class="ident">channel::InviteChannel</span>,
     <span class="ident">guild::InviteGuild</span>,
     <span class="ident">metadata::InviteMetadata</span>,
-    <span class="ident">target_type</span>::{<span class="ident">TargetType</span>, <span class="ident">TargetUserType</span>},
+    <span class="ident">target_type::TargetType</span>,
     <span class="ident">welcome_screen</span>::{<span class="ident">WelcomeScreen</span>, <span class="ident">WelcomeScreenChannel</span>},
 };
 

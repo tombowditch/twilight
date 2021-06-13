@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["CreateGuildFromTemplateError",""]],"struct":[["CreateGuildFromTemplate","Create a new guild based on a template."]]});
+initSidebarItems({"enum":[["CreateGuildFromTemplateErrorType","Type of [`CreateGuildFromTemplateError`] that occurred."]],"struct":[["CreateGuildFromTemplate","Create a new guild based on a template."],["CreateGuildFromTemplateError",""]]});

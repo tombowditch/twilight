@@ -131,8 +131,6 @@
 <span id="129">129</span>
 <span id="130">130</span>
 <span id="131">131</span>
-<span id="132">132</span>
-<span id="133">133</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-lavalink</span>
 <span class="doccomment">//!</span>
@@ -218,10 +216,8 @@
 <span class="doccomment">//!     lavalink.add(lavalink_host, lavalink_auth).await?;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     let intents = Intents::GUILD_MESSAGES | Intents::GUILD_VOICE_STATES;</span>
-<span class="doccomment">//!     let shard = Shard::new(token, intents);</span>
+<span class="doccomment">//!     let (shard, mut events) = Shard::new(token, intents);</span>
 <span class="doccomment">//!     shard.start().await?;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let mut events = shard.events();</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     while let Some(event) = events.next().await {</span>
 <span class="doccomment">//!         lavalink.process(&amp;event).await?;</span>

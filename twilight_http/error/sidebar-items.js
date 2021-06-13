@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ErrorType","Type of [`Error`] that occurred."]],"struct":[["Error",""]],"type":[["Result",""]]});
+initSidebarItems({"enum":[["ErrorType","Type of [`Error`] that occurred."]],"struct":[["Error",""]]});

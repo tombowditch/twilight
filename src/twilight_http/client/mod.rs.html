@@ -2423,7 +2423,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::builder::ClientBuilder</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">api_error</span>::{<span class="ident">ApiError</span>, <span class="ident">ErrorCode</span>},
+    <span class="ident">api_error::ApiError</span>,
     <span class="ident">error</span>::{<span class="ident">Error</span>, <span class="ident">ErrorType</span>},
     <span class="ident">ratelimiting</span>::{<span class="ident">RatelimitHeaders</span>, <span class="ident">Ratelimiter</span>},
     <span class="ident">request</span>::{
@@ -2435,10 +2435,7 @@
             <span class="ident">SetGuildCommands</span>, <span class="ident">UpdateCommandPermissions</span>, <span class="ident">UpdateFollowupMessage</span>, <span class="ident">UpdateGlobalCommand</span>,
             <span class="ident">UpdateGuildCommand</span>, <span class="ident">UpdateOriginalResponse</span>,
         },
-        <span class="ident">channel::stage</span>::{
-            <span class="ident">create_stage_instance::CreateStageInstanceError</span>,
-            <span class="ident">update_stage_instance::UpdateStageInstanceError</span>,
-        },
+        <span class="ident">channel::stage::create_stage_instance::CreateStageInstanceError</span>,
         <span class="ident">guild</span>::{
             <span class="ident">create_guild::CreateGuildError</span>, <span class="ident">create_guild_channel::CreateGuildChannelError</span>,
             <span class="ident">update_guild_channel_positions::Position</span>,
@@ -3266,10 +3263,11 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns [`SearchGuildMembersError::LimitInvalid`] if the limit is invalid.</span>
+    <span class="doccomment">/// Returns a [`SearchGuildMembersErrorType::LimitInvalid`] error type if</span>
+    <span class="doccomment">/// the limit is invalid.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`GUILD_MEMBERS`]: ../../twilight_model/gateway/struct.Intents.html#associatedconstant.GUILD_MEMBERS</span>
-    <span class="doccomment">/// [`SearchGuildMembersError::LimitInvalid`]: ../request/guild/member/search_guild_members/enum.SearchGuildMembersError.html#variant.LimitInvalid</span>
+    <span class="doccomment">/// [`SearchGuildMembersErrorType::LimitInvalid`]: ../request/guild/member/search_guild_members/enum.SearchGuildMembersError.html#variant.LimitInvalid</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">search_guild_members</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
@@ -3819,19 +3817,8 @@
     <span class="doccomment">/// Update fields of an existing stage instance.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Requires the user to be a moderator of the stage channel.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns a [`UpdateStageInstanceError`] of type [`InvalidTopic`] when the</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`InvalidTopic`]: crate::request::channel::stage::update_stage_instance::UpdateStageInstanceErrorType::InvalidTopic</span>
-    <span class="doccomment">/// topic is not between 1 and 120 characters in length.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_stage_instance</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
-        <span class="ident">topic</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">UpdateStageInstance</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">UpdateStageInstanceError</span><span class="op">&gt;</span> {
-        <span class="ident">UpdateStageInstance::new</span>(<span class="self">self</span>, <span class="ident">channel_id</span>, <span class="ident">topic</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_stage_instance</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UpdateStageInstance</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+        <span class="ident">UpdateStageInstance::new</span>(<span class="self">self</span>, <span class="ident">channel_id</span>)
     }
 
     <span class="doccomment">/// Delete the stage instance of a stage channel.</span>
@@ -3847,10 +3834,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns [`CreateGuildFromTemplateError::NameInvalid`] when the name is</span>
-    <span class="doccomment">/// invalid.</span>
+    <span class="doccomment">/// Returns a [`CreateGuildFromTemplateErrorType::NameInvalid`] error type</span>
+    <span class="doccomment">/// if the name is invalid.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [`CreateGuildFromTemplateError::NameInvalid`]: crate::request::template::create_guild_from_template::CreateGuildFromTemplateError::NameInvalid</span>
+    <span class="doccomment">/// [`CreateGuildFromTemplateErrorType::NameInvalid`]: crate::request::template::create_guild_from_template::CreateGuildFromTemplateErrorType::NameInvalid</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_guild_from_template</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">template_code</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
@@ -3866,9 +3853,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns [`CreateTemplateError::NameInvalid`] when the name is invalid.</span>
+    <span class="doccomment">/// Returns a [`CreateTemplateErrorType::NameInvalid`] error type if the</span>
+    <span class="doccomment">/// name is invalid.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [`CreateTemplateError::NameInvalid`]: crate::request::template::create_template::CreateTemplateError::NameInvalid</span>
+    <span class="doccomment">/// [`CreateTemplateErrorType::NameInvalid`]: crate::request::template::create_template::CreateTemplateErrorType::NameInvalid</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_template</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
@@ -4574,6 +4562,7 @@
         <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">proxy</span>.<span class="ident">as_deref</span>().<span class="ident">unwrap_or</span>(<span class="string">&quot;discord.com&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">url</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{}://{}/api/v{}/{}&quot;</span>, <span class="ident">protocol</span>, <span class="ident">host</span>, <span class="ident">API_VERSION</span>, <span class="ident">path</span>);
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
         <span class="macro">tracing::debug!</span>(<span class="string">&quot;URL: {:?}&quot;</span>, <span class="ident">url</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">hyper::Request::builder</span>()
@@ -4715,7 +4704,9 @@
             <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">_res</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">send</span>(<span class="prelude-val">Some</span>(<span class="ident">v</span>));
             }
+            <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
             <span class="prelude-val">Err</span>(<span class="ident">why</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
                 <span class="macro">tracing::warn!</span>(<span class="string">&quot;header parsing failed: {:?}; {:?}&quot;</span>, <span class="ident">why</span>, <span class="ident">resp</span>);
 
                 <span class="kw">let</span> <span class="ident">_res</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">send</span>(<span class="prelude-val">None</span>);
@@ -4788,11 +4779,17 @@
         }
 
         <span class="kw">match</span> <span class="ident">status</span> {
-            <span class="ident">StatusCode::IM_A_TEAPOT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">tracing::warn!</span>(
-                <span class="string">&quot;discord&#39;s api now runs off of teapots -- proceed to panic: {:?}&quot;</span>,
-                <span class="ident">resp</span>,
-            ),
-            <span class="ident">StatusCode::TOO_MANY_REQUESTS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">tracing::warn!</span>(<span class="string">&quot;429 response: {:?}&quot;</span>, <span class="ident">resp</span>),
+            <span class="ident">StatusCode::IM_A_TEAPOT</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
+                <span class="macro">tracing::warn!</span>(
+                    <span class="string">&quot;discord&#39;s api now runs off of teapots -- proceed to panic: {:?}&quot;</span>,
+                    <span class="ident">resp</span>,
+                );
+            }
+            <span class="ident">StatusCode::TOO_MANY_REQUESTS</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
+                <span class="macro">tracing::warn!</span>(<span class="string">&quot;429 response: {:?}&quot;</span>, <span class="ident">resp</span>);
+            }
             <span class="ident">StatusCode::SERVICE_UNAVAILABLE</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span> {
                     <span class="ident">kind</span>: <span class="ident">ErrorType::ServiceUnavailable</span> { <span class="ident">response</span>: <span class="ident">resp</span> },
@@ -4819,7 +4816,10 @@
             <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
         })<span class="question-mark">?</span>;
 
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ApiError::General</span>(<span class="kw-2">ref</span> <span class="ident">general</span>) <span class="op">=</span> <span class="ident">error</span> {
+            <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::api_error::ErrorCode</span>;
+
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ErrorCode::Other</span>(<span class="ident">num</span>) <span class="op">=</span> <span class="ident">general</span>.<span class="ident">code</span> {
                 <span class="macro">tracing::debug!</span>(<span class="string">&quot;got unknown API error code variant: {}; {:?}&quot;</span>, <span class="ident">num</span>, <span class="ident">error</span>);
             }

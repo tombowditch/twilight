@@ -307,18 +307,6 @@
 <span id="305">305</span>
 <span id="306">306</span>
 <span id="307">307</span>
-<span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -540,23 +528,11 @@
         <span class="self">self</span>
     }
 
-    <span class="doccomment">/// Set the target user for this invite.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.3.7&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Use `target_user_id` instead&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">target_user</span>(<span class="self">self</span>, <span class="ident">target_user_id</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">target_user_id</span>(<span class="ident">target_user_id</span>)
-    }
-
     <span class="doccomment">/// Set the target type for this invite.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">target_type</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">target_type</span>: <span class="ident">TargetType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">target_type</span>.<span class="ident">replace</span>(<span class="ident">target_type</span>);
 
         <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Set the target user type for this invite.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.4.2&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Use `target_type` instead&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">target_user_type</span>(<span class="self">self</span>, <span class="ident">target_user_type</span>: <span class="ident">TargetType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::target_type</span>(<span class="self">self</span>, <span class="ident">target_user_type</span>)
     }
 
     <span class="doccomment">/// Specify true if the invite should grant temporary membership.</span>

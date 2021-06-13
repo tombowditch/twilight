@@ -386,8 +386,25 @@
 <span id="384">384</span>
 <span id="385">385</span>
 <span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
 </pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::Config</span>, <span class="ident">Shard</span>};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::Config</span>, <span class="ident">Events</span>, <span class="ident">Shard</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::EventTypeFlags</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">error::Error</span>,
     <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
@@ -395,7 +412,7 @@
 };
 <span class="kw">use</span> <span class="ident">twilight_gateway_queue</span>::{<span class="ident">LocalQueue</span>, <span class="ident">Queue</span>};
 <span class="kw">use</span> <span class="ident">twilight_http::Client</span> <span class="kw">as</span> <span class="ident">HttpClient</span>;
-<span class="kw">use</span> <span class="ident">twilight_model::gateway</span>::{<span class="ident">payload::update_status::UpdateStatusInfo</span>, <span class="ident">Intents</span>};
+<span class="kw">use</span> <span class="ident">twilight_model::gateway</span>::{<span class="ident">payload::update_presence::UpdatePresencePayload</span>, <span class="ident">Intents</span>};
 
 <span class="doccomment">/// Large threshold configuration is invalid.</span>
 <span class="doccomment">///</span>
@@ -559,6 +576,7 @@
         }
 
         <span class="self">Self</span>(<span class="ident">Config</span> {
+            <span class="ident">event_types</span>: <span class="ident">EventTypeFlags::default</span>(),
             <span class="ident">gateway_url</span>: <span class="prelude-val">None</span>,
             <span class="ident">http_client</span>: <span class="ident">HttpClient::new</span>(<span class="ident">token</span>.<span class="ident">clone</span>()),
             <span class="ident">intents</span>,
@@ -573,8 +591,22 @@
     }
 
     <span class="doccomment">/// Consume the builder, constructing a shard.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Shard</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Shard</span>, <span class="ident">Events</span>) {
         <span class="ident">Shard::new_with_config</span>(<span class="self">self</span>.<span class="number">0</span>)
+    }
+
+    <span class="doccomment">/// Set the event types to process.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is an optimization technique; all events not included in the</span>
+    <span class="doccomment">/// provided event type flags will not be deserialized by the gateway and</span>
+    <span class="doccomment">/// will be discarded. All events will still be sent if</span>
+    <span class="doccomment">/// [`EventTypeFlags::SHARD_PAYLOAD`] is enabled.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`EventTypeFlags::SHARD_PAYLOAD`]: crate::EventTypeFlags::SHARD_PAYLOAD</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">event_types</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event_types</span>: <span class="ident">EventTypeFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">event_types</span> <span class="op">=</span> <span class="ident">event_types</span>;
+
+        <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the URL used for connecting to Discord&#39;s gateway</span>
@@ -651,27 +683,27 @@
     <span class="doccomment">/// ```no_run</span>
     <span class="doccomment">/// use twilight_gateway::{Intents, Shard};</span>
     <span class="doccomment">/// use twilight_model::gateway::{</span>
-    <span class="doccomment">///     payload::update_status::UpdateStatusInfo,</span>
+    <span class="doccomment">///     payload::update_presence::UpdatePresencePayload,</span>
     <span class="doccomment">///     presence::{ActivityType, MinimalActivity, Status},</span>
     <span class="doccomment">/// };</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
     <span class="doccomment">/// let shard = Shard::builder(&quot;token&quot;, Intents::empty())</span>
-    <span class="doccomment">///     .presence(UpdateStatusInfo::new(</span>
-    <span class="doccomment">///         Some(vec![MinimalActivity {</span>
+    <span class="doccomment">///     .presence(UpdatePresencePayload::new(</span>
+    <span class="doccomment">///         vec![MinimalActivity {</span>
     <span class="doccomment">///             kind: ActivityType::Playing,</span>
     <span class="doccomment">///             name: &quot;Not accepting commands&quot;.into(),</span>
     <span class="doccomment">///             url: None,</span>
     <span class="doccomment">///         }</span>
-    <span class="doccomment">///         .into()]),</span>
+    <span class="doccomment">///         .into()],</span>
     <span class="doccomment">///         false,</span>
     <span class="doccomment">///         None,</span>
     <span class="doccomment">///         Status::Idle,</span>
-    <span class="doccomment">///     ));</span>
+    <span class="doccomment">///     )?);</span>
     <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">presence</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">presence</span>: <span class="ident">UpdateStatusInfo</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">presence</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">presence</span>: <span class="ident">UpdatePresencePayload</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">presence</span>.<span class="ident">replace</span>(<span class="ident">presence</span>);
 
         <span class="self">self</span>

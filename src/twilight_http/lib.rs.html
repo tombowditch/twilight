@@ -120,6 +120,10 @@
 <span id="118">118</span>
 <span id="119">119</span>
 <span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-http</span>
 <span class="doccomment">//!</span>
@@ -183,11 +187,18 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This is enabled by default.</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! ### Tracing</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The `tracing` feature enables logging via the [`tracing`] crate.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This is enabled by default.</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! [`native-tls`]: https://crates.io/crates/native-tls</span>
 <span class="doccomment">//! [`hyper`]: https://crates.io/crates/hyper</span>
 <span class="doccomment">//! [`rustls`]: https://crates.io/crates/rustls</span>
 <span class="doccomment">//! [`serde_json`]: https://crates.io/crates/serde_json</span>
 <span class="doccomment">//! [`simd-json`]: https://crates.io/crates/simd-json</span>
+<span class="doccomment">//! [`tracing`]: https://crates.io/crates/tracing</span>
 <span class="doccomment">//! [discord badge]: https://img.shields.io/discord/745809834183753828?color=%237289DA&amp;label=discord%20server&amp;logo=discord&amp;style=for-the-badge</span>
 <span class="doccomment">//! [discord link]: https://discord.gg/7jj8n7D</span>
 <span class="doccomment">//! [github badge]: https://img.shields.io/badge/github-twilight-6f42c1.svg?style=for-the-badge&amp;logo=github</span>
@@ -229,9 +240,6 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">API_VERSION</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">8</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">client::Client</span>, <span class="ident">error::Error</span>};
-
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::error::Result</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;native&quot;</span>,

@@ -151,7 +151,6 @@
 <span id="149">149</span>
 <span id="150">150</span>
 <span id="151">151</span>
-<span id="152">152</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-gateway</span>
 <span class="doccomment">//!</span>
@@ -231,12 +230,12 @@
 <span class="doccomment">//! described below. Enabling any of the two features below will also enable</span>
 <span class="doccomment">//! `compression`. `compression` is enabled by default.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! There are 2 zlib features `stock-zlib` and `simd-zlib` for the library to work</span>
-<span class="doccomment">//! one of them has to be enabled. If both are enabled it will use `stock-zlib`</span>
+<span class="doccomment">//! There are 2 zlib features `zlib-stock` and `zlib-simd` for the library to work</span>
+<span class="doccomment">//! one of them has to be enabled. If both are enabled it will use `zlib-stock`</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! `stock-zlib` enabled by default.</span>
+<span class="doccomment">//! `zlib-stock` enabled by default.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Enabling **only** `simd-zlib` will make the library use [`zlib-ng`] which is a modern</span>
+<span class="doccomment">//! Enabling **only** `zlib-simd` will make the library use [`zlib-ng`] which is a modern</span>
 <span class="doccomment">//! fork of zlib that is faster and more effective, but it needs `cmake` to compile.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ### Metrics</span>
@@ -282,7 +281,6 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shard</span>;
 
 <span class="kw">mod</span> <span class="ident">event</span>;
-<span class="kw">mod</span> <span class="ident">listener</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::event::EventTypeFlags</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">twilight_model::gateway::Intents</span>;

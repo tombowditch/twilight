@@ -71,7 +71,7 @@
     <span class="doccomment">/// Start a new session.</span>
     <span class="ident">Identify</span> <span class="op">=</span> <span class="number">2</span>,
     <span class="doccomment">/// Update the client&#39;s presence information.</span>
-    <span class="ident">StatusUpdate</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="ident">PresenceUpdate</span> <span class="op">=</span> <span class="number">3</span>,
     <span class="doccomment">/// Join, leave or move between voice channels.</span>
     <span class="ident">VoiceStateUpdate</span> <span class="op">=</span> <span class="number">4</span>,
     <span class="doccomment">/// Voice ping checking. This opcode is deprecated.</span>
@@ -100,7 +100,7 @@
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::Event</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">0</span>)]);
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::Heartbeat</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">1</span>)]);
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::Identify</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">2</span>)]);
-        <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::StatusUpdate</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">3</span>)]);
+        <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::PresenceUpdate</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">3</span>)]);
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::VoiceStateUpdate</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">4</span>)]);
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::VoiceServerPing</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">5</span>)]);
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">OpCode::Resume</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">6</span>)]);

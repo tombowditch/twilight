@@ -722,81 +722,18 @@
 <span id="720">720</span>
 <span id="721">721</span>
 <span id="722">722</span>
-<span id="723">723</span>
-<span id="724">724</span>
-<span id="725">725</span>
-<span id="726">726</span>
-<span id="727">727</span>
-<span id="728">728</span>
-<span id="729">729</span>
-<span id="730">730</span>
-<span id="731">731</span>
-<span id="732">732</span>
-<span id="733">733</span>
-<span id="734">734</span>
-<span id="735">735</span>
-<span id="736">736</span>
-<span id="737">737</span>
-<span id="738">738</span>
-<span id="739">739</span>
-<span id="740">740</span>
-<span id="741">741</span>
-<span id="742">742</span>
-<span id="743">743</span>
-<span id="744">744</span>
-<span id="745">745</span>
-<span id="746">746</span>
-<span id="747">747</span>
-<span id="748">748</span>
-<span id="749">749</span>
-<span id="750">750</span>
-<span id="751">751</span>
-<span id="752">752</span>
-<span id="753">753</span>
-<span id="754">754</span>
-<span id="755">755</span>
-<span id="756">756</span>
-<span id="757">757</span>
-<span id="758">758</span>
-<span id="759">759</span>
-<span id="760">760</span>
-<span id="761">761</span>
-<span id="762">762</span>
-<span id="763">763</span>
-<span id="764">764</span>
-<span id="765">765</span>
-<span id="766">766</span>
-<span id="767">767</span>
-<span id="768">768</span>
-<span id="769">769</span>
-<span id="770">770</span>
-<span id="771">771</span>
-<span id="772">772</span>
-<span id="773">773</span>
-<span id="774">774</span>
-<span id="775">775</span>
-<span id="776">776</span>
-<span id="777">777</span>
-<span id="778">778</span>
-<span id="779">779</span>
-<span id="780">780</span>
-<span id="781">781</span>
-<span id="782">782</span>
-<span id="783">783</span>
-<span id="784">784</span>
-<span id="785">785</span>
-<span id="786">786</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">builder::ShardBuilder</span>,
     <span class="ident">config::Config</span>,
+    <span class="ident">emitter::Emitter</span>,
     <span class="ident">event::Events</span>,
     <span class="ident">json</span>,
     <span class="ident">processor</span>::{<span class="ident">ConnectingErrorType</span>, <span class="ident">Latency</span>, <span class="ident">Session</span>, <span class="ident">ShardProcessor</span>},
     <span class="ident">raw_message::Message</span>,
     <span class="ident">stage::Stage</span>,
 };
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">listener::Listeners</span>, <span class="ident">EventTypeFlags</span>, <span class="ident">Intents</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::Intents</span>;
 <span class="kw">use</span> <span class="ident">futures_util::stream::StreamExt</span>;
 <span class="kw">use</span> <span class="ident">once_cell::sync::OnceCell</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -810,7 +747,6 @@
 <span class="kw">use</span> <span class="ident">tokio_tungstenite::tungstenite::protocol</span>::{
     <span class="ident">frame::coding::CloseCode</span>, <span class="ident">CloseFrame</span> <span class="kw">as</span> <span class="ident">TungsteniteCloseFrame</span>,
 };
-<span class="kw">use</span> <span class="ident">twilight_model::gateway::event::Event</span>;
 
 <span class="doccomment">/// Sending a command failed.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -1088,7 +1024,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">ShardRef</span> {
     <span class="ident">config</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-    <span class="ident">listeners</span>: <span class="ident">Listeners</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span>,
+    <span class="ident">emitter</span>: <span class="ident">Emitter</span>,
     <span class="ident">processor_handle</span>: <span class="ident">OnceCell</span><span class="op">&lt;</span><span class="ident">JoinHandle</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">session</span>: <span class="ident">OnceCell</span><span class="op">&lt;</span><span class="ident">WatchReceiver</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
@@ -1098,7 +1034,7 @@
 <span class="doccomment">/// Shards are responsible for handling incoming events, process events relevant</span>
 <span class="doccomment">/// to the operation of shards - such as requests from the gateway to re-connect</span>
 <span class="doccomment">/// or invalidate a session - and then pass the events on to the user via an</span>
-<span class="doccomment">/// [event stream][`events`].</span>
+<span class="doccomment">/// event stream.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Shards will [go through a queue][`queue`] to initialize new ratelimited</span>
 <span class="doccomment">/// sessions with the ratelimit. Refer to Discord&#39;s [documentation][docs:shards]</span>
@@ -1122,14 +1058,16 @@
 <span class="doccomment">/// // Use the value of the &quot;DISCORD_TOKEN&quot; environment variable as the bot&#39;s</span>
 <span class="doccomment">/// // token. Of course, you may pass this into your program however you want.</span>
 <span class="doccomment">/// let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
-<span class="doccomment">/// let shard = Shard::new(token, Intents::GUILD_MESSAGES);</span>
+<span class="doccomment">/// let event_types = EventTypeFlags::MESSAGE_CREATE | EventTypeFlags::MESSAGE_DELETE;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let (shard, mut events) = Shard::builder(token, Intents::GUILD_MESSAGES)</span>
+<span class="doccomment">///     .event_types(event_types)</span>
+<span class="doccomment">///     .build();</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// // Start the shard.</span>
 <span class="doccomment">/// shard.start().await?;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// // Create a loop of only new message and deleted message events.</span>
-<span class="doccomment">/// let event_types = EventTypeFlags::MESSAGE_CREATE | EventTypeFlags::MESSAGE_DELETE;</span>
-<span class="doccomment">/// let mut events = shard.some_events(event_types);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// while let Some(event) = events.next().await {</span>
 <span class="doccomment">///     match event {</span>
@@ -1145,7 +1083,6 @@
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [`events`]: Self::events</span>
 <span class="doccomment">/// [`queue`]: crate::queue</span>
 <span class="doccomment">/// [docs:shards]: https://discord.com/developers/docs/topics/gateway#sharding</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
@@ -1171,7 +1108,7 @@
     <span class="doccomment">/// let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// let intents = Intents::GUILD_MESSAGES | Intents::GUILD_MESSAGE_TYPING;</span>
-    <span class="doccomment">/// let shard = Shard::new(token, intents);</span>
+    <span class="doccomment">/// let (shard, _) = Shard::new(token, intents);</span>
     <span class="doccomment">/// shard.start().await?;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// tokio_time::sleep(Duration::from_secs(1)).await;</span>
@@ -1182,19 +1119,24 @@
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`start`]: Self::start</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">token</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">intents</span>: <span class="ident">Intents</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">token</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">intents</span>: <span class="ident">Intents</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="ident">Events</span>) {
         <span class="self">Self</span><span class="ident">::builder</span>(<span class="ident">token</span>, <span class="ident">intents</span>).<span class="ident">build</span>()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_with_config</span>(<span class="ident">config</span>: <span class="ident">Config</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_with_config</span>(<span class="ident">config</span>: <span class="ident">Config</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="ident">Events</span>) {
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">config</span>);
+        <span class="kw">let</span> <span class="ident">event_types</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">event_types</span>();
 
-        <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">ShardRef</span> {
+        <span class="kw">let</span> (<span class="ident">emitter</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">Emitter::new</span>(<span class="ident">event_types</span>);
+
+        <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">ShardRef</span> {
             <span class="ident">config</span>,
-            <span class="ident">listeners</span>: <span class="ident">Listeners::default</span>(),
+            <span class="ident">emitter</span>,
             <span class="ident">processor_handle</span>: <span class="ident">OnceCell::new</span>(),
             <span class="ident">session</span>: <span class="ident">OnceCell::new</span>(),
-        }))
+        }));
+
+        (<span class="ident">this</span>, <span class="ident">Events::new</span>(<span class="ident">event_types</span>, <span class="ident">rx</span>))
     }
 
     <span class="doccomment">/// Create a builder to configure and construct a shard.</span>
@@ -1240,9 +1182,9 @@
         };
 
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Arc::clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">config</span>);
-        <span class="kw">let</span> <span class="ident">listeners</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">listeners</span>.<span class="ident">clone</span>();
+        <span class="kw">let</span> <span class="ident">emitter</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">emitter</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> (<span class="ident">processor</span>, <span class="ident">wrx</span>) <span class="op">=</span>
-            <span class="ident">ShardProcessor::new</span>(<span class="ident">config</span>, <span class="ident">url</span>, <span class="ident">listeners</span>)
+            <span class="ident">ShardProcessor::new</span>(<span class="ident">config</span>, <span class="ident">url</span>, <span class="ident">emitter</span>)
                 .<span class="kw">await</span>
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
                     <span class="kw">let</span> (<span class="ident">kind</span>, <span class="ident">source</span>) <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_parts</span>();
@@ -1271,72 +1213,6 @@
         <span class="kw">let</span> <span class="ident">_session</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">session</span>.<span class="ident">set</span>(<span class="ident">wrx</span>);
 
         <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="doccomment">/// Create a new stream of events from the shard.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// There can be multiple streams of events. All events will be broadcast to</span>
-    <span class="doccomment">/// all streams of events.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note** that we *highly* recommend specifying only the events that you</span>
-    <span class="doccomment">/// need via [`some_events`], especially if performance is a concern. This</span>
-    <span class="doccomment">/// will ensure that events you don&#39;t care about aren&#39;t deserialized from</span>
-    <span class="doccomment">/// received websocket messages. Gateway intents only allow specifying</span>
-    <span class="doccomment">/// categories of events, but using [`some_events`] will filter it further</span>
-    <span class="doccomment">/// on the client side.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The returned event stream implements [`futures::stream::Stream`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// All event types except for [`EventType::ShardPayload`] are enabled. If</span>
-    <span class="doccomment">/// you need to enable it, consider calling [`some_events`] instead.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`EventType::ShardPayload`]: ::twilight_model::gateway::event::EventType::ShardPayload</span>
-    <span class="doccomment">/// [`futures::stream::Stream`]: https://docs.rs/futures/*/futures/stream/trait.Stream.html</span>
-    <span class="doccomment">/// [`some_events`]: Self::some_events</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">events</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Events</span> {
-        <span class="self">self</span>.<span class="ident">some_events</span>(<span class="ident">EventTypeFlags::default</span>())
-    }
-
-    <span class="doccomment">/// Create a new filtered stream of events from the shard.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Only the events specified in the bitflags will be sent over the stream.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The returned event stream implements [`futures::stream::Stream`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Filter the events so that you only receive the [`Event::ShardConnected`]</span>
-    <span class="doccomment">/// and [`Event::ShardDisconnected`] events:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// use twilight_gateway::{EventTypeFlags, Event, Intents, Shard};</span>
-    <span class="doccomment">/// use futures::StreamExt;</span>
-    <span class="doccomment">/// use std::env;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # #[tokio::main]</span>
-    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; {</span>
-    <span class="doccomment">/// let shard = Shard::new(env::var(&quot;DISCORD_TOKEN&quot;)?, Intents::empty());</span>
-    <span class="doccomment">/// shard.start().await?;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let event_types = EventTypeFlags::SHARD_CONNECTED | EventTypeFlags::SHARD_DISCONNECTED;</span>
-    <span class="doccomment">/// let mut events = shard.some_events(event_types);</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// while let Some(event) = events.next().await {</span>
-    <span class="doccomment">///     match event {</span>
-    <span class="doccomment">///         Event::ShardConnected(_) =&gt; println!(&quot;Shard is now connected&quot;),</span>
-    <span class="doccomment">///         Event::ShardDisconnected(_) =&gt; println!(&quot;Shard is now disconnected&quot;),</span>
-    <span class="doccomment">///         // No other event will come in through the stream.</span>
-    <span class="doccomment">///         _ =&gt; {},</span>
-    <span class="doccomment">///     }</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// # Ok(()) }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`futures::stream::Stream`]: https://docs.rs/futures/*/futures/stream/trait.Stream.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">some_events</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">event_types</span>: <span class="ident">EventTypeFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Events</span> {
-        <span class="kw">let</span> <span class="ident">rx</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">listeners</span>.<span class="ident">add</span>(<span class="ident">event_types</span>);
-
-        <span class="ident">Events::new</span>(<span class="ident">event_types</span>, <span class="ident">rx</span>)
     }
 
     <span class="doccomment">/// Retrieve information about the running of the shard, such as the current</span>
@@ -1393,7 +1269,7 @@
     <span class="doccomment">/// use twilight_gateway::{shard::{raw_message::Message, Shard}, Intents};</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
-    <span class="doccomment">/// let shard = Shard::new(token, Intents::GUILDS);</span>
+    <span class="doccomment">/// let (shard, _) = Shard::new(token, Intents::GUILDS);</span>
     <span class="doccomment">/// shard.start().await?;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// shard.send(Message::Ping(Vec::new())).await?;</span>
@@ -1414,7 +1290,7 @@
     <span class="doccomment">/// };</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
-    <span class="doccomment">/// let shard = Shard::new(token, Intents::GUILDS);</span>
+    <span class="doccomment">/// let (shard, _) = Shard::new(token, Intents::GUILDS);</span>
     <span class="doccomment">/// shard.start().await?;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// let close = CloseFrame::from((1000, &quot;&quot;));</span>
@@ -1484,8 +1360,6 @@
     <span class="doccomment">/// code, causing Discord to show the bot as being offline. The session will</span>
     <span class="doccomment">/// not be resumable.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shutdown</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">listeners</span>.<span class="ident">remove_all</span>();
-
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">processor_handle</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">processor_handle</span>.<span class="ident">get</span>() {
             <span class="ident">processor_handle</span>.<span class="ident">abort</span>();
         }
@@ -1509,8 +1383,6 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`ClusterBuilder::resume_sessions`]: crate::cluster::ClusterBuilder::resume_sessions</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shutdown_resumable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u64</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ResumeSession</span><span class="op">&gt;</span>) {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">listeners</span>.<span class="ident">remove_all</span>();
-
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">processor_handle</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">processor_handle</span>.<span class="ident">get</span>() {
             <span class="ident">processor_handle</span>.<span class="ident">abort</span>();
         }

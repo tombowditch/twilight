@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["SearchGuildMembersError","The error created when the members can not be queried as configured."]],"struct":[["SearchGuildMembers","Search the members of a specific guild by a query."]]});
+initSidebarItems({"enum":[["SearchGuildMembersErrorType","Type of [`SearchGuildMembersError`] that occurred."]],"struct":[["SearchGuildMembers","Search the members of a specific guild by a query."],["SearchGuildMembersError","The error created when the members can not be queried as configured."]]});

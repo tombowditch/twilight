@@ -231,8 +231,6 @@
 <span id="229">229</span>
 <span id="230">230</span>
 <span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight</span>
 <span class="doccomment">//!</span>
@@ -372,7 +370,7 @@
 <span class="doccomment">//!     let scheme = ShardScheme::Auto;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // Use intents to only receive guild message events.</span>
-<span class="doccomment">//!     let cluster = Cluster::builder(&amp;token, Intents::GUILD_MESSAGES)</span>
+<span class="doccomment">//!     let (cluster, mut events) = Cluster::builder(&amp;token, Intents::GUILD_MESSAGES)</span>
 <span class="doccomment">//!         .shard_scheme(scheme)</span>
 <span class="doccomment">//!         .build()</span>
 <span class="doccomment">//!         .await?;</span>
@@ -393,8 +391,6 @@
 <span class="doccomment">//!     let cache = InMemoryCache::builder()</span>
 <span class="doccomment">//!         .resource_types(ResourceType::MESSAGE)</span>
 <span class="doccomment">//!         .build();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let mut events = cluster.events();</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // Process each event as they come in.</span>
 <span class="doccomment">//!     while let Some((shard_id, event)) = events.next().await {</span>

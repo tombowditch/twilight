@@ -958,23 +958,20 @@
 <span id="956">956</span>
 <span id="957">957</span>
 <span id="958">958</span>
-<span id="959">959</span>
-<span id="960">960</span>
-<span id="961">961</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="kw">super</span>::{
         <span class="ident">config::Config</span>,
+        <span class="ident">emitter</span>::{<span class="ident">EmitJsonErrorType</span>, <span class="ident">Emitter</span>},
         <span class="ident">json</span>::{<span class="self">self</span>, <span class="ident">GatewayEventParsingError</span>, <span class="ident">GatewayEventParsingErrorType</span>},
         <span class="ident">stage::Stage</span>,
         <span class="ident">ShardStream</span>,
     },
     <span class="ident">compression</span>::{<span class="self">self</span>, <span class="ident">Compression</span>},
-    <span class="ident">emitter</span>::{<span class="ident">EmitJsonErrorType</span>, <span class="ident">Emitter</span>},
     <span class="ident">session</span>::{<span class="ident">Session</span>, <span class="ident">SessionSendError</span>, <span class="ident">SessionSendErrorType</span>},
     <span class="ident">socket_forwarder::SocketForwarder</span>,
 };
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">event::EventTypeFlags</span>, <span class="ident">listener::Listeners</span>};
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::event::EventTypeFlags</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">borrow::Cow</span>,
@@ -1230,7 +1227,7 @@
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">config</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
         <span class="kw-2">mut</span> <span class="ident">url</span>: <span class="ident">String</span>,
-        <span class="ident">listeners</span>: <span class="ident">Listeners</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&gt;</span>,
+        <span class="ident">emitter</span>: <span class="ident">Emitter</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="self">Self</span>, <span class="ident">WatchReceiver</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&gt;</span><span class="op">&gt;</span>), <span class="ident">ConnectingError</span><span class="op">&gt;</span> {
         <span class="comment">//if we got resume info we don&#39;t need to wait</span>
         <span class="kw">let</span> <span class="ident">shard_id</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">shard</span>();
@@ -1247,7 +1244,6 @@
         <span class="ident">url</span>.<span class="ident">push_str</span>(<span class="string">&quot;?v=8&quot;</span>);
         <span class="ident">compression::add_url_feature</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">url</span>);
 
-        <span class="kw">let</span> <span class="ident">emitter</span> <span class="op">=</span> <span class="ident">Emitter::new</span>(<span class="ident">listeners</span>);
         <span class="ident">emitter</span>.<span class="ident">event</span>(<span class="ident">Event::ShardConnecting</span>(<span class="ident">Connecting</span> {
             <span class="ident">gateway</span>: <span class="ident">url</span>.<span class="ident">clone</span>(),
             <span class="ident">shard_id</span>: <span class="ident">config</span>.<span class="ident">shard</span>()[<span class="number">0</span>],
@@ -1326,8 +1322,6 @@
                 }
             }
         }
-
-        <span class="self">self</span>.<span class="ident">emitter</span>.<span class="ident">into_listeners</span>().<span class="ident">remove_all</span>();
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>

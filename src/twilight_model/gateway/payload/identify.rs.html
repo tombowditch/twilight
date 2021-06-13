@@ -62,7 +62,7 @@
 <span id="60">60</span>
 <span id="61">61</span>
 </pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::update_status::UpdateStatusInfo</span>;
+<span class="kw">use</span> <span class="kw">super</span><span class="ident">::update_presence::UpdatePresencePayload</span>;
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::gateway</span>::{<span class="ident">intents::Intents</span>, <span class="ident">opcode::OpCode</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
@@ -86,7 +86,7 @@
     <span class="kw">pub</span> <span class="ident">compress</span>: <span class="ident">bool</span>,
     <span class="kw">pub</span> <span class="ident">intents</span>: <span class="ident">Intents</span>,
     <span class="kw">pub</span> <span class="ident">large_threshold</span>: <span class="ident">u64</span>,
-    <span class="kw">pub</span> <span class="ident">presence</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UpdateStatusInfo</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">presence</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UpdatePresencePayload</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">IdentifyProperties</span>,
     <span class="kw">pub</span> <span class="ident">shard</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>[<span class="ident">u64</span>; <span class="number">2</span>]<span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">token</span>: <span class="ident">String</span>,
