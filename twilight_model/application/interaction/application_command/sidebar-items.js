@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CommandDataOption","Data received when a user fills in a command option."]],"struct":[["ApplicationCommand","Data present in an `Interaction` of type `ApplicationCommand`."],["CommandData","Data received when an `ApplicationCommand` interaction is executed."],["CommandInteractionDataResolved",""],["InteractionChannel",""],["InteractionMember",""]]});

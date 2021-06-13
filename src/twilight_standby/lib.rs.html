@@ -1164,6 +1164,14 @@
 <span id="1162">1162</span>
 <span id="1163">1163</span>
 <span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-standby</span>
 <span class="doccomment">//!</span>
@@ -1985,6 +1993,7 @@
         <span class="ident">Event::IntegrationCreate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="number">0</span>.<span class="ident">guild_id</span>,
         <span class="ident">Event::IntegrationDelete</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
         <span class="ident">Event::IntegrationUpdate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="number">0</span>.<span class="ident">guild_id</span>,
+        <span class="ident">Event::InteractionCreate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="number">0</span>.<span class="ident">guild_id</span>(),
         <span class="ident">Event::InviteCreate</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
         <span class="ident">Event::InviteDelete</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="ident">guild_id</span>),
         <span class="ident">Event::MemberAdd</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>.<span class="number">0</span>.<span class="ident">guild_id</span>),
@@ -2047,8 +2056,9 @@
             <span class="ident">event</span>::{<span class="ident">Event</span>, <span class="ident">EventType</span>},
             <span class="ident">payload</span>::{<span class="ident">MessageCreate</span>, <span class="ident">ReactionAdd</span>, <span class="ident">Ready</span>, <span class="ident">RoleDelete</span>},
         },
-        <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>},
-        <span class="ident">user</span>::{<span class="ident">CurrentUser</span>, <span class="ident">User</span>},
+        <span class="ident">id</span>::{<span class="ident">ApplicationId</span>, <span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>},
+        <span class="ident">oauth::PartialApplication</span>,
+        <span class="ident">user</span>::{<span class="ident">CurrentUser</span>, <span class="ident">User</span>, <span class="ident">UserFlags</span>},
     };
 
     <span class="macro">assert_impl_all!</span>(<span class="ident">Standby</span>: <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Send</span>, <span class="ident">Sync</span>);
@@ -2058,6 +2068,7 @@
             <span class="ident">id</span>: <span class="ident">MessageId</span>(<span class="number">3</span>),
             <span class="ident">activity</span>: <span class="prelude-val">None</span>,
             <span class="ident">application</span>: <span class="prelude-val">None</span>,
+            <span class="ident">application_id</span>: <span class="prelude-val">None</span>,
             <span class="ident">attachments</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">author</span>: <span class="ident">User</span> {
                 <span class="ident">avatar</span>: <span class="prelude-val">None</span>,
@@ -2080,6 +2091,7 @@
             <span class="ident">embeds</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">flags</span>: <span class="prelude-val">None</span>,
             <span class="ident">guild_id</span>: <span class="prelude-val">Some</span>(<span class="ident">GuildId</span>(<span class="number">4</span>)),
+            <span class="ident">interaction</span>: <span class="prelude-val">None</span>,
             <span class="ident">kind</span>: <span class="ident">MessageType::Regular</span>,
             <span class="ident">member</span>: <span class="prelude-val">None</span>,
             <span class="ident">mention_channels</span>: <span class="ident">Vec::new</span>(),
@@ -2174,6 +2186,10 @@
     <span class="attribute">#[<span class="ident">tokio::test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_wait_for_event</span>() {
         <span class="kw">let</span> <span class="ident">ready</span> <span class="op">=</span> <span class="ident">Ready</span> {
+            <span class="ident">application</span>: <span class="ident">PartialApplication</span> {
+                <span class="ident">flags</span>: <span class="ident">UserFlags::empty</span>(),
+                <span class="ident">id</span>: <span class="ident">ApplicationId</span>(<span class="number">0</span>),
+            },
             <span class="ident">guilds</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">session_id</span>: <span class="ident">String::new</span>(),
             <span class="ident">shard</span>: <span class="prelude-val">Some</span>([<span class="number">5</span>, <span class="number">7</span>]),

@@ -33,6 +33,9 @@
 <span id="31">31</span>
 <span id="32">32</span>
 <span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde_repr</span>::{<span class="ident">Deserialize_repr</span>, <span class="ident">Serialize_repr</span>};
 
@@ -43,6 +46,8 @@
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">WebhookType</span> {
     <span class="ident">Incoming</span> <span class="op">=</span> <span class="number">1</span>,
     <span class="ident">ChannelFollower</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Webhooks used with interactions.</span>
+    <span class="ident">Application</span> <span class="op">=</span> <span class="number">3</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">WebhookType</span> {
@@ -65,6 +70,7 @@
     <span class="kw">fn</span> <span class="ident">test_variants</span>() {
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">WebhookType::Incoming</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">1</span>)]);
         <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">WebhookType::ChannelFollower</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">2</span>)]);
+        <span class="ident">serde_test::assert_tokens</span>(<span class="kw-2">&amp;</span><span class="ident">WebhookType::Application</span>, <span class="kw-2">&amp;</span>[<span class="ident">Token::U8</span>(<span class="number">3</span>)]);
     }
 }
 </pre></div>

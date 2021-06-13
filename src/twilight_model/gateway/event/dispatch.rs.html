@@ -347,6 +347,12 @@
 <span id="345">345</span>
 <span id="346">346</span>
 <span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="kw">super</span><span class="ident">::payload</span>::<span class="kw-2">*</span>, <span class="ident">Event</span>, <span class="ident">EventConversionError</span>, <span class="ident">EventType</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{
@@ -380,6 +386,7 @@
     <span class="ident">IntegrationCreate</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">IntegrationCreate</span><span class="op">&gt;</span>),
     <span class="ident">IntegrationDelete</span>(<span class="ident">IntegrationDelete</span>),
     <span class="ident">IntegrationUpdate</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">IntegrationUpdate</span><span class="op">&gt;</span>),
+    <span class="ident">InteractionCreate</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">InteractionCreate</span><span class="op">&gt;</span>),
     <span class="ident">InviteCreate</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">InviteCreate</span><span class="op">&gt;</span>),
     <span class="ident">InviteDelete</span>(<span class="ident">InviteDelete</span>),
     <span class="ident">MemberAdd</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">MemberAdd</span><span class="op">&gt;</span>),
@@ -431,6 +438,7 @@
             <span class="self">Self</span><span class="ident">::IntegrationCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::IntegrationCreate</span>,
             <span class="self">Self</span><span class="ident">::IntegrationDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::IntegrationDelete</span>,
             <span class="self">Self</span><span class="ident">::IntegrationUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::IntegrationUpdate</span>,
+            <span class="self">Self</span><span class="ident">::InteractionCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::InteractionCreate</span>,
             <span class="self">Self</span><span class="ident">::InviteCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::InviteCreate</span>,
             <span class="self">Self</span><span class="ident">::InviteDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::InviteDelete</span>,
             <span class="self">Self</span><span class="ident">::MemberAdd</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::MemberAdd</span>,
@@ -485,6 +493,7 @@
             <span class="ident">Event::IntegrationCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::IntegrationCreate</span>(<span class="ident">v</span>),
             <span class="ident">Event::IntegrationDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::IntegrationDelete</span>(<span class="ident">v</span>),
             <span class="ident">Event::IntegrationUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::IntegrationUpdate</span>(<span class="ident">v</span>),
+            <span class="ident">Event::InteractionCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::InteractionCreate</span>(<span class="ident">v</span>),
             <span class="ident">Event::InviteCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::InviteCreate</span>(<span class="ident">v</span>),
             <span class="ident">Event::InviteDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::InviteDelete</span>(<span class="ident">v</span>),
             <span class="ident">Event::MemberAdd</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MemberAdd</span>(<span class="ident">v</span>),
@@ -603,6 +612,9 @@
             }
             <span class="string">&quot;INTEGRATION_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DispatchEvent::IntegrationUpdate</span>(<span class="ident">Box::new</span>(
                 <span class="ident">IntegrationUpdate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>,
+            )),
+            <span class="string">&quot;INTERACTION_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DispatchEvent::InteractionCreate</span>(<span class="ident">Box::new</span>(
+                <span class="ident">InteractionCreate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>,
             )),
             <span class="string">&quot;INVITE_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">DispatchEvent::InviteCreate</span>(<span class="ident">Box::new</span>(<span class="ident">InviteCreate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>))

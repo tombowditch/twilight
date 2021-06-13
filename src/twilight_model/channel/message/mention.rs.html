@@ -142,6 +142,12 @@
 <span id="140">140</span>
 <span id="141">141</span>
 <span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">guild::PartialMember</span>,
@@ -234,8 +240,10 @@
                 <span class="ident">joined_at</span>: <span class="prelude-val">None</span>,
                 <span class="ident">mute</span>: <span class="bool-val">true</span>,
                 <span class="ident">nick</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;bar&quot;</span>.<span class="ident">to_owned</span>()),
+                <span class="ident">permissions</span>: <span class="prelude-val">None</span>,
                 <span class="ident">premium_since</span>: <span class="prelude-val">None</span>,
                 <span class="ident">roles</span>: <span class="ident">Vec::new</span>(),
+                <span class="ident">user</span>: <span class="prelude-val">None</span>,
             }),
             <span class="ident">name</span>: <span class="string">&quot;foo&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">public_flags</span>: <span class="ident">UserFlags::empty</span>(),
@@ -261,7 +269,7 @@
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;PartialMember&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">5</span>,
+                    <span class="ident">len</span>: <span class="number">7</span>,
                 },
                 <span class="ident">Token::Str</span>(<span class="string">&quot;deaf&quot;</span>),
                 <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),
@@ -272,9 +280,13 @@
                 <span class="ident">Token::Str</span>(<span class="string">&quot;nick&quot;</span>),
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;bar&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;permissions&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;roles&quot;</span>),
                 <span class="ident">Token::Seq</span> { <span class="ident">len</span>: <span class="prelude-val">Some</span>(<span class="number">0</span>) },
                 <span class="ident">Token::SeqEnd</span>,
+                <span class="ident">Token::Str</span>(<span class="string">&quot;user&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::StructEnd</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;username&quot;</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;foo&quot;</span>),

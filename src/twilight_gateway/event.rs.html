@@ -246,6 +246,9 @@
 <span id="244">244</span>
 <span id="245">245</span>
 <span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
 <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
@@ -298,6 +301,8 @@
         <span class="kw">const</span> <span class="ident">INTEGRATION_DELETE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">61</span>;
         <span class="doccomment">/// A guild integration was updated.</span>
         <span class="kw">const</span> <span class="ident">INTEGRATION_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">62</span>;
+        <span class="doccomment">/// An interaction was invoked by a user.</span>
+        <span class="kw">const</span> <span class="ident">INTERACTION_CREATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">56</span>;
         <span class="doccomment">/// Invite for a channel has been created.</span>
         <span class="kw">const</span> <span class="ident">INVITE_CREATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">46</span>;
         <span class="doccomment">/// Invite for a channel has been deleted.</span>
@@ -404,6 +409,7 @@
             <span class="ident">EventType::IntegrationCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INTEGRATION_CREATE</span>,
             <span class="ident">EventType::IntegrationDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INTEGRATION_DELETE</span>,
             <span class="ident">EventType::IntegrationUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INTEGRATION_UPDATE</span>,
+            <span class="ident">EventType::InteractionCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INTERACTION_CREATE</span>,
             <span class="ident">EventType::InviteCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INVITE_CREATE</span>,
             <span class="ident">EventType::InviteDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::INVITE_DELETE</span>,
             <span class="ident">EventType::MemberAdd</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::MEMBER_ADD</span>,

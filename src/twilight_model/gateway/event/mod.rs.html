@@ -322,6 +322,10 @@
 <span id="320">320</span>
 <span id="321">321</span>
 <span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
 </pre><pre class="rust">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::wildcard_imports</span>)]</span>
 
@@ -390,6 +394,8 @@
     <span class="ident">IntegrationDelete</span>(<span class="ident">IntegrationDelete</span>),
     <span class="doccomment">/// A guild integration was deleted.</span>
     <span class="ident">IntegrationUpdate</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">IntegrationUpdate</span><span class="op">&gt;</span>),
+    <span class="doccomment">/// An interaction was invoked by a user.</span>
+    <span class="ident">InteractionCreate</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">InteractionCreate</span><span class="op">&gt;</span>),
     <span class="doccomment">/// A invite was made.</span>
     <span class="ident">InviteCreate</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">InviteCreate</span><span class="op">&gt;</span>),
     <span class="doccomment">/// A invite was deleted.</span>
@@ -495,6 +501,7 @@
             <span class="self">Self</span><span class="ident">::IntegrationCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::IntegrationCreate</span>,
             <span class="self">Self</span><span class="ident">::IntegrationDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::IntegrationDelete</span>,
             <span class="self">Self</span><span class="ident">::IntegrationUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::IntegrationUpdate</span>,
+            <span class="self">Self</span><span class="ident">::InteractionCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::InteractionCreate</span>,
             <span class="self">Self</span><span class="ident">::InviteCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::InviteCreate</span>,
             <span class="self">Self</span><span class="ident">::InviteDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::InviteDelete</span>,
             <span class="self">Self</span><span class="ident">::MemberAdd</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::MemberAdd</span>,
@@ -553,6 +560,7 @@
             <span class="ident">DispatchEvent::IntegrationCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::IntegrationCreate</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::IntegrationDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::IntegrationDelete</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::IntegrationUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::IntegrationUpdate</span>(<span class="ident">v</span>),
+            <span class="ident">DispatchEvent::InteractionCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::InteractionCreate</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::InviteCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::InviteCreate</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::InviteDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::InviteDelete</span>(<span class="ident">v</span>),
             <span class="ident">DispatchEvent::MemberAdd</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MemberAdd</span>(<span class="ident">v</span>),

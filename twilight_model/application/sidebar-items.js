@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["callback","Used when responding to interactions."],["command","Used for building commands to send to Discord."],["interaction","Used when recieving interactions through gateway or webhooks."]]});
