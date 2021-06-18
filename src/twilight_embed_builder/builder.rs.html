@@ -1187,7 +1187,7 @@
     <span class="doccomment">/// [`FIELD_VALUE_LENGTH_LIMIT`]: Self::FIELD_VALUE_LENGTH_LIMIT</span>
     <span class="doccomment">/// [`FOOTER_TEXT_LENGTH_LIMIT`]: Self::FOOTER_TEXT_LENGTH_LIMIT</span>
     <span class="doccomment">/// [`TITLE_LENGTH_LIMIT`]: Self::TITLE_LENGTH_LIMIT</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::clippy::too_many_lines</span>)]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
     <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;should be used as part of something like a message&quot;</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Embed</span>, <span class="ident">EmbedError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fields</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::EMBED_FIELD_LIMIT</span> {
