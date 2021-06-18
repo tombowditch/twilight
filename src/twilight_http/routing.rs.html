@@ -2184,11 +2184,6 @@
 <span id="2182">2182</span>
 <span id="2183">2183</span>
 <span id="2184">2184</span>
-<span id="2185">2185</span>
-<span id="2186">2186</span>
-<span id="2187">2187</span>
-<span id="2188">2188</span>
-<span id="2189">2189</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::request::Method</span>;
 <span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">utf8_percent_encode</span>, <span class="ident">NON_ALPHANUMERIC</span>};
@@ -2621,12 +2616,7 @@
         <span class="ident">guild_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to create a stage instance.</span>
-    <span class="ident">CreateStageInstance</span> {
-        <span class="doccomment">/// ID of the channel.</span>
-        <span class="ident">channel_id</span>: <span class="ident">u64</span>,
-        <span class="doccomment">/// Topic of the stage instance.</span>
-        <span class="ident">topic</span>: <span class="ident">String</span>,
-    },
+    <span class="ident">CreateStageInstance</span>,
     <span class="doccomment">/// Route information to create a guild template.</span>
     <span class="ident">CreateTemplate</span> {
         <span class="doccomment">/// The ID of the guild.</span>

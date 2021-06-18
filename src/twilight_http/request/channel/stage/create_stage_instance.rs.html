@@ -138,7 +138,6 @@
 <span id="136">136</span>
 <span id="137">137</span>
 <span id="138">138</span>
-<span id="139">139</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -212,19 +211,19 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">struct</span> <span class="ident">CreateStageInstanceFields</span> {
+    <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">privacy_level</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PrivacyLevel</span><span class="op">&gt;</span>,
+    <span class="ident">topic</span>: <span class="ident">String</span>,
 }
 
 <span class="doccomment">/// Create a new stage instance associated with a stage channel.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Requires the user to be a moderator of the stage channel.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateStageInstance</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
     <span class="ident">fields</span>: <span class="ident">CreateStageInstanceFields</span>,
     <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
-    <span class="ident">topic</span>: <span class="ident">String</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">CreateStageInstance</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -249,11 +248,13 @@
         }
 
         <span class="prelude-val">Ok</span>(<span class="self">Self</span> {
-            <span class="ident">channel_id</span>,
-            <span class="ident">fields</span>: <span class="ident">CreateStageInstanceFields::default</span>(),
+            <span class="ident">fields</span>: <span class="ident">CreateStageInstanceFields</span> {
+                <span class="ident">channel_id</span>,
+                <span class="ident">topic</span>,
+                ..<span class="ident">CreateStageInstanceFields::default</span>()
+            },
             <span class="ident">fut</span>: <span class="prelude-val">None</span>,
             <span class="ident">http</span>,
-            <span class="ident">topic</span>,
         })
     }
 
@@ -265,12 +266,9 @@
     }
 
     <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HttpError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::CreateStageInstance</span> {
-            <span class="ident">channel_id</span>: <span class="self">self</span>.<span class="ident">channel_id</span>.<span class="number">0</span>,
-            <span class="ident">topic</span>: <span class="self">self</span>.<span class="ident">topic</span>.<span class="ident">clone</span>(),
-        })
-        .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>
-        .<span class="ident">build</span>();
+        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::CreateStageInstance</span>)
+            .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>
+            .<span class="ident">build</span>();
 
         <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">verify</span>(<span class="ident">request</span>)));
 
