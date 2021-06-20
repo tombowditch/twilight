@@ -202,12 +202,40 @@
 <span id="200">200</span>
 <span id="201">201</span>
 <span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Provides the Snowflake trait for defining extractable information from a Discord Snowflake.</span>
 
 <span class="kw">use</span> <span class="ident">twilight_model::id</span>::{
-    <span class="ident">AttachmentId</span>, <span class="ident">AuditLogEntryId</span>, <span class="ident">ChannelId</span>, <span class="ident">EmojiId</span>, <span class="ident">GenericId</span>, <span class="ident">GuildId</span>, <span class="ident">IntegrationId</span>,
-    <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>, <span class="ident">WebhookId</span>,
+    <span class="ident">ApplicationId</span>, <span class="ident">AttachmentId</span>, <span class="ident">AuditLogEntryId</span>, <span class="ident">ChannelId</span>, <span class="ident">CommandId</span>, <span class="ident">EmojiId</span>, <span class="ident">GenericId</span>,
+    <span class="ident">GuildId</span>, <span class="ident">IntegrationId</span>, <span class="ident">InteractionId</span>, <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">StageId</span>, <span class="ident">UserId</span>, <span class="ident">WebhookId</span>,
 };
 
 <span class="doccomment">/// Snowflake is a trait for defining extractable information from a Snowflake. A Snowflake is a</span>
@@ -285,6 +313,12 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">ApplicationId</span> {
+    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="self">self</span>.<span class="number">0</span>
+    }
+}
+
 <span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">AttachmentId</span> {
     <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="self">self</span>.<span class="number">0</span>
@@ -298,6 +332,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">ChannelId</span> {
+    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="self">self</span>.<span class="number">0</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">CommandId</span> {
     <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
@@ -327,6 +367,12 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">InteractionId</span> {
+    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="self">self</span>.<span class="number">0</span>
+    }
+}
+
 <span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">MessageId</span> {
     <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="self">self</span>.<span class="number">0</span>
@@ -334,6 +380,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">RoleId</span> {
+    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+        <span class="self">self</span>.<span class="number">0</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Snowflake</span> <span class="kw">for</span> <span class="ident">StageId</span> {
     <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
@@ -356,19 +408,23 @@
     <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Snowflake</span>;
     <span class="kw">use</span> <span class="ident">static_assertions</span>::{<span class="ident">assert_impl_all</span>, <span class="ident">assert_obj_safe</span>};
     <span class="kw">use</span> <span class="ident">twilight_model::id</span>::{
-        <span class="ident">AttachmentId</span>, <span class="ident">AuditLogEntryId</span>, <span class="ident">ChannelId</span>, <span class="ident">EmojiId</span>, <span class="ident">GenericId</span>, <span class="ident">GuildId</span>, <span class="ident">IntegrationId</span>,
-        <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>, <span class="ident">WebhookId</span>,
+        <span class="ident">ApplicationId</span>, <span class="ident">AttachmentId</span>, <span class="ident">AuditLogEntryId</span>, <span class="ident">ChannelId</span>, <span class="ident">CommandId</span>, <span class="ident">EmojiId</span>, <span class="ident">GenericId</span>,
+        <span class="ident">GuildId</span>, <span class="ident">IntegrationId</span>, <span class="ident">InteractionId</span>, <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">StageId</span>, <span class="ident">UserId</span>, <span class="ident">WebhookId</span>,
     };
 
+    <span class="macro">assert_impl_all!</span>(<span class="ident">ApplicationId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">AttachmentId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">AuditLogEntryId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">ChannelId</span>: <span class="ident">Snowflake</span>);
+    <span class="macro">assert_impl_all!</span>(<span class="ident">CommandId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">EmojiId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">GenericId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">GuildId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">IntegrationId</span>: <span class="ident">Snowflake</span>);
+    <span class="macro">assert_impl_all!</span>(<span class="ident">InteractionId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">MessageId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">RoleId</span>: <span class="ident">Snowflake</span>);
+    <span class="macro">assert_impl_all!</span>(<span class="ident">StageId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">UserId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">WebhookId</span>: <span class="ident">Snowflake</span>);
     <span class="macro">assert_obj_safe!</span>(<span class="ident">Snowflake</span>);

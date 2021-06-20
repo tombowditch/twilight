@@ -115,7 +115,7 @@
 <span class="doccomment">//! use std::env;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! #[tokio::main]</span>
-<span class="doccomment">//! async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; {</span>
+<span class="doccomment">//! async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
 <span class="doccomment">//!     let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
 <span class="doccomment">//!     let intents = Intents::GUILD_BANS | Intents::GUILD_EMOJIS | Intents::GUILD_MESSAGES;</span>
 <span class="doccomment">//!     let (cluster, mut events) = Cluster::new(token, intents).await?;</span>
