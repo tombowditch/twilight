@@ -282,7 +282,7 @@
 <span class="doccomment">/// use twilight_model::id::{ChannelId, MessageId};</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[tokio::main]</span>
-<span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+<span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; {</span>
 <span class="doccomment">/// let client = Client::new(&quot;my token&quot;);</span>
 <span class="doccomment">/// let channel_id = ChannelId(123);</span>
 <span class="doccomment">/// let message_id = MessageId(234);</span>

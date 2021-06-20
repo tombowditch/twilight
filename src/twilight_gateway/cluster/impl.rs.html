@@ -940,7 +940,7 @@
     <span class="doccomment">/// use std::env;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # #[tokio::main]</span>
-    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; {</span>
     <span class="doccomment">/// let types = EventTypeFlags::MESSAGE_CREATE</span>
     <span class="doccomment">///     | EventTypeFlags::MESSAGE_DELETE</span>
     <span class="doccomment">///     | EventTypeFlags::MESSAGE_UPDATE;</span>
@@ -1079,7 +1079,7 @@
     <span class="doccomment">/// use std::env;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # #[tokio::main]</span>
-    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; {</span>
     <span class="doccomment">/// let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
     <span class="doccomment">/// let types = EventTypeFlags::MESSAGE_CREATE</span>
     <span class="doccomment">///     | EventTypeFlags::MESSAGE_DELETE</span>
@@ -1126,7 +1126,7 @@
     <span class="doccomment">/// };</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # #[tokio::main]</span>
-    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; {</span>
     <span class="doccomment">/// let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
     <span class="doccomment">/// let scheme = ShardScheme::try_from((0..=9, 10))?;</span>
     <span class="doccomment">/// let (cluster, _) = Cluster::builder(token, Intents::GUILD_MESSAGES)</span>
@@ -1204,7 +1204,7 @@
     <span class="doccomment">/// use std::{env, time::Duration};</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # #[tokio::main]</span>
-    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; {</span>
     <span class="doccomment">/// let (cluster, _) = Cluster::new(env::var(&quot;DISCORD_TOKEN&quot;)?, Intents::empty()).await?;</span>
     <span class="doccomment">/// cluster.up().await;</span>
     <span class="doccomment">///</span>
