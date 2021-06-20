@@ -385,9 +385,104 @@
 <span id="383">383</span>
 <span id="384">384</span>
 <span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
 </pre><pre class="rust">
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::timestamp</span>::{<span class="ident">Timestamp</span>, <span class="ident">TimestampStyle</span>};
+
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">MentionIter</span>, <span class="ident">MentionType</span>, <span class="ident">ParseMentionError</span>, <span class="ident">ParseMentionErrorType</span>};
-<span class="kw">use</span> <span class="ident">std::str::Chars</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert::TryFrom</span>, <span class="ident">str::Chars</span>};
 <span class="kw">use</span> <span class="ident">twilight_model::id</span>::{<span class="ident">ChannelId</span>, <span class="ident">EmojiId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>};
 
 <span class="doccomment">/// Parse mentions out of buffers.</span>
@@ -460,7 +555,7 @@
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
-        <span class="ident">parse_id</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">ChannelId</span>(<span class="ident">id</span>))
+        <span class="ident">parse_mention</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">ChannelId</span>(<span class="ident">id</span>))
     }
 }
 
@@ -471,7 +566,7 @@
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
-        <span class="ident">parse_id</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">EmojiId</span>(<span class="ident">id</span>))
+        <span class="ident">parse_mention</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">EmojiId</span>(<span class="ident">id</span>))
     }
 }
 
@@ -479,13 +574,21 @@
     <span class="doccomment">/// Sigils for any type of mention.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Contains all of the sigils of every other type of mention.</span>
-    <span class="kw">const</span> <span class="ident">SIGILS</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;@&amp;&quot;</span>, <span class="string">&quot;@!&quot;</span>, <span class="string">&quot;@&quot;</span>];
+    <span class="kw">const</span> <span class="ident">SIGILS</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;@&amp;&quot;</span>, <span class="string">&quot;@!&quot;</span>, <span class="string">&quot;@&quot;</span>, <span class="string">&quot;t:&quot;</span>];
 
+    <span class="doccomment">/// Parse a mention from a string slice.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns [`ParseMentionErrorType::TimestampStyleInvalid`] if a timestamp</span>
+    <span class="doccomment">/// style value is invalid.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`ParseMentionError::TimestampStyleInvalid`]: super::error::ParseMentionErrorType::TimestampStyleInvalid</span>
     <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ParseMentionError</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
-        <span class="kw">let</span> (<span class="ident">id</span>, <span class="ident">found</span>) <span class="op">=</span> <span class="ident">parse_id</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> (<span class="ident">id</span>, <span class="ident">maybe_modifier</span>, <span class="ident">found</span>) <span class="op">=</span> <span class="ident">parse_mention</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>)<span class="question-mark">?</span>;
 
         <span class="kw">for</span> <span class="ident">sigil</span> <span class="kw">in</span> <span class="ident">ChannelId::SIGILS</span> {
             <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">sigil</span> <span class="op">=</span><span class="op">=</span> <span class="ident">found</span> {
@@ -502,6 +605,14 @@
         <span class="kw">for</span> <span class="ident">sigil</span> <span class="kw">in</span> <span class="ident">RoleId::SIGILS</span> {
             <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">sigil</span> <span class="op">=</span><span class="op">=</span> <span class="ident">found</span> {
                 <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">MentionType::Role</span>(<span class="ident">RoleId</span>(<span class="ident">id</span>)));
+            }
+        }
+
+        <span class="kw">for</span> <span class="ident">sigil</span> <span class="kw">in</span> <span class="ident">Timestamp::SIGILS</span> {
+            <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">sigil</span> <span class="op">=</span><span class="op">=</span> <span class="ident">found</span> {
+                <span class="kw">let</span> <span class="ident">maybe_style</span> <span class="op">=</span> <span class="ident">parse_maybe_style</span>(<span class="ident">maybe_modifier</span>)<span class="question-mark">?</span>;
+
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">MentionType::Timestamp</span>(<span class="ident">Timestamp::new</span>(<span class="ident">id</span>, <span class="ident">maybe_style</span>)));
             }
         }
 
@@ -522,7 +633,28 @@
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
-        <span class="ident">parse_id</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">RoleId</span>(<span class="ident">id</span>))
+        <span class="ident">parse_mention</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">RoleId</span>(<span class="ident">id</span>))
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">ParseMention</span> <span class="kw">for</span> <span class="ident">Timestamp</span> {
+    <span class="kw">const</span> <span class="ident">SIGILS</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="string">&quot;t:&quot;</span>];
+
+    <span class="doccomment">/// Parse a timestamp from a string slice.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns [`ParseMentionErrorType::TimestampStyleInvalid`] if the</span>
+    <span class="doccomment">/// timestamp style value is invalid.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`ParseMentionError::TimestampStyleInvalid`]: super::error::ParseMentionErrorType::TimestampStyleInvalid</span>
+    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ParseMentionError</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="self">Self</span>: <span class="ident">Sized</span>,
+    {
+        <span class="kw">let</span> (<span class="ident">unix</span>, <span class="ident">maybe_modifier</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">parse_mention</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">Timestamp::new</span>(<span class="ident">unix</span>, <span class="ident">parse_maybe_style</span>(<span class="ident">maybe_modifier</span>)<span class="question-mark">?</span>))
     }
 }
 
@@ -536,8 +668,27 @@
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
-        <span class="ident">parse_id</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">UserId</span>(<span class="ident">id</span>))
+        <span class="ident">parse_mention</span>(<span class="ident">buf</span>, <span class="self">Self</span><span class="ident">::SIGILS</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">id</span>, <span class="kw">_</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">UserId</span>(<span class="ident">id</span>))
     }
+}
+
+<span class="doccomment">/// Parse a possible style value string slice into a [`TimestampStyle`].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Errors</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Returns [`ParseMentionErrorType::TimestampStyleInvalid`] if the timestamp</span>
+<span class="doccomment">/// style value is invalid.</span>
+<span class="kw">fn</span> <span class="ident">parse_maybe_style</span>(<span class="ident">value</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">TimestampStyle</span><span class="op">&gt;</span>, <span class="ident">ParseMentionError</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="prelude-val">Ok</span>(<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">modifier</span>) <span class="op">=</span> <span class="ident">value</span> {
+        <span class="prelude-val">Some</span>(
+            <span class="ident">TimestampStyle::try_from</span>(<span class="ident">modifier</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ParseMentionError</span> {
+                <span class="ident">kind</span>: <span class="ident">ParseMentionErrorType::TimestampStyleInvalid</span> { <span class="ident">found</span>: <span class="ident">modifier</span> },
+                <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
+            })<span class="question-mark">?</span>,
+        )
+    } <span class="kw">else</span> {
+        <span class="prelude-val">None</span>
+    })
 }
 
 <span class="doccomment">/// # Errors</span>
@@ -550,10 +701,10 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Returns [`ParseMentionError::TrailingArrow`] if the trailing arrow is not</span>
 <span class="doccomment">/// present after the ID.</span>
-<span class="kw">fn</span> <span class="ident">parse_id</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+<span class="kw">fn</span> <span class="ident">parse_mention</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
     <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     <span class="ident">sigils</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>],
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u64</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>), <span class="ident">ParseMentionError</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u64</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>), <span class="ident">ParseMentionError</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">chars</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">chars</span>();
 
     <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">chars</span>.<span class="ident">next</span>();
@@ -589,7 +740,7 @@
         });
     };
 
-    <span class="kw">if</span> <span class="ident">sigil</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;:&quot;</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">emoji_sigil_present</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">chars</span>) {
+    <span class="kw">if</span> <span class="ident">sigil</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;:&quot;</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">separator_sigil_present</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">chars</span>) {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseMentionError</span> {
             <span class="ident">kind</span>: <span class="ident">ParseMentionErrorType::PartMissing</span> {
                 <span class="ident">found</span>: <span class="number">1</span>,
@@ -599,27 +750,41 @@
         });
     }
 
-    <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">chars</span>
+    <span class="kw">let</span> <span class="ident">end_position</span> <span class="op">=</span> <span class="ident">chars</span>
         .<span class="ident">as_str</span>()
         .<span class="ident">find</span>(<span class="string">&#39;&gt;&#39;</span>)
-        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">idx</span><span class="op">|</span> <span class="ident">chars</span>.<span class="ident">as_str</span>().<span class="ident">get</span>(..<span class="ident">idx</span>))
-        .<span class="ident">ok_or</span>(<span class="ident">ParseMentionError</span> {
-            <span class="ident">kind</span>: <span class="ident">ParseMentionErrorType::TrailingArrow</span> { <span class="ident">found</span>: <span class="prelude-val">None</span> },
-            <span class="ident">source</span>: <span class="prelude-val">None</span>,
-        })<span class="question-mark">?</span>;
+        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ParseMentionError::trailing_arrow</span>(<span class="prelude-val">None</span>))<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">maybe_split_position</span> <span class="op">=</span> <span class="ident">chars</span>.<span class="ident">as_str</span>().<span class="ident">find</span>(<span class="string">&#39;:&#39;</span>);
 
-    <span class="ident">remaining</span>
-        .<span class="ident">parse</span>()
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">id</span><span class="op">|</span> (<span class="ident">id</span>, <span class="ident">sigil</span>))
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ParseMentionError</span> {
-            <span class="ident">kind</span>: <span class="ident">ParseMentionErrorType::IdNotU64</span> { <span class="ident">found</span>: <span class="ident">remaining</span> },
-            <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
-        })
+    <span class="kw">let</span> <span class="ident">end_of_id_position</span> <span class="op">=</span> <span class="ident">maybe_split_position</span>.<span class="ident">unwrap_or</span>(<span class="ident">end_position</span>);
+
+    <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">chars</span>
+        .<span class="ident">as_str</span>()
+        .<span class="ident">get</span>(..<span class="ident">end_of_id_position</span>)
+        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ParseMentionError::trailing_arrow</span>(<span class="prelude-val">None</span>))<span class="question-mark">?</span>;
+
+    <span class="kw">let</span> <span class="ident">num</span> <span class="op">=</span> <span class="ident">remaining</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ParseMentionError</span> {
+        <span class="ident">kind</span>: <span class="ident">ParseMentionErrorType::IdNotU64</span> { <span class="ident">found</span>: <span class="ident">remaining</span> },
+        <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
+    })<span class="question-mark">?</span>;
+
+    <span class="comment">// If additional information - like a timestamp style - is present then we</span>
+    <span class="comment">// can just get a subslice of the string via the split and ending positions.</span>
+    <span class="kw">let</span> <span class="ident">style</span> <span class="op">=</span> <span class="ident">maybe_split_position</span>.<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">split_position</span><span class="op">|</span> {
+        <span class="ident">chars</span>.<span class="ident">next</span>();
+
+        <span class="comment">// We need to remove 1 so we don&#39;t catch the `&gt;` in it.</span>
+        <span class="kw">let</span> <span class="ident">style_end_position</span> <span class="op">=</span> <span class="ident">end_position</span> <span class="op">-</span> <span class="number">1</span>;
+
+        <span class="ident">chars</span>.<span class="ident">as_str</span>().<span class="ident">get</span>(<span class="ident">split_position</span>..<span class="ident">style_end_position</span>)
+    });
+
+    <span class="prelude-val">Ok</span>((<span class="ident">num</span>, <span class="ident">style</span>, <span class="ident">sigil</span>))
 }
 
 <span class="comment">// Don&#39;t use `Iterator::skip_while` so we can mutate `chars` in-place;</span>
 <span class="comment">// `skip_while` is consuming.</span>
-<span class="kw">fn</span> <span class="ident">emoji_sigil_present</span>(<span class="ident">chars</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Chars</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+<span class="kw">fn</span> <span class="ident">separator_sigil_present</span>(<span class="ident">chars</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Chars</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">chars</span> {
         <span class="kw">if</span> <span class="ident">c</span> <span class="op">=</span><span class="op">=</span> <span class="string">&#39;:&#39;</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
@@ -638,6 +803,7 @@
 <span class="doccomment">/// &lt;https://rust-lang.github.io/api-guidelines/future-proofing.html&gt;</span>
 <span class="kw">mod</span> <span class="ident">private</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw">super</span><span class="ident">::MentionType</span>;
+    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::timestamp::Timestamp</span>;
     <span class="kw">use</span> <span class="ident">twilight_model::id</span>::{<span class="ident">ChannelId</span>, <span class="ident">EmojiId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>};
 
     <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Sealed</span> {}
@@ -646,6 +812,7 @@
     <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">EmojiId</span> {}
     <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">MentionType</span> {}
     <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">RoleId</span> {}
+    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">Timestamp</span> {}
     <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">UserId</span> {}
 }
 
@@ -655,6 +822,10 @@
         <span class="kw">super</span>::{<span class="ident">MentionType</span>, <span class="ident">ParseMentionErrorType</span>},
         <span class="ident">private::Sealed</span>,
         <span class="ident">ParseMention</span>,
+    };
+    <span class="kw">use</span> <span class="kw">crate</span>::{
+        <span class="ident">parse::ParseMentionError</span>,
+        <span class="ident">timestamp</span>::{<span class="ident">Timestamp</span>, <span class="ident">TimestampStyle</span>},
     };
     <span class="kw">use</span> <span class="ident">static_assertions::assert_impl_all</span>;
     <span class="kw">use</span> <span class="ident">twilight_model::id</span>::{<span class="ident">ChannelId</span>, <span class="ident">EmojiId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>};
@@ -669,7 +840,7 @@
     <span class="kw">fn</span> <span class="ident">test_sigils</span>() {
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>], <span class="ident">ChannelId::SIGILS</span>);
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;:&quot;</span>], <span class="ident">EmojiId::SIGILS</span>);
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;@&amp;&quot;</span>, <span class="string">&quot;@!&quot;</span>, <span class="string">&quot;@&quot;</span>], <span class="ident">MentionType::SIGILS</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;@&amp;&quot;</span>, <span class="string">&quot;@!&quot;</span>, <span class="string">&quot;@&quot;</span>, <span class="string">&quot;t:&quot;</span>], <span class="ident">MentionType::SIGILS</span>);
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;@&amp;&quot;</span>], <span class="ident">RoleId::SIGILS</span>);
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;@!&quot;</span>, <span class="string">&quot;@&quot;</span>], <span class="ident">UserId::SIGILS</span>);
     }
@@ -718,7 +889,7 @@
         );
         <span class="macro">assert_eq!</span>(
             <span class="kw-2">&amp;</span><span class="ident">ParseMentionErrorType::Sigil</span> {
-                <span class="ident">expected</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;@&amp;&quot;</span>, <span class="string">&quot;@!&quot;</span>, <span class="string">&quot;@&quot;</span>],
+                <span class="ident">expected</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>, <span class="string">&quot;:&quot;</span>, <span class="string">&quot;@&amp;&quot;</span>, <span class="string">&quot;@!&quot;</span>, <span class="string">&quot;@&quot;</span>, <span class="string">&quot;t:&quot;</span>],
                 <span class="ident">found</span>: <span class="prelude-val">Some</span>(<span class="string">&#39;;&#39;</span>),
             },
             <span class="ident">MentionType::parse</span>(<span class="string">&quot;&lt;;123&gt;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
@@ -738,6 +909,21 @@
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_parse_timestamp</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ParseMentionError</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="macro">assert_eq!</span>(<span class="ident">Timestamp::new</span>(<span class="number">123</span>, <span class="prelude-val">None</span>), <span class="ident">Timestamp::parse</span>(<span class="string">&quot;&lt;t:123&gt;&quot;</span>)<span class="question-mark">?</span>);
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">Timestamp::new</span>(<span class="number">123</span>, <span class="prelude-val">Some</span>(<span class="ident">TimestampStyle::RelativeTime</span>)),
+            <span class="ident">Timestamp::parse</span>(<span class="string">&quot;&lt;t:123:R&gt;&quot;</span>)<span class="question-mark">?</span>
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="kw-2">&amp;</span><span class="ident">ParseMentionErrorType::TimestampStyleInvalid</span> { <span class="ident">found</span>: <span class="string">&quot;?&quot;</span> },
+            <span class="ident">Timestamp::parse</span>(<span class="string">&quot;&lt;t:123:?&gt;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+        );
+
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_parse_user_id</span>() {
         <span class="macro">assert_eq!</span>(<span class="ident">UserId</span>(<span class="number">123</span>), <span class="ident">UserId::parse</span>(<span class="string">&quot;&lt;@123&gt;&quot;</span>).<span class="ident">unwrap</span>());
         <span class="macro">assert_eq!</span>(
@@ -753,21 +939,21 @@
                 <span class="ident">expected</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;@&quot;</span>],
                 <span class="ident">found</span>: <span class="prelude-val">Some</span>(<span class="string">&#39;#&#39;</span>),
             },
-            <span class="kw">super</span><span class="ident">::parse_id</span>(<span class="string">&quot;&lt;#123&gt;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;@&quot;</span>]).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="kw">super</span><span class="ident">::parse_mention</span>(<span class="string">&quot;&lt;#123&gt;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;@&quot;</span>]).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
         );
         <span class="macro">assert_eq!</span>(
             <span class="kw-2">&amp;</span><span class="ident">ParseMentionErrorType::Sigil</span> {
                 <span class="ident">expected</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>],
                 <span class="ident">found</span>: <span class="prelude-val">None</span>,
             },
-            <span class="kw">super</span><span class="ident">::parse_id</span>(<span class="string">&quot;&lt;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>]).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="kw">super</span><span class="ident">::parse_mention</span>(<span class="string">&quot;&lt;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>]).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
         );
         <span class="macro">assert_eq!</span>(
             <span class="kw-2">&amp;</span><span class="ident">ParseMentionErrorType::Sigil</span> {
                 <span class="ident">expected</span>: <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>],
                 <span class="ident">found</span>: <span class="prelude-val">None</span>,
             },
-            <span class="kw">super</span><span class="ident">::parse_id</span>(<span class="string">&quot;&lt;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>]).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="kw">super</span><span class="ident">::parse_mention</span>(<span class="string">&quot;&lt;&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;#&quot;</span>]).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
         );
     }
 }
