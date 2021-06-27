@@ -199,44 +199,12 @@
 <span id="199">199</span>
 <span id="200">200</span>
 <span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">config::ResourceType</span>, <span class="ident">model::CachedMessage</span>, <span class="ident">InMemoryCache</span>, <span class="ident">UpdateCache</span>};
 <span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
-<span class="kw">use</span> <span class="ident">twilight_model</span>::{
-    <span class="ident">gateway::payload</span>::{<span class="ident">MessageCreate</span>, <span class="ident">MessageDelete</span>, <span class="ident">MessageDeleteBulk</span>, <span class="ident">MessageUpdate</span>},
-    <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">MessageId</span>},
+<span class="kw">use</span> <span class="ident">twilight_model::gateway::payload</span>::{
+    <span class="ident">MessageCreate</span>, <span class="ident">MessageDelete</span>, <span class="ident">MessageDeleteBulk</span>, <span class="ident">MessageUpdate</span>,
 };
-
-<span class="kw">impl</span> <span class="ident">InMemoryCache</span> {
-    <span class="doccomment">/// Gets a message by channel ID and message ID.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is an O(n) operation. This requires one or both of the</span>
-    <span class="doccomment">/// [`GUILD_MESSAGES`] or [`DIRECT_MESSAGES`] intents.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`GUILD_MESSAGES`]: ::twilight_model::gateway::Intents::GUILD_MESSAGES</span>
-    <span class="doccomment">/// [`DIRECT_MESSAGES`]: ::twilight_model::gateway::Intents::DIRECT_MESSAGES</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>, <span class="ident">message_id</span>: <span class="ident">MessageId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CachedMessage</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">messages</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">channel_id</span>)<span class="question-mark">?</span>;
-
-        <span class="ident">channel</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="ident">msg</span><span class="op">|</span> <span class="ident">msg</span>.<span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">message_id</span>).<span class="ident">cloned</span>()
-    }
-}
 
 <span class="kw">impl</span> <span class="ident">UpdateCache</span> <span class="kw">for</span> <span class="ident">MessageCreate</span> {
     <span class="kw">fn</span> <span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">cache</span>: <span class="kw-2">&amp;</span><span class="ident">InMemoryCache</span>) {
@@ -354,7 +322,7 @@
     <span class="kw">use</span> <span class="ident">twilight_model</span>::{
         <span class="ident">channel::message</span>::{<span class="ident">Message</span>, <span class="ident">MessageFlags</span>, <span class="ident">MessageType</span>},
         <span class="ident">guild::PartialMember</span>,
-        <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">UserId</span>},
+        <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>, <span class="ident">UserId</span>},
         <span class="ident">user::User</span>,
     };
 
