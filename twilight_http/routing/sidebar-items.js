@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Path","An enum representing a path, most useful for ratelimiting implementations."],["PathParseErrorType",""],["Route",""]],"struct":[["PathParseError",""]]});
+initSidebarItems({"enum":[["Path","An enum representing a path, most useful for ratelimiting implementations."],["PathParseErrorType",""],["Route",""]],"struct":[["PathParseError",""],["RouteDisplay",""]]});

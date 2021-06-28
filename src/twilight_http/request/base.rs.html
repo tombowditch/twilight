@@ -294,18 +294,6 @@
 <span id="294">294</span>
 <span id="295">295</span>
 <span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Form</span>, <span class="ident">Method</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -423,21 +411,22 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Use the [`RequestBuilder`] if you need to set a combination of</span>
     <span class="doccomment">/// configurations in the request.</span>
+    <span class="comment">// `Route`&#39;s methods have been changed to no longer consume itself, so we</span>
+    <span class="comment">// could pass the route by reference but we need to avoid breakage.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::needless_pass_by_value</span>)]</span>
     <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.4.0&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;Use `Request::builder` instead&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">body</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">headers</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">route</span>: <span class="ident">Route</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>,
             <span class="ident">form</span>: <span class="prelude-val">None</span>,
             <span class="ident">headers</span>,
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -484,16 +473,17 @@
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`builder`]: Self::builder</span>
+    <span class="comment">// `Route`&#39;s methods have been changed to no longer consume itself, so we</span>
+    <span class="comment">// could pass the route by reference but we need to avoid breakage.</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::needless_pass_by_value</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_route</span>(<span class="ident">route</span>: <span class="ident">Route</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">None</span>,
             <span class="ident">form</span>: <span class="prelude-val">None</span>,
             <span class="ident">headers</span>: <span class="prelude-val">None</span>,
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -506,15 +496,13 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Request</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">route</span>: <span class="ident">Route</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">None</span>,
             <span class="ident">form</span>: <span class="prelude-val">None</span>,
             <span class="ident">headers</span>: <span class="prelude-val">None</span>,
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -522,15 +510,13 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Route</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Request</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">body</span>, <span class="ident">route</span>): (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Route</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">Some</span>(<span class="ident">body</span>),
             <span class="ident">form</span>: <span class="prelude-val">None</span>,
             <span class="ident">headers</span>: <span class="prelude-val">None</span>,
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -538,15 +524,13 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">Form</span>, <span class="ident">Route</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Request</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">form</span>, <span class="ident">route</span>): (<span class="ident">Form</span>, <span class="ident">Route</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">None</span>,
             <span class="ident">form</span>: <span class="prelude-val">Some</span>(<span class="ident">form</span>),
             <span class="ident">headers</span>: <span class="prelude-val">None</span>,
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -554,15 +538,13 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Form</span>, <span class="ident">Route</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Request</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">body</span>, <span class="ident">form</span>, <span class="ident">route</span>): (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Form</span>, <span class="ident">Route</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">Some</span>(<span class="ident">body</span>),
             <span class="ident">form</span>: <span class="prelude-val">Some</span>(<span class="ident">form</span>),
             <span class="ident">headers</span>: <span class="prelude-val">None</span>,
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -570,15 +552,13 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span>, <span class="ident">Route</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Request</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">headers</span>, <span class="ident">route</span>): (<span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span>, <span class="ident">Route</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">None</span>,
             <span class="ident">form</span>: <span class="prelude-val">None</span>,
             <span class="ident">headers</span>: <span class="prelude-val">Some</span>(<span class="ident">headers</span>),
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -586,15 +566,13 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span>, <span class="ident">Route</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Request</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">body</span>, <span class="ident">headers</span>, <span class="ident">route</span>): (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span>, <span class="ident">Route</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">Some</span>(<span class="ident">body</span>),
             <span class="ident">form</span>: <span class="prelude-val">None</span>,
             <span class="ident">headers</span>: <span class="prelude-val">Some</span>(<span class="ident">headers</span>),
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
@@ -602,15 +580,13 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">Form</span>, <span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span>, <span class="ident">Route</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Request</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">form</span>, <span class="ident">headers</span>, <span class="ident">route</span>): (<span class="ident">Form</span>, <span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span>, <span class="ident">Route</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">method</span>, <span class="ident">path</span>, <span class="ident">path_str</span>) <span class="op">=</span> <span class="ident">route</span>.<span class="ident">into_parts</span>();
-
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">None</span>,
             <span class="ident">form</span>: <span class="prelude-val">Some</span>(<span class="ident">form</span>),
             <span class="ident">headers</span>: <span class="prelude-val">Some</span>(<span class="ident">headers</span>),
-            <span class="ident">method</span>,
-            <span class="ident">path</span>,
-            <span class="ident">path_str</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
+            <span class="ident">path_str</span>: <span class="ident">Cow::Owned</span>(<span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
     }
