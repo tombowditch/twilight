@@ -720,6 +720,9 @@
 <span id="720">720</span>
 <span id="721">721</span>
 <span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">builder::ShardBuilder</span>,
@@ -1308,22 +1311,25 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`shutdown`]: Self::shutdown</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">message</span>: <span class="ident">Message</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">session</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">session</span>() {
-            <span class="comment">// Tick ratelimiter.</span>
-            <span class="ident">session</span>.<span class="ident">ratelimit</span>.<span class="ident">lock</span>().<span class="kw">await</span>.<span class="ident">next</span>().<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">session</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">session</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">SendError</span> {
+            <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
+            <span class="ident">kind</span>: <span class="ident">SendErrorType::SessionInactive</span>,
+        })<span class="question-mark">?</span>;
 
-            <span class="ident">session</span>
-                .<span class="ident">tx</span>
-                .<span class="ident">send</span>(<span class="ident">message</span>.<span class="ident">into_tungstenite</span>())
-                .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">SendError</span> {
-                    <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
-                    <span class="ident">kind</span>: <span class="ident">SendErrorType::Sending</span>,
-                })
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">SendError</span> {
-                <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">SessionInactiveError</span>)),
-                <span class="ident">kind</span>: <span class="ident">SendErrorType::SessionInactive</span>,
-            })
+        <span class="comment">// Only tick the ratelimiter if there wasn&#39;t an error sending it over</span>
+        <span class="comment">// the tx. If tx sending fails then the message couldn&#39;t be sent anyway,</span>
+        <span class="comment">// which does not affect ratelimiting of external sending.</span>
+        <span class="kw">match</span> <span class="ident">session</span>.<span class="ident">tx</span>.<span class="ident">send</span>(<span class="ident">message</span>.<span class="ident">into_tungstenite</span>()) {
+            <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="comment">// Tick ratelimiter.</span>
+                <span class="ident">session</span>.<span class="ident">ratelimit</span>.<span class="ident">lock</span>().<span class="kw">await</span>.<span class="ident">next</span>().<span class="kw">await</span>;
+
+                <span class="prelude-val">Ok</span>(())
+            }
+            <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SendError</span> {
+                <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
+                <span class="ident">kind</span>: <span class="ident">SendErrorType::Sending</span>,
+            }),
         }
     }
 
