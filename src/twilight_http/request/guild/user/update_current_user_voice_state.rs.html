@@ -140,7 +140,7 @@
     <span class="doccomment">/// - You are able to set `request_to_speak_timestamp` to any present or</span>
     <span class="doccomment">/// future time.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request_to_speak_timestamp</span>(<span class="self">self</span>, <span class="ident">request_to_speak_timestamp</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::_request_to_speak_timestamp</span>(<span class="self">self</span>, <span class="ident">request_to_speak_timestamp</span>.<span class="ident">into</span>())
+        <span class="self">self</span>.<span class="ident">_request_to_speak_timestamp</span>(<span class="ident">request_to_speak_timestamp</span>.<span class="ident">into</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">_request_to_speak_timestamp</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request_to_speak_timestamp</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
