@@ -970,6 +970,22 @@
 <span id="970">970</span>
 <span id="971">971</span>
 <span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="kw">super</span>::{
@@ -1317,6 +1333,8 @@
                 <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="macro">tracing::warn!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">source</span>);
 
+                    <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
+
                     <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">fatal</span>() {
                         <span class="kw">break</span>;
                     }
@@ -1343,6 +1361,7 @@
 
                 <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">fatal</span>() {
                     <span class="macro">tracing::debug!</span>(<span class="string">&quot;error processing event; reconnecting&quot;</span>);
+                    <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
 
                     <span class="self">self</span>.<span class="ident">reconnect</span>().<span class="kw">await</span>;
                 }
@@ -1546,6 +1565,7 @@
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">session</span>.<span class="ident">heartbeat</span>() {
             <span class="macro">tracing::warn!</span>(<span class="string">&quot;error sending heartbeat; reconnecting: {}&quot;</span>, <span class="ident">err</span>);
+            <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
 
             <span class="self">self</span>.<span class="ident">reconnect</span>().<span class="kw">await</span>;
         }
@@ -1594,6 +1614,8 @@
     }
 
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">process_invalidate_session</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">resumable</span>: <span class="ident">bool</span>) {
+        <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
+
         <span class="kw">if</span> <span class="ident">resumable</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;metrics&quot;</span>)]</span>
             <span class="macro">metrics::counter!</span>(<span class="string">&quot;GatewayEvent&quot;</span>, <span class="number">1</span>, <span class="string">&quot;GatewayEvent&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;InvalidateSessionTrue&quot;</span>);
@@ -1619,11 +1641,13 @@
             <span class="ident">reason</span>: <span class="ident">Cow::Borrowed</span>(<span class="string">&quot;Reconnecting&quot;</span>),
         };
         <span class="self">self</span>.<span class="ident">session</span>
-            .<span class="ident">close</span>(<span class="prelude-val">Some</span>(<span class="ident">frame</span>))
+            .<span class="ident">close</span>(<span class="prelude-val">Some</span>(<span class="ident">frame</span>.<span class="ident">clone</span>()))
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ProcessError</span> {
                 <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
                 <span class="ident">kind</span>: <span class="ident">ProcessErrorType::SendingClose</span>,
             })<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">Some</span>(<span class="ident">frame</span>.<span class="ident">code</span>.<span class="ident">into</span>()), <span class="prelude-val">Some</span>(<span class="ident">frame</span>.<span class="ident">reason</span>.<span class="ident">to_string</span>()))
+            .<span class="kw">await</span>;
         <span class="self">self</span>.<span class="ident">resume</span>().<span class="kw">await</span>;
 
         <span class="prelude-val">Ok</span>(())
@@ -1634,6 +1658,8 @@
             <span class="macro">tracing::warn!</span>(<span class="string">&quot;sending message failed: {:?}&quot;</span>, <span class="ident">source</span>);
 
             <span class="kw">if</span> <span class="macro">matches!</span>(<span class="ident">source</span>.<span class="ident">kind</span>(), <span class="ident">SessionSendErrorType::Sending</span> { .. }) {
+                <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
+
                 <span class="self">self</span>.<span class="ident">reconnect</span>().<span class="kw">await</span>;
             }
 
@@ -1732,13 +1758,11 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ReceivingEventError</span><span class="op">&gt;</span> {
         <span class="macro">tracing::info!</span>(<span class="string">&quot;got close code: {:?}&quot;</span>, <span class="ident">close_frame</span>);
 
-        <span class="self">self</span>.<span class="ident">emitter</span>.<span class="ident">event</span>(<span class="ident">Event::ShardDisconnected</span>(<span class="ident">Disconnected</span> {
-            <span class="ident">code</span>: <span class="ident">close_frame</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">frame</span><span class="op">|</span> <span class="ident">frame</span>.<span class="ident">code</span>.<span class="ident">into</span>()),
-            <span class="ident">reason</span>: <span class="ident">close_frame</span>
-                .<span class="ident">as_ref</span>()
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">frame</span><span class="op">|</span> <span class="ident">frame</span>.<span class="ident">reason</span>.<span class="ident">clone</span>().<span class="ident">into</span>()),
-            <span class="ident">shard_id</span>: <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">shard</span>()[<span class="number">0</span>],
-        }));
+        <span class="self">self</span>.<span class="ident">emit_disconnected</span>(
+            <span class="ident">close_frame</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">code</span>.<span class="ident">into</span>()),
+            <span class="ident">close_frame</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">reason</span>.<span class="ident">to_string</span>()),
+        )
+        .<span class="kw">await</span>;
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">close_frame</span>) <span class="op">=</span> <span class="ident">close_frame</span> {
             <span class="kw">match</span> <span class="ident">close_frame</span>.<span class="ident">code</span> {
@@ -1941,6 +1965,14 @@
 
         <span class="self">self</span>.<span class="ident">session</span>.<span class="ident">set_stage</span>(<span class="ident">stage</span>);
         <span class="self">self</span>.<span class="ident">compression</span>.<span class="ident">reset</span>();
+    }
+
+    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">emit_disconnected</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span>, <span class="ident">reason</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) {
+        <span class="self">self</span>.<span class="ident">emitter</span>.<span class="ident">event</span>(<span class="ident">Event::ShardDisconnected</span>(<span class="ident">Disconnected</span> {
+            <span class="ident">code</span>,
+            <span class="ident">reason</span>,
+            <span class="ident">shard_id</span>: <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">shard</span>()[<span class="number">0</span>],
+        }));
     }
 }
 </pre></div>
