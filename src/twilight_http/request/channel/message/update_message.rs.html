@@ -286,7 +286,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
     <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">NullableField</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
@@ -382,12 +382,10 @@
     <span class="comment">// - Some(None): Removing the &quot;content&quot; by giving the Discord API a written</span>
     <span class="comment">//   `&quot;content&quot;: null` in the JSON;</span>
     <span class="comment">// - None: Don&#39;t serialize the field at all, not modifying the state.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::option_option</span>)]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::option_option</span>)]</span>
+    <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">embed</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Embed</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">embed</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="ident">Embed</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">flags</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MessageFlags</span><span class="op">&gt;</span>,
 }
@@ -499,7 +497,9 @@
             }
         }
 
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">content</span>.<span class="ident">replace</span>(<span class="ident">content</span>);
+        <span class="self">self</span>.<span class="ident">fields</span>
+            .<span class="ident">content</span>
+            .<span class="ident">replace</span>(<span class="ident">NullableField::from_option</span>(<span class="ident">content</span>));
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
@@ -526,7 +526,7 @@
             }
         }
 
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">embed</span>.<span class="ident">replace</span>(<span class="ident">embed</span>);
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">embed</span>.<span class="ident">replace</span>(<span class="ident">NullableField::from_option</span>(<span class="ident">embed</span>));
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }

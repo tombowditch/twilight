@@ -89,11 +89,12 @@
 <span id="89">89</span>
 <span id="90">90</span>
 <span id="91">91</span>
+<span id="92">92</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
     <span class="ident">error::Error</span>,
-    <span class="ident">request</span>::{<span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">NullableField</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
@@ -104,9 +105,8 @@
     <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">suppress</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::option_option</span>)]</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">request_to_speak_timestamp</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">request_to_speak_timestamp</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Update the current user&#39;s voice state.</span>
@@ -145,11 +145,13 @@
 
     <span class="kw">fn</span> <span class="ident">_request_to_speak_timestamp</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">request_to_speak_timestamp</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">if</span> <span class="ident">request_to_speak_timestamp</span>.<span class="ident">is_empty</span>() {
-            <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">request_to_speak_timestamp</span>.<span class="ident">replace</span>(<span class="prelude-val">None</span>);
+            <span class="self">self</span>.<span class="ident">fields</span>
+                .<span class="ident">request_to_speak_timestamp</span>
+                .<span class="ident">replace</span>(<span class="ident">NullableField::Null</span>);
         } <span class="kw">else</span> {
             <span class="self">self</span>.<span class="ident">fields</span>
                 .<span class="ident">request_to_speak_timestamp</span>
-                .<span class="ident">replace</span>(<span class="prelude-val">Some</span>(<span class="ident">request_to_speak_timestamp</span>));
+                .<span class="ident">replace</span>(<span class="ident">NullableField::Value</span>(<span class="ident">request_to_speak_timestamp</span>));
         }
 
         <span class="self">self</span>
