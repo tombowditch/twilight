@@ -141,7 +141,7 @@
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateReaction</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
-    <span class="ident">emoji</span>: <span class="ident">String</span>,
+    <span class="ident">emoji</span>: <span class="ident">RequestReactionType</span>,
     <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
     <span class="ident">message_id</span>: <span class="ident">MessageId</span>,
@@ -156,7 +156,7 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">channel_id</span>,
-            <span class="ident">emoji</span>: <span class="kw">super</span><span class="ident">::format_emoji</span>(<span class="ident">emoji</span>),
+            <span class="ident">emoji</span>,
             <span class="ident">fut</span>: <span class="prelude-val">None</span>,
             <span class="ident">http</span>,
             <span class="ident">message_id</span>,
@@ -166,7 +166,7 @@
     <span class="kw">fn</span> <span class="ident">request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Request</span> {
         <span class="ident">Request::from_route</span>(<span class="ident">Route::CreateReaction</span> {
             <span class="ident">channel_id</span>: <span class="self">self</span>.<span class="ident">channel_id</span>.<span class="number">0</span>,
-            <span class="ident">emoji</span>: <span class="self">self</span>.<span class="ident">emoji</span>.<span class="ident">clone</span>(),
+            <span class="ident">emoji</span>: <span class="self">self</span>.<span class="ident">emoji</span>.<span class="ident">display</span>().<span class="ident">to_string</span>(),
             <span class="ident">message_id</span>: <span class="self">self</span>.<span class="ident">message_id</span>.<span class="number">0</span>,
         })
     }
