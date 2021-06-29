@@ -167,6 +167,18 @@
 <span id="167">167</span>
 <span id="168">168</span>
 <span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">channel::WebhookType</span>,
@@ -189,6 +201,13 @@
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Url used for executing the webhook.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returned by the [`webhooks` OAuth2] flow.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`webhooks` OAuth2]: https://discord.com/developers/docs/topics/oauth2#webhooks</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">user</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span>,
 }
@@ -210,6 +229,7 @@
             <span class="ident">kind</span>: <span class="ident">WebhookType::Incoming</span>,
             <span class="ident">name</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;a webhook&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">token</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;a token&quot;</span>.<span class="ident">to_owned</span>()),
+            <span class="ident">url</span>: <span class="prelude-val">None</span>,
             <span class="ident">user</span>: <span class="prelude-val">None</span>,
         };
 
@@ -263,6 +283,7 @@
             <span class="ident">kind</span>: <span class="ident">WebhookType::Incoming</span>,
             <span class="ident">name</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;a webhook&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">token</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;a token&quot;</span>.<span class="ident">to_owned</span>()),
+            <span class="ident">url</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;https://a-url&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">user</span>: <span class="prelude-val">Some</span>(<span class="ident">User</span> {
                 <span class="ident">avatar</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bot</span>: <span class="bool-val">false</span>,
@@ -285,7 +306,7 @@
             <span class="kw-2">&amp;</span>[
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;Webhook&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">9</span>,
+                    <span class="ident">len</span>: <span class="number">10</span>,
                 },
                 <span class="ident">Token::Str</span>(<span class="string">&quot;application_id&quot;</span>),
                 <span class="ident">Token::Some</span>,
@@ -314,6 +335,9 @@
                 <span class="ident">Token::Str</span>(<span class="string">&quot;token&quot;</span>),
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;a token&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;url&quot;</span>),
+                <span class="ident">Token::Some</span>,
+                <span class="ident">Token::Str</span>(<span class="string">&quot;https://a-url&quot;</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;user&quot;</span>),
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Struct</span> {
