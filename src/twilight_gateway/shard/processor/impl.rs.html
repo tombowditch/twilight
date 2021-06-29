@@ -956,6 +956,20 @@
 <span id="956">956</span>
 <span id="957">957</span>
 <span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="kw">super</span>::{
@@ -975,7 +989,7 @@
     <span class="ident">borrow::Cow</span>,
     <span class="ident">env::consts::OS</span>,
     <span class="ident">error::Error</span>,
-    <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
+    <span class="ident">fmt</span>::{<span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
     <span class="ident">str</span>,
     <span class="ident">sync</span>::{<span class="ident">atomic::Ordering</span>, <span class="ident">Arc</span>},
     <span class="ident">time::Duration</span>,
@@ -1022,7 +1036,10 @@
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
             <span class="ident">ConnectingErrorType::Establishing</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;failed to establish the connection&quot;</span>),
             <span class="ident">ConnectingErrorType::ParsingUrl</span> { <span class="ident">url</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the gateway url `{}` is invalid&quot;</span>, <span class="ident">url</span>,))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the gateway url `&quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">url</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;` is invalid&quot;</span>)
             }
         }
     }
@@ -1062,10 +1079,14 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ProcessError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">ProcessErrorType::EventTypeUnknown</span> { <span class="ident">event_type</span>, <span class="ident">op</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(
-                <span class="string">&quot;provided event type ({:?})/op ({}) pair is unknown&quot;</span>,
-                <span class="ident">event_type</span>, <span class="ident">op</span>,
-            )),
+            <span class="ident">ProcessErrorType::EventTypeUnknown</span> { <span class="ident">event_type</span>, <span class="ident">op</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;provided event type (&quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Debug::fmt</span>(<span class="ident">event_type</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;)/op (&quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">op</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;) pair is unknown&quot;</span>)
+            }
             <span class="ident">ProcessErrorType::ParsingPayload</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;payload could not be parsed as json&quot;</span>),
             <span class="ident">ProcessErrorType::PayloadNotUtf8</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the payload from Discord wasn&#39;t UTF-8 valid&quot;</span>)
@@ -1138,23 +1159,30 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ReceivingEventError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">ReceivingEventErrorType::AuthorizationInvalid</span> { <span class="ident">shard_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_fmt</span>(
-                <span class="macro">format_args!</span>(<span class="string">&quot;the authorization token for shard {} is invalid&quot;</span>, <span class="ident">shard_id</span>),
-            ),
+            <span class="ident">ReceivingEventErrorType::AuthorizationInvalid</span> { <span class="ident">shard_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the authorization token for shard &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">shard_id</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; is invalid&quot;</span>)
+            }
             <span class="ident">ReceivingEventErrorType::Decompressing</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;a frame could not be decompressed&quot;</span>)
             }
             <span class="ident">ReceivingEventErrorType::IntentsDisallowed</span> { <span class="ident">intents</span>, <span class="ident">shard_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(
-                    <span class="string">&quot;at least one of the intents ({:?}) for shard {} are disallowed&quot;</span>,
-                    <span class="ident">intents</span>, <span class="ident">shard_id</span>
-                ))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;at least one of the intents (&quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Debug::fmt</span>(<span class="ident">intents</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;) for shard &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">shard_id</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; are disallowed&quot;</span>)
             }
             <span class="ident">ReceivingEventErrorType::IntentsInvalid</span> { <span class="ident">intents</span>, <span class="ident">shard_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(
-                    <span class="string">&quot;at least one of the intents ({:?}) for shard {} are invalid&quot;</span>,
-                    <span class="ident">intents</span>, <span class="ident">shard_id</span>
-                ))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;at least one of the intents (&quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Debug::fmt</span>(<span class="ident">intents</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;) for shard &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">shard_id</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; are invalid&quot;</span>)
             }
             <span class="ident">ReceivingEventErrorType::EventStreamEnded</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;event stream from gateway ended&quot;</span>)

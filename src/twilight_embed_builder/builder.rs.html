@@ -871,6 +871,9 @@
 <span id="871">871</span>
 <span id="872">872</span>
 <span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Create embeds.</span>
 
@@ -920,7 +923,10 @@
             <span class="ident">EmbedErrorType::AuthorNameEmpty</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the author name is empty&quot;</span>),
             <span class="ident">EmbedErrorType::AuthorNameTooLong</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the author name is too long&quot;</span>),
             <span class="ident">EmbedErrorType::ColorNotRgb</span> { <span class="ident">color</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the color {} is invalid&quot;</span>, <span class="ident">color</span>))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the color &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">color</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; is invalid&quot;</span>)
             }
             <span class="ident">EmbedErrorType::ColorZero</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the given color value is 0, which is not acceptable&quot;</span>)

@@ -283,6 +283,21 @@
 <span id="283">283</span>
 <span id="284">284</span>
 <span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">error::Error</span>,
@@ -331,29 +346,38 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ParseMentionError</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">ParseMentionErrorType::IdNotU64</span> { <span class="ident">found</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(
-                <span class="string">&quot;id portion (&#39;{}&#39;) of mention is not a u64&quot;</span>,
-                <span class="ident">found</span>,
-            )),
+            <span class="ident">ParseMentionErrorType::IdNotU64</span> { <span class="ident">found</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;id portion (&#39;&quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">found</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;) of mention is not a u64&quot;</span>)
+            }
             <span class="ident">ParseMentionErrorType::LeadingArrow</span> { <span class="ident">found</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;expected to find a leading arrow (&#39;&lt;&#39;) but instead &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;expected to find a leading arrow (&#39;&lt;&#39;) but instead found &quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="ident">found</span> {
-                    <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;found &#39;{}&#39;&quot;</span>, <span class="ident">c</span>))
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)<span class="question-mark">?</span>;
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">c</span>.<span class="ident">encode_utf8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0</span>; <span class="number">4</span>]))<span class="question-mark">?</span>;
+
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)
                 } <span class="kw">else</span> {
-                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;found nothing&quot;</span>)
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;nothing&quot;</span>)
                 }
             }
-            <span class="ident">ParseMentionErrorType::PartMissing</span> { <span class="ident">expected</span>, <span class="ident">found</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(
-                <span class="string">&quot;
-                    expected {} parts but only found {}&quot;</span>,
-                <span class="ident">expected</span>, <span class="ident">found</span>,
-            )),
+            <span class="ident">ParseMentionErrorType::PartMissing</span> { <span class="ident">expected</span>, <span class="ident">found</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;expected &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">expected</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; parts but only found &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="ident">found</span>, <span class="ident">f</span>)
+            }
             <span class="ident">ParseMentionErrorType::Sigil</span> { <span class="ident">expected</span>, <span class="ident">found</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;expected to find a mention sigil (&quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">sigil</span>) <span class="kw">in</span> <span class="ident">expected</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-                    <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;&#39;{}&#39;&quot;</span>, <span class="ident">sigil</span>))<span class="question-mark">?</span>;
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)<span class="question-mark">?</span>;
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">sigil</span>)<span class="question-mark">?</span>;
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">if</span> <span class="ident">idx</span> <span class="op">&lt;</span> <span class="ident">expected</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
                         <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;, &quot;</span>)<span class="question-mark">?</span>;
@@ -363,7 +387,10 @@
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;) but instead found &quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="ident">found</span> {
-                    <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;&#39;{}&#39;&quot;</span>, <span class="ident">c</span>))
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)<span class="question-mark">?</span>;
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">c</span>.<span class="ident">encode_utf8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0</span>; <span class="number">4</span>]))<span class="question-mark">?</span>;
+
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)
                 } <span class="kw">else</span> {
                     <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;nothing&quot;</span>)
                 }
@@ -375,12 +402,15 @@
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39; is invalid&quot;</span>)
             }
             <span class="ident">ParseMentionErrorType::TrailingArrow</span> { <span class="ident">found</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;expected to find a trailing arrow (&#39;&gt;&#39;) but instead &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;expected to find a trailing arrow (&#39;&gt;&#39;) but instead found &quot;</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="ident">found</span> {
-                    <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;found &#39;{}&#39;&quot;</span>, <span class="ident">c</span>))
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)<span class="question-mark">?</span>;
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">c</span>.<span class="ident">encode_utf8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="number">0</span>; <span class="number">4</span>]))<span class="question-mark">?</span>;
+
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;&#39;&quot;</span>)
                 } <span class="kw">else</span> {
-                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;found nothing&quot;</span>)
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;nothing&quot;</span>)
                 }
             }
         }

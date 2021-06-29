@@ -721,6 +721,7 @@
 <span id="721">721</span>
 <span id="722">722</span>
 <span id="723">723</span>
+<span id="724">724</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Nodes for communicating with a Lavalink server.</span>
 <span class="doccomment">//!</span>
@@ -809,11 +810,12 @@
             <span class="ident">NodeErrorType::SerializingMessage</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;failed to serialize outgoing message as json&quot;</span>)
             }
-            <span class="ident">NodeErrorType::Unauthorized</span> { <span class="ident">address</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;the authorization used to connect to node {} is invalid&quot;</span>,
-                <span class="ident">address</span>
-            ),
+            <span class="ident">NodeErrorType::Unauthorized</span> { <span class="ident">address</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the authorization used to connect to node &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">address</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; is invalid&quot;</span>)
+            }
         }
     }
 }

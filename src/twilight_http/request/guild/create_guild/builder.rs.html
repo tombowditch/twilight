@@ -964,6 +964,26 @@
 <span id="964">964</span>
 <span id="965">965</span>
 <span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">CategoryFields</span>, <span class="ident">GuildChannelFields</span>, <span class="ident">RoleFields</span>, <span class="ident">TextFields</span>, <span class="ident">VoiceFields</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -1007,7 +1027,10 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
             <span class="ident">RoleFieldsErrorType::ColorNotRgb</span> { <span class="ident">color</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the color {} is invalid&quot;</span>, <span class="ident">color</span>))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the color &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">color</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; is invalid&quot;</span>)
             }
             <span class="ident">RoleFieldsErrorType::IdInvalid</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the given id value is 1, which is not acceptable&quot;</span>)
@@ -1163,16 +1186,25 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
             <span class="ident">TextFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the name is too short: {}&quot;</span>, <span class="ident">name</span>.<span class="ident">len</span>()))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the name is too short: &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">len</span>(), <span class="ident">f</span>)
             }
             <span class="ident">TextFieldsErrorType::NameTooLong</span> { <span class="ident">name</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the name is too long: {}&quot;</span>, <span class="ident">name</span>.<span class="ident">len</span>()))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the name is too long: &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">len</span>(), <span class="ident">f</span>)
             }
             <span class="ident">TextFieldsErrorType::RateLimitInvalid</span> { <span class="ident">limit</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the rate limit {} is invalid&quot;</span>, <span class="ident">limit</span>))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the rate limit &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">limit</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; is invalid&quot;</span>)
             }
             <span class="ident">TextFieldsErrorType::TopicTooLong</span> { <span class="ident">topic</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the topic is too long: {}&quot;</span>, <span class="ident">topic</span>.<span class="ident">len</span>()))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the topic is too long: &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">topic</span>.<span class="ident">len</span>(), <span class="ident">f</span>)
             }
         }
     }
@@ -1370,10 +1402,14 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
             <span class="ident">VoiceFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the name is too short: {}&quot;</span>, <span class="ident">name</span>.<span class="ident">len</span>()))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the name is too short: &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">len</span>(), <span class="ident">f</span>)
             }
             <span class="ident">VoiceFieldsErrorType::NameTooLong</span> { <span class="ident">name</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the name is too long: {}&quot;</span>, <span class="ident">name</span>.<span class="ident">len</span>()))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the name is too long: &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">len</span>(), <span class="ident">f</span>)
             }
         }
     }
@@ -1518,10 +1554,14 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
             <span class="ident">CategoryFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the name is too short: {}&quot;</span>, <span class="ident">name</span>.<span class="ident">len</span>()))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the name is too short: &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">len</span>(), <span class="ident">f</span>)
             }
             <span class="ident">CategoryFieldsErrorType::NameTooLong</span> { <span class="ident">name</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;the name is too long: {}&quot;</span>, <span class="ident">name</span>.<span class="ident">len</span>()))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the name is too long: &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">len</span>(), <span class="ident">f</span>)
             }
         }
     }

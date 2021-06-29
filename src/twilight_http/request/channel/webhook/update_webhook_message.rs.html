@@ -450,6 +450,7 @@
 <span id="450">450</span>
 <span id="451">451</span>
 <span id="452">452</span>
+<span id="453">453</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Update a message created by a webhook via execution.</span>
 
@@ -510,10 +511,11 @@
             <span class="ident">UpdateWebhookMessageErrorType::EmbedTooLarge</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;length of one of the embeds is too large&quot;</span>)
             }
-            <span class="ident">UpdateWebhookMessageErrorType::TooManyEmbeds</span> { <span class="ident">embeds</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(
-                <span class="string">&quot;{} embeds were provided, but only 10 may be provided&quot;</span>,
-                <span class="ident">embeds</span>.<span class="ident">len</span>()
-            )),
+            <span class="ident">UpdateWebhookMessageErrorType::TooManyEmbeds</span> { <span class="ident">embeds</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">embeds</span>.<span class="ident">len</span>(), <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; embeds were provided, but only 10 may be provided&quot;</span>)
+            }
         }
     }
 }

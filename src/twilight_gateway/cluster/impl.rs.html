@@ -679,6 +679,12 @@
 <span id="679">679</span>
 <span id="680">680</span>
 <span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">builder::ClusterBuilder</span>, <span class="ident">config::Config</span>, <span class="ident">scheme::ShardScheme</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -753,7 +759,10 @@
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;sending the message over the websocket failed&quot;</span>)
             }
             <span class="ident">ClusterCommandErrorType::ShardNonexistent</span> { <span class="ident">id</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;shard {} does not exist&quot;</span>, <span class="ident">id</span>,))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;shard &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">id</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; does not exist&quot;</span>)
             }
         }
     }
@@ -813,7 +822,10 @@
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
             <span class="ident">ClusterSendErrorType::Sending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;failed to send message over websocket&quot;</span>),
             <span class="ident">ClusterSendErrorType::ShardNonexistent</span> { <span class="ident">id</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_fmt</span>(<span class="macro">format_args!</span>(<span class="string">&quot;shard {} does not exist&quot;</span>, <span class="ident">id</span>))
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;shard &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">id</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; does not exist&quot;</span>)
             }
         }
     }

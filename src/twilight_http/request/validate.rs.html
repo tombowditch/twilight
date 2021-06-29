@@ -781,6 +781,14 @@
 <span id="781">781</span>
 <span id="782">782</span>
 <span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
 </pre><pre class="rust">
 <span class="doccomment">/// Contains all of the input validation functions for requests.</span>
 <span class="doccomment">///</span>
@@ -856,54 +864,62 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">EmbedValidationError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">EmbedValidationErrorType::AuthorNameTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;the author name is {} characters long, but the max is {}&quot;</span>,
-                <span class="ident">chars</span>,
-                <span class="self">Self</span><span class="ident">::AUTHOR_NAME_LENGTH</span>
-            ),
-            <span class="ident">EmbedValidationErrorType::DescriptionTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;the description is {} characters long, but the max is {}&quot;</span>,
-                <span class="ident">chars</span>,
-                <span class="self">Self</span><span class="ident">::DESCRIPTION_LENGTH</span>
-            ),
-            <span class="ident">EmbedValidationErrorType::EmbedTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;the combined total length of the embed is {} characters long, but the max is {}&quot;</span>,
-                <span class="ident">chars</span>,
-                <span class="self">Self</span><span class="ident">::EMBED_TOTAL_LENGTH</span>
-            ),
-            <span class="ident">EmbedValidationErrorType::FieldNameTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;a field name is {} characters long, but the max is {}&quot;</span>,
-                <span class="ident">chars</span>,
-                <span class="self">Self</span><span class="ident">::FIELD_NAME_LENGTH</span>
-            ),
-            <span class="ident">EmbedValidationErrorType::FieldValueTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;a field value is {} characters long, but the max is {}&quot;</span>,
-                <span class="ident">chars</span>,
-                <span class="self">Self</span><span class="ident">::FIELD_VALUE_LENGTH</span>
-            ),
-            <span class="ident">EmbedValidationErrorType::FooterTextTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;the footer&#39;s text is {} characters long, but the max is {}&quot;</span>,
-                <span class="ident">chars</span>,
-                <span class="self">Self</span><span class="ident">::FOOTER_TEXT_LENGTH</span>
-            ),
-            <span class="ident">EmbedValidationErrorType::TitleTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;the title&#39;s length is {} characters long, but the max is {}&quot;</span>,
-                <span class="ident">chars</span>,
-                <span class="self">Self</span><span class="ident">::TITLE_LENGTH</span>
-            ),
-            <span class="ident">EmbedValidationErrorType::TooManyFields</span> { <span class="ident">amount</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;there are {} fields, but the maximum amount is {}&quot;</span>,
-                <span class="ident">amount</span>,
-                <span class="self">Self</span><span class="ident">::FIELD_COUNT</span>
-            ),
+            <span class="ident">EmbedValidationErrorType::AuthorNameTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the author name is &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">chars</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; characters long, but the max is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::AUTHOR_NAME_LENGTH</span>, <span class="ident">f</span>)
+            }
+            <span class="ident">EmbedValidationErrorType::DescriptionTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the description is &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">chars</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; characters long, but the max is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::DESCRIPTION_LENGTH</span>, <span class="ident">f</span>)
+            }
+            <span class="ident">EmbedValidationErrorType::EmbedTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the combined total length of the embed is &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">chars</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; characters long, but the max is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::EMBED_TOTAL_LENGTH</span>, <span class="ident">f</span>)
+            }
+            <span class="ident">EmbedValidationErrorType::FieldNameTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;a field name is &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">chars</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; characters long, but the max is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::FIELD_NAME_LENGTH</span>, <span class="ident">f</span>)
+            }
+            <span class="ident">EmbedValidationErrorType::FieldValueTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;a field value is &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">chars</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; characters long, but the max is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::FIELD_VALUE_LENGTH</span>, <span class="ident">f</span>)
+            }
+            <span class="ident">EmbedValidationErrorType::FooterTextTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the footer&#39;s text is &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">chars</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; characters long, but the max is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::FOOTER_TEXT_LENGTH</span>, <span class="ident">f</span>)
+            }
+            <span class="ident">EmbedValidationErrorType::TitleTooLarge</span> { <span class="ident">chars</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the title&#39;s length is &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">chars</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; characters long, but the max is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::TITLE_LENGTH</span>, <span class="ident">f</span>)
+            }
+            <span class="ident">EmbedValidationErrorType::TooManyFields</span> { <span class="ident">amount</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;there are &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="ident">amount</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; fields, but the maximum amount is &quot;</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::FIELD_COUNT</span>, <span class="ident">f</span>)
+            }
         }
     }
 }
