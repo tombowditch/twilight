@@ -818,6 +818,16 @@
 <span id="818">818</span>
 <span id="819">819</span>
 <span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">DeError</span>, <span class="ident">Visitor</span>},
@@ -893,6 +903,8 @@
     <span class="ident">UnknownApplicationCommand</span>,
     <span class="doccomment">/// Unknown application command permissions</span>
     <span class="ident">UnknownApplicationCommandPermissions</span>,
+    <span class="doccomment">/// Unknown Stage Instance</span>
+    <span class="ident">UnknownStageInstance</span>,
     <span class="doccomment">/// Bots cannot use this endpoint</span>
     <span class="ident">BotsCannotUseEndpoint</span>,
     <span class="doccomment">/// Only bots can use this endpoint</span>
@@ -1036,6 +1048,8 @@
     <span class="ident">ReactionBlocked</span>,
     <span class="doccomment">/// API resource is currently overloaded. Try again a little later</span>
     <span class="ident">ApiResourceOverloaded</span>,
+    <span class="doccomment">/// The Stage is already open</span>
+    <span class="ident">StageAlreadyOpen</span>,
     <span class="doccomment">/// A status code that Twilight doesn&#39;t have registered.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Please report the number if you see this variant!</span>
@@ -1078,6 +1092,7 @@
             <span class="self">Self</span><span class="ident">::UnknownInteraction</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10062</span>,
             <span class="self">Self</span><span class="ident">::UnknownApplicationCommand</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10063</span>,
             <span class="self">Self</span><span class="ident">::UnknownApplicationCommandPermissions</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10066</span>,
+            <span class="self">Self</span><span class="ident">::UnknownStageInstance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10067</span>,
             <span class="self">Self</span><span class="ident">::BotsCannotUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20001</span>,
             <span class="self">Self</span><span class="ident">::OnlyBotsCanUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20002</span>,
             <span class="self">Self</span><span class="ident">::ExplicitContentSendingBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20009</span>,
@@ -1149,6 +1164,7 @@
             <span class="self">Self</span><span class="ident">::NoSuchUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">80004</span>,
             <span class="self">Self</span><span class="ident">::ReactionBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">90001</span>,
             <span class="self">Self</span><span class="ident">::ApiResourceOverloaded</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">130_000</span>,
+            <span class="self">Self</span><span class="ident">::StageAlreadyOpen</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">150_006</span>,
             <span class="self">Self</span><span class="ident">::Other</span>(<span class="ident">other</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">other</span>,
         }
     }
@@ -1190,6 +1206,7 @@
             <span class="number">10062</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnknownInteraction</span>,
             <span class="number">10063</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnknownApplicationCommand</span>,
             <span class="number">10066</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnknownApplicationCommandPermissions</span>,
+            <span class="number">10067</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnknownStageInstance</span>,
             <span class="number">20001</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::BotsCannotUseEndpoint</span>,
             <span class="number">20002</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::OnlyBotsCanUseEndpoint</span>,
             <span class="number">20022</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::AnnouncementRateLimitReached</span>,
@@ -1261,6 +1278,7 @@
             <span class="number">80004</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::NoSuchUser</span>,
             <span class="number">90001</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::ReactionBlocked</span>,
             <span class="number">130_000</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::ApiResourceOverloaded</span>,
+            <span class="number">150_006</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::StageAlreadyOpen</span>,
             <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Other</span>(<span class="ident">other</span>),
         }
     }
@@ -1302,6 +1320,7 @@
             <span class="self">Self</span><span class="ident">::UnknownInteraction</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown interaction&quot;</span>),
             <span class="self">Self</span><span class="ident">::UnknownApplicationCommand</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown application command&quot;</span>),
             <span class="self">Self</span><span class="ident">::UnknownApplicationCommandPermissions</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown application command permissions&quot;</span>),
+            <span class="self">Self</span><span class="ident">::UnknownStageInstance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown Stage Instance&quot;</span>),
             <span class="self">Self</span><span class="ident">::BotsCannotUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Bots cannot use this endpoint&quot;</span>),
             <span class="self">Self</span><span class="ident">::OnlyBotsCanUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Only bots can use this endpoint&quot;</span>),
             <span class="self">Self</span><span class="ident">::ExplicitContentSendingBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Explicit content cannot be sent to the desired recipient(s)&quot;</span>),
@@ -1373,6 +1392,7 @@
             <span class="self">Self</span><span class="ident">::NoSuchUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;No users with DiscordTag exist&quot;</span>),
             <span class="self">Self</span><span class="ident">::ReactionBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Reaction was blocked&quot;</span>),
             <span class="self">Self</span><span class="ident">::ApiResourceOverloaded</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;API resource is currently overloaded. Try again a little later&quot;</span>),
+            <span class="self">Self</span><span class="ident">::StageAlreadyOpen</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;The Stage is already open&quot;</span>),
             <span class="self">Self</span><span class="ident">::Other</span>(<span class="ident">number</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;An error code Twilight doesn&#39;t have registered: &quot;</span>)<span class="question-mark">?</span>;
 
