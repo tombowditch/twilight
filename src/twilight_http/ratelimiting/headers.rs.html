@@ -338,15 +338,15 @@
         .<span class="ident">get</span>(<span class="ident">name</span>)
         .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">RatelimitError::header_missing</span>(<span class="ident">name</span>))<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">to_str</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
-        <span class="ident">RatelimitError::header_not_utf8</span>(<span class="ident">name</span>, <span class="ident">value</span>.<span class="ident">as_bytes</span>().<span class="ident">to_owned</span>(), <span class="ident">source</span>)
-    })<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">value</span>
+        .<span class="ident">to_str</span>()
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
+            <span class="ident">RatelimitError::header_not_utf8</span>(<span class="ident">name</span>, <span class="ident">value</span>.<span class="ident">as_bytes</span>().<span class="ident">to_owned</span>(), <span class="ident">source</span>)
+        })<span class="question-mark">?</span>
+        .<span class="ident">to_owned</span>();
 
     <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">RatelimitError</span> {
-        <span class="ident">kind</span>: <span class="ident">RatelimitErrorType::ParsingBoolText</span> {
-            <span class="ident">name</span>,
-            <span class="ident">text</span>: <span class="ident">text</span>.<span class="ident">to_owned</span>(),
-        },
+        <span class="ident">kind</span>: <span class="ident">RatelimitErrorType::ParsingBoolText</span> { <span class="ident">name</span>, <span class="ident">text</span> },
         <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
     })<span class="question-mark">?</span>;
 
@@ -358,15 +358,15 @@
         .<span class="ident">get</span>(<span class="ident">name</span>)
         .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">RatelimitError::header_missing</span>(<span class="ident">name</span>))<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">to_str</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
-        <span class="ident">RatelimitError::header_not_utf8</span>(<span class="ident">name</span>, <span class="ident">value</span>.<span class="ident">as_bytes</span>().<span class="ident">to_owned</span>(), <span class="ident">source</span>)
-    })<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">value</span>
+        .<span class="ident">to_str</span>()
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
+            <span class="ident">RatelimitError::header_not_utf8</span>(<span class="ident">name</span>, <span class="ident">value</span>.<span class="ident">as_bytes</span>().<span class="ident">to_owned</span>(), <span class="ident">source</span>)
+        })<span class="question-mark">?</span>
+        .<span class="ident">to_owned</span>();
 
     <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">RatelimitError</span> {
-        <span class="ident">kind</span>: <span class="ident">RatelimitErrorType::ParsingFloatText</span> {
-            <span class="ident">name</span>,
-            <span class="ident">text</span>: <span class="ident">text</span>.<span class="ident">to_owned</span>(),
-        },
+        <span class="ident">kind</span>: <span class="ident">RatelimitErrorType::ParsingFloatText</span> { <span class="ident">name</span>, <span class="ident">text</span> },
         <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
     })<span class="question-mark">?</span>;
 
@@ -378,15 +378,15 @@
         .<span class="ident">get</span>(<span class="ident">name</span>)
         .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">RatelimitError::header_missing</span>(<span class="ident">name</span>))<span class="question-mark">?</span>;
 
-    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">to_str</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
-        <span class="ident">RatelimitError::header_not_utf8</span>(<span class="ident">name</span>, <span class="ident">value</span>.<span class="ident">as_bytes</span>().<span class="ident">to_owned</span>(), <span class="ident">source</span>)
-    })<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">value</span>
+        .<span class="ident">to_str</span>()
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
+            <span class="ident">RatelimitError::header_not_utf8</span>(<span class="ident">name</span>, <span class="ident">value</span>.<span class="ident">as_bytes</span>().<span class="ident">to_owned</span>(), <span class="ident">source</span>)
+        })<span class="question-mark">?</span>
+        .<span class="ident">to_owned</span>();
 
     <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">RatelimitError</span> {
-        <span class="ident">kind</span>: <span class="ident">RatelimitErrorType::ParsingIntText</span> {
-            <span class="ident">name</span>,
-            <span class="ident">text</span>: <span class="ident">text</span>.<span class="ident">to_owned</span>(),
-        },
+        <span class="ident">kind</span>: <span class="ident">RatelimitErrorType::ParsingIntText</span> { <span class="ident">name</span>, <span class="ident">text</span> },
         <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
     })<span class="question-mark">?</span>;
 
