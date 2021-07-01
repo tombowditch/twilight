@@ -739,11 +739,21 @@
 <span id="739">739</span>
 <span id="740">740</span>
 <span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
 </pre><pre class="rust">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">embed</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">message</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">permission_overwrite</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">stage_instance</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">webhook</span>;
 
 <span class="kw">mod</span> <span class="ident">attachment</span>;
 <span class="kw">mod</span> <span class="ident">category_channel</span>;
@@ -757,15 +767,23 @@
 <span class="kw">mod</span> <span class="ident">text_channel</span>;
 <span class="kw">mod</span> <span class="ident">video_quality_mode</span>;
 <span class="kw">mod</span> <span class="ident">voice_channel</span>;
-<span class="kw">mod</span> <span class="ident">webhook</span>;
-<span class="kw">mod</span> <span class="ident">webhook_type</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
-    <span class="ident">attachment::Attachment</span>, <span class="ident">category_channel::CategoryChannel</span>, <span class="ident">channel_mention::ChannelMention</span>,
-    <span class="ident">channel_type::ChannelType</span>, <span class="ident">followed_channel::FollowedChannel</span>, <span class="ident">group::Group</span>, <span class="ident">message::Message</span>,
-    <span class="ident">private_channel::PrivateChannel</span>, <span class="ident">reaction::Reaction</span>, <span class="ident">reaction_type::ReactionType</span>,
-    <span class="ident">stage_instance::StageInstance</span>, <span class="ident">text_channel::TextChannel</span>, <span class="ident">video_quality_mode::VideoQualityMode</span>,
-    <span class="ident">voice_channel::VoiceChannel</span>, <span class="ident">webhook::Webhook</span>, <span class="ident">webhook_type::WebhookType</span>,
+    <span class="ident">attachment::Attachment</span>,
+    <span class="ident">category_channel::CategoryChannel</span>,
+    <span class="ident">channel_mention::ChannelMention</span>,
+    <span class="ident">channel_type::ChannelType</span>,
+    <span class="ident">followed_channel::FollowedChannel</span>,
+    <span class="ident">group::Group</span>,
+    <span class="ident">message::Message</span>,
+    <span class="ident">private_channel::PrivateChannel</span>,
+    <span class="ident">reaction::Reaction</span>,
+    <span class="ident">reaction_type::ReactionType</span>,
+    <span class="ident">stage_instance::StageInstance</span>,
+    <span class="ident">text_channel::TextChannel</span>,
+    <span class="ident">video_quality_mode::VideoQualityMode</span>,
+    <span class="ident">voice_channel::VoiceChannel</span>,
+    <span class="ident">webhook</span>::{<span class="ident">Webhook</span>, <span class="ident">WebhookType</span>},
 };
 
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>};

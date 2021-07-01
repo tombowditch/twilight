@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["WebhookType",""]],"struct":[["Webhook",""],["WebhookChannel","Partial channel object that a webhook is following."],["WebhookGuild","Partial guild object that a webhook is following."]]});
