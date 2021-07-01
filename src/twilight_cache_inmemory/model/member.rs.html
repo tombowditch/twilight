@@ -167,6 +167,17 @@
 <span id="167">167</span>
 <span id="168">168</span>
 <span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
@@ -175,15 +186,26 @@
     <span class="ident">id</span>::{<span class="ident">GuildId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>},
 };
 
+<span class="doccomment">/// Represents a cached [`Member`].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`Member`]: twilight_model::guild::Member</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CachedMember</span> {
+    <span class="doccomment">/// Whether the member is deafened in a voice channel.</span>
     <span class="kw">pub</span> <span class="ident">deaf</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// ID of the guild this member is a part of.</span>
     <span class="kw">pub</span> <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
+    <span class="doccomment">/// ISO 8601 timestamp of this member&#39;s join date.</span>
     <span class="kw">pub</span> <span class="ident">joined_at</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether the member is muted in a voice channel.</span>
     <span class="kw">pub</span> <span class="ident">mute</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Nickname of the member.</span>
     <span class="kw">pub</span> <span class="ident">nick</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether the member has not yet passed the guild&#39;s Membership Screening requirements.</span>
     <span class="kw">pub</span> <span class="ident">pending</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// ISO 8601 timestamp of the date the member boosted the guild.</span>
     <span class="kw">pub</span> <span class="ident">premium_since</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of role IDs this member has.</span>
     <span class="kw">pub</span> <span class="ident">roles</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RoleId</span><span class="op">&gt;</span>,
     <span class="doccomment">/// ID of the user relating to the member.</span>
     <span class="kw">pub</span> <span class="ident">user_id</span>: <span class="ident">UserId</span>,
