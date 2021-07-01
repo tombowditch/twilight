@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["PermissionCalculator","Calculate the permissions of a member."]]});

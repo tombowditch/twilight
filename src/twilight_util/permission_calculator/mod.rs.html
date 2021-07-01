@@ -1,0 +1,1359 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `util&#x2F;src&#x2F;permission_calculator&#x2F;mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../twilight_util/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input"name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+</pre><pre class="rust">
+<span class="doccomment">//! Calculate the permissions of a member on a guild-level or a channel-level.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Examples</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Calculating member permissions in a channel</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Take a scenario where a member has two roles: the `@everyone` role (with the</span>
+<span class="doccomment">//! same ID as the guild) that grants the [View Channel] permission across the</span>
+<span class="doccomment">//! whole guild, and a second role that grants the [Send Messages] permission</span>
+<span class="doccomment">//! across the whole guild. This means that - across the server - the member</span>
+<span class="doccomment">//! will have the [View Channel] and [Send Messages] permissions, unless denied</span>
+<span class="doccomment">//! or expanded by channel-specific permission overwrites.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In a given channel, there are two permission overwrites: one for the</span>
+<span class="doccomment">//! `@everyone` role and one for the member itself. These overwrites look</span>
+<span class="doccomment">//! like:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - `@everyone` role is allowed the [Embed Links] and [Add Reactions]</span>
+<span class="doccomment">//! permissions; and</span>
+<span class="doccomment">//! - member is denied the [Send Messages] permission.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Taking into account the guild root-level permissions and the permission</span>
+<span class="doccomment">//! overwrites, the end result is that in the specified channel the user has</span>
+<span class="doccomment">//! the [View Channel], [Embed Links], and [Add Reactions] permission, but is</span>
+<span class="doccomment">//! denied the [Send Messages] permission that their second role was granted on</span>
+<span class="doccomment">//! a root level.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Let&#39;s see that in code:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! use twilight_util::permission_calculator::PermissionCalculator;</span>
+<span class="doccomment">//! use twilight_model::{</span>
+<span class="doccomment">//!     channel::{</span>
+<span class="doccomment">//!         permission_overwrite::{</span>
+<span class="doccomment">//!             PermissionOverwriteType,</span>
+<span class="doccomment">//!             PermissionOverwrite,</span>
+<span class="doccomment">//!         },</span>
+<span class="doccomment">//!         ChannelType</span>
+<span class="doccomment">//!     },</span>
+<span class="doccomment">//!     guild::Permissions,</span>
+<span class="doccomment">//!     id::{GuildId, RoleId, UserId},</span>
+<span class="doccomment">//! };</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let guild_id = GuildId(1);</span>
+<span class="doccomment">//! let user_id = UserId(3);</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Guild-level @everyone role that, by default, allows everyone to view</span>
+<span class="doccomment">//! // channels.</span>
+<span class="doccomment">//! let everyone_role = Permissions::VIEW_CHANNEL;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Roles that the member has assigned to them and their permissions. This</span>
+<span class="doccomment">//! // should not include the `@everyone` role.</span>
+<span class="doccomment">//! let member_roles = &amp;[</span>
+<span class="doccomment">//!     // Guild-level permission that grants members with the role the Send</span>
+<span class="doccomment">//!     // Messages permission.</span>
+<span class="doccomment">//!     (RoleId(2), Permissions::SEND_MESSAGES),</span>
+<span class="doccomment">//! ];</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let channel_overwrites = &amp;[</span>
+<span class="doccomment">//!     // All members are given the Add Reactions and Embed Links members via</span>
+<span class="doccomment">//!     // the `@everyone` role.</span>
+<span class="doccomment">//!     PermissionOverwrite {</span>
+<span class="doccomment">//!         allow: Permissions::ADD_REACTIONS | Permissions::EMBED_LINKS,</span>
+<span class="doccomment">//!         deny: Permissions::empty(),</span>
+<span class="doccomment">//!         kind: PermissionOverwriteType::Role(RoleId(1)),</span>
+<span class="doccomment">//!     },</span>
+<span class="doccomment">//!     // Member is denied the Send Messages permission.</span>
+<span class="doccomment">//!     PermissionOverwrite {</span>
+<span class="doccomment">//!         allow: Permissions::empty(),</span>
+<span class="doccomment">//!         deny: Permissions::SEND_MESSAGES,</span>
+<span class="doccomment">//!         kind: PermissionOverwriteType::Member(user_id),</span>
+<span class="doccomment">//!     },</span>
+<span class="doccomment">//! ];</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let calculator = PermissionCalculator::new(</span>
+<span class="doccomment">//!     guild_id,</span>
+<span class="doccomment">//!     user_id,</span>
+<span class="doccomment">//!     everyone_role,</span>
+<span class="doccomment">//!     member_roles,</span>
+<span class="doccomment">//! );</span>
+<span class="doccomment">//! let calculated_permissions = calculator.in_channel(</span>
+<span class="doccomment">//!     ChannelType::GuildText,</span>
+<span class="doccomment">//!     channel_overwrites,</span>
+<span class="doccomment">//! );</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Now that we&#39;ve got the member&#39;s permissions in the channel, we can</span>
+<span class="doccomment">//! // check that they have the server-wide View Channel permission and</span>
+<span class="doccomment">//! // the Add Reactions permission granted, but their guild-wide Send Messages</span>
+<span class="doccomment">//! // permission was denied. Additionally, since the user can&#39;t send messages,</span>
+<span class="doccomment">//! // their Embed Links permission was removed.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let expected = Permissions::ADD_REACTIONS | Permissions::VIEW_CHANNEL;</span>
+<span class="doccomment">//! assert!(!calculated_permissions.contains(Permissions::EMBED_LINKS));</span>
+<span class="doccomment">//! assert!(!calculated_permissions.contains(Permissions::SEND_MESSAGES));</span>
+<span class="doccomment">//! assert_eq!(expected, calculated_permissions);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [Add Reactions]: twilight_model::guild::Permissions::ADD_REACTIONS</span>
+<span class="doccomment">//! [Embed Links]: twilight_model::guild::Permissions::EMBED_LINKS</span>
+<span class="doccomment">//! [Send Messages]: twilight_model::guild::Permissions::SEND_MESSAGES</span>
+<span class="doccomment">//! [View Channel]: twilight_model::guild::Permissions::VIEW_CHANNEL</span>
+
+<span class="kw">mod</span> <span class="ident">bitops</span>;
+<span class="kw">mod</span> <span class="ident">preset</span>;
+
+<span class="kw">use</span> <span class="self">self</span><span class="ident">::preset</span>::{
+    <span class="ident">PERMISSIONS_MESSAGING</span>, <span class="ident">PERMISSIONS_ROOT_ONLY</span>, <span class="ident">PERMISSIONS_STAGE_OMIT</span>, <span class="ident">PERMISSIONS_TEXT_OMIT</span>,
+    <span class="ident">PERMISSIONS_VOICE_OMIT</span>,
+};
+<span class="kw">use</span> <span class="ident">twilight_model</span>::{
+    <span class="ident">channel</span>::{
+        <span class="ident">permission_overwrite</span>::{<span class="ident">PermissionOverwrite</span>, <span class="ident">PermissionOverwriteType</span>},
+        <span class="ident">ChannelType</span>,
+    },
+    <span class="ident">guild::Permissions</span>,
+    <span class="ident">id</span>::{<span class="ident">GuildId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>},
+};
+
+<span class="doccomment">/// Calculate the permissions of a member.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Using the member calculator you can calculate the member&#39;s permissions in</span>
+<span class="doccomment">/// the [root-level][`root`] of a guild or [in a given channel][`in_channel`].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`in_channel`]: Self::in_channel</span>
+<span class="doccomment">/// [`root`]: Self::root</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;calculators aren&#39;t useful if you don&#39;t calculate permissions&quot;</span>]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PermissionCalculator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Permissions of the `@everyone` role for the guild.</span>
+    <span class="ident">everyone_role</span>: <span class="ident">Permissions</span>,
+    <span class="doccomment">/// ID of the guild.</span>
+    <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
+    <span class="doccomment">/// Slice of tuples of the member&#39;s roles and their permissions.</span>
+    <span class="ident">member_roles</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="ident">RoleId</span>, <span class="ident">Permissions</span>)],
+    <span class="doccomment">/// ID of the owner.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `const`: When this has a value of 0 then it logically maps to</span>
+    <span class="doccomment">/// `Option::None`, while any other value logically maps to `Option::Some`.</span>
+    <span class="ident">owner_id</span>: <span class="ident">UserId</span>,
+    <span class="doccomment">/// ID of the user whose permissions are being calculated.</span>
+    <span class="ident">user_id</span>: <span class="ident">UserId</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">PermissionCalculator</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Create a calculator to calculate the permissions of a member.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `everyone_role` is the permissions of the `@everyone` role on a</span>
+    <span class="doccomment">/// guild-level; the permissions may be empty. The `@everyone` role&#39;s ID is</span>
+    <span class="doccomment">/// the same as that of the `guild_id`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The provided member&#39;s roles *should not* contain the `@everyone` role.</span>
+    <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;calculators should be used to calculate permissions&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
+        <span class="ident">user_id</span>: <span class="ident">UserId</span>,
+        <span class="ident">everyone_role</span>: <span class="ident">Permissions</span>,
+        <span class="ident">member_roles</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="ident">RoleId</span>, <span class="ident">Permissions</span>)],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> {
+            <span class="ident">everyone_role</span>,
+            <span class="ident">guild_id</span>,
+            <span class="ident">owner_id</span>: <span class="ident">UserId</span>(<span class="number">0</span>),
+            <span class="ident">member_roles</span>,
+            <span class="ident">user_id</span>,
+        }
+    }
+
+    <span class="doccomment">/// Configure the ID of the owner of the guild.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This should be used if you don&#39;t want to manually take the user ID and</span>
+    <span class="doccomment">/// owner ID in account beforehand.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If the member&#39;s ID is the same as the owner&#39;s ID then permission</span>
+    <span class="doccomment">/// calculating methods such as [`root`] will return all permissions</span>
+    <span class="doccomment">/// enabled.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`root`]: Self::root</span>
+    <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;calculators should be used to calculate permissions&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">owner_id</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">owner_id</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">owner_id</span> <span class="op">=</span> <span class="ident">owner_id</span>;
+
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Calculate the guild-level permissions of a member.</span>
+    <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;calculating permissions is only useful if they&#39;re used&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">root</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Permissions</span> {
+        <span class="comment">// If the user is the owner, then we can just return all of the</span>
+        <span class="comment">// permissions.</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">owner_id</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">user_id</span>.<span class="number">0</span> {
+            <span class="kw">return</span> <span class="ident">Permissions::all</span>();
+        }
+
+        <span class="comment">// If the `@everyone` role has the `ADMINISTRATOR` permission for some</span>
+        <span class="comment">// reason, then we can just return all permissions.</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">everyone_role</span>.<span class="ident">contains</span>(<span class="ident">Permissions::ADMINISTRATOR</span>) {
+            <span class="kw">return</span> <span class="ident">Permissions::all</span>();
+        }
+
+        <span class="comment">// The permissions that the @everyone role has is the baseline.</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">permissions</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">everyone_role</span>;
+
+        <span class="comment">// At time of writing `const` functions don&#39;t support `for` loops, so we</span>
+        <span class="comment">// use a `while` loop.</span>
+        <span class="kw">let</span> <span class="ident">member_role_count</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">member_roles</span>.<span class="ident">len</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span> <span class="op">=</span> <span class="number">0</span>;
+
+        <span class="comment">// Loop over all of the member&#39;s roles, adding them to the total</span>
+        <span class="comment">// permissions. Role permissions are only additive.</span>
+        <span class="comment">//</span>
+        <span class="comment">// If one of the roles contains the `ADMINISTRATOR` permission then the</span>
+        <span class="comment">// loop can be short-circuited.</span>
+        <span class="kw">while</span> <span class="ident">idx</span> <span class="op">&lt;</span> <span class="ident">member_role_count</span> {
+            <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">role_permissions</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">member_roles</span>[<span class="ident">idx</span>];
+
+            <span class="kw">if</span> <span class="ident">role_permissions</span>.<span class="ident">contains</span>(<span class="ident">Permissions::ADMINISTRATOR</span>) {
+                <span class="kw">return</span> <span class="ident">Permissions::all</span>();
+            }
+
+            <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">permissions</span>, <span class="ident">role_permissions</span>);
+            <span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        }
+
+        <span class="ident">permissions</span>
+    }
+
+    <span class="doccomment">/// Calculate the permissions of the member in a channel, taking into</span>
+    <span class="doccomment">/// account a combination of the guild-level permissions and channel-level</span>
+    <span class="doccomment">/// permissions.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Note** that this method will not return guild-level permissions such</span>
+    <span class="doccomment">/// as [Manage Emojis]; if you need the guild-level permissions use</span>
+    <span class="doccomment">/// [`root`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Conditional exclusions</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the member doesn&#39;t have the &quot;View Channel&quot; permission then an empty</span>
+    <span class="doccomment">/// permission set will be returned. This will happen in the following</span>
+    <span class="doccomment">/// circumstances:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - When the permission is denied on the role level and</span>
+    <span class="doccomment">/// isn&#39;t enabled on a role or member permission overwrite;</span>
+    <span class="doccomment">/// - When the permission is denied on a role permission overwrite but isn&#39;t</span>
+    <span class="doccomment">/// enabled on a member permission overwrite; or</span>
+    <span class="doccomment">/// - When permission isn&#39;t enabled on a guild level and isn&#39;t enabled via a</span>
+    <span class="doccomment">/// permission overwrite.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the [Send Messages] permission is denied and is not similarly</span>
+    <span class="doccomment">/// enabled like above then the [Attach Files], [Embed Links],</span>
+    <span class="doccomment">/// [Mention Everyone], and [Send TTS Messages] permissions will not be</span>
+    <span class="doccomment">/// present in the returned permission set.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Channel-based exclusions</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Permissions are removed based on the type of a channel. For example,</span>
+    <span class="doccomment">/// when calculating the permissions of a voice channel we can know that if</span>
+    <span class="doccomment">/// [Send Messages] is granted on a guild-level to everyone then it is</span>
+    <span class="doccomment">/// omitted from the permissions for a specific channel.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Stage Channels</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the given channel type is a guild stage channel then the</span>
+    <span class="doccomment">/// following permissions will be removed:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - [Add Reactions]</span>
+    <span class="doccomment">/// - [Attach Files]</span>
+    <span class="doccomment">/// - [Deafen Members]</span>
+    <span class="doccomment">/// - [Embed Links]</span>
+    <span class="doccomment">/// - [Manage Webhooks]</span>
+    <span class="doccomment">/// - [Mention Everyone]</span>
+    <span class="doccomment">/// - [Priority Speaker]</span>
+    <span class="doccomment">/// - [Read Message History]</span>
+    <span class="doccomment">/// - [Send Messages]</span>
+    <span class="doccomment">/// - [Send TTS Messages]</span>
+    <span class="doccomment">/// - [Stream]</span>
+    <span class="doccomment">/// - [Speak]</span>
+    <span class="doccomment">/// - [Use External Emojis]</span>
+    <span class="doccomment">/// - [Use Slash Commands]</span>
+    <span class="doccomment">/// - [Use VAD]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Text Channels</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the given channel type is a guild text channel then the</span>
+    <span class="doccomment">/// following permissions will be removed:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - [Connect]</span>
+    <span class="doccomment">/// - [Deafen Members]</span>
+    <span class="doccomment">/// - [Move Members]</span>
+    <span class="doccomment">/// - [Mute Members]</span>
+    <span class="doccomment">/// - [Priority Speaker]</span>
+    <span class="doccomment">/// - [Request To Speak]</span>
+    <span class="doccomment">/// - [Speak]</span>
+    <span class="doccomment">/// - [Stream]</span>
+    <span class="doccomment">/// - [Use VAD]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Voice Channels</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When the given channel type is a guild voice channel then the</span>
+    <span class="doccomment">/// following permissions will be removed:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - [Add Reactions]</span>
+    <span class="doccomment">/// - [Attach Files]</span>
+    <span class="doccomment">/// - [Embed Links]</span>
+    <span class="doccomment">/// - [Manage Messages]</span>
+    <span class="doccomment">/// - [Manage Webhooks]</span>
+    <span class="doccomment">/// - [Mention Everyone]</span>
+    <span class="doccomment">/// - [Read Message History]</span>
+    <span class="doccomment">/// - [Request To Speak]</span>
+    <span class="doccomment">/// - [Send Messages]</span>
+    <span class="doccomment">/// - [Send TTS Messages]</span>
+    <span class="doccomment">/// - [Use External Emojis]</span>
+    <span class="doccomment">/// - [Use Slash Commands]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Guild-based exclusions</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The following guild-level permissions will always be removed:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - [Administrator]</span>
+    <span class="doccomment">/// - [Ban Members]</span>
+    <span class="doccomment">/// - [Change Nickname]</span>
+    <span class="doccomment">/// - [Kick Members]</span>
+    <span class="doccomment">/// - [Manage Emojis]</span>
+    <span class="doccomment">/// - [Manage Guild]</span>
+    <span class="doccomment">/// - [Manage Nicknames]</span>
+    <span class="doccomment">/// - [View Audit Log]</span>
+    <span class="doccomment">/// - [View Guild Insights]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you need to know a member&#39;s guild-level permissions - such as whether</span>
+    <span class="doccomment">/// they have the [View Audit Log] permission - use [`root`] instead.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See the crate-level documentation for an example.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`root`]: Self::root</span>
+    <span class="doccomment">/// [Administrator]: twilight_model::guild::Permissions::ADMINISTRATOR</span>
+    <span class="doccomment">/// [Add Reactions]: twilight_model::guild::Permissions::ADD_REACTIONS</span>
+    <span class="doccomment">/// [Attach Files]: twilight_model::guild::Permissions::ATTACH_FILES</span>
+    <span class="doccomment">/// [Ban Members]: twilight_model::guild::Permissions::BAN_MEMBERS</span>
+    <span class="doccomment">/// [Change Nickname]: twilight_model::guild::Permissions::CHANGE_NICKNAME</span>
+    <span class="doccomment">/// [Connect]: twilight_model::guild::Permissions::CONNECT</span>
+    <span class="doccomment">/// [Deafen Members]: twilight_model::guild::Permissions::DEAFEN_MEMBERS</span>
+    <span class="doccomment">/// [Embed Links]: twilight_model::guild::Permissions::EMBED_LINKS</span>
+    <span class="doccomment">/// [Kick Members]: twilight_model::guild::Permissions::KICK_MEMBERS</span>
+    <span class="doccomment">/// [Manage Emojis]: twilight_model::guild::Permissions::MANAGE_EMOJIS</span>
+    <span class="doccomment">/// [Manage Guild]: twilight_model::guild::Permissions::MANAGE_GUILD</span>
+    <span class="doccomment">/// [Manage Messages]: twilight_model::guild::Permissions::MANAGE_MESSAGES</span>
+    <span class="doccomment">/// [Manage Nicknames]: twilight_model::guild::Permissions::MANAGE_NICKNAMES</span>
+    <span class="doccomment">/// [Manage Webhooks]: twilight_model::guild::Permissions::MANAGE_WEBHOOKS</span>
+    <span class="doccomment">/// [Mention Everyone]: twilight_model::guild::Permissions::MENTION_EVERYONE</span>
+    <span class="doccomment">/// [Move Members]: twilight_model::guild::Permissions::MOVE_MEMBERS</span>
+    <span class="doccomment">/// [Mute Members]: twilight_model::guild::Permissions::MUTE_MEMBERS</span>
+    <span class="doccomment">/// [Priority Speaker]: twilight_model::guild::Permissions::PRIORITY_SPEAKER</span>
+    <span class="doccomment">/// [Read Message History]: twilight_model::guild::Permissions::READ_MESSAGE_HISTORY</span>
+    <span class="doccomment">/// [Request To Speak]: twilight_model::guild::Permissions::REQUEST_TO_SPEAK</span>
+    <span class="doccomment">/// [Send Messages]: twilight_model::guild::Permissions::SEND_MESSAGES</span>
+    <span class="doccomment">/// [Send TTS Messages]: twilight_model::guild::Permissions::SEND_TTS_MESSAGES</span>
+    <span class="doccomment">/// [Speak]: twilight_model::guild::Permissions::SPEAK</span>
+    <span class="doccomment">/// [Stream]: twilight_model::guild::Permissions::STREAM</span>
+    <span class="doccomment">/// [Use External Emojis]: twilight_model::guild::Permissions::USE_EXTERNAL_EMOJIS</span>
+    <span class="doccomment">/// [Use Slash Commands]: twilight_model::guild::Permissions::USE_SLASH_COMMANDS</span>
+    <span class="doccomment">/// [Use VAD]: twilight_model::guild::Permissions::USE_VAD</span>
+    <span class="doccomment">/// [View Audit Log]: twilight_model::guild::Permissions::VIEW_AUDIT_LOG</span>
+    <span class="doccomment">/// [View Guild Insights]: twilight_model::guild::Permissions::VIEW_GUILD_INSIGHTS</span>
+    <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;calculating permissions is only useful if they&#39;re used&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">in_channel</span>(
+        <span class="self">self</span>,
+        <span class="ident">channel_type</span>: <span class="ident">ChannelType</span>,
+        <span class="ident">channel_overwrites</span>: <span class="kw-2">&amp;</span>[<span class="ident">PermissionOverwrite</span>],
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Permissions</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">permissions</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">root</span>();
+
+        <span class="comment">// If the user contains the administrator privilege from the calculated</span>
+        <span class="comment">// root permissions, then we do not need to do any more work.</span>
+        <span class="kw">if</span> <span class="ident">permissions</span>.<span class="ident">contains</span>(<span class="ident">Permissions::ADMINISTRATOR</span>) {
+            <span class="kw">return</span> <span class="ident">Permissions::all</span>();
+        }
+
+        <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">PERMISSIONS_ROOT_ONLY</span>);
+
+        <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">process_permission_overwrites</span>(
+            <span class="ident">permissions</span>,
+            <span class="ident">channel_overwrites</span>,
+            <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">member_roles</span>,
+            <span class="self">self</span>.<span class="ident">guild_id</span>,
+            <span class="self">self</span>.<span class="ident">user_id</span>,
+        );
+
+        <span class="comment">// If the permission set is empty then we don&#39;t need to do any removals.</span>
+        <span class="kw">if</span> <span class="ident">permissions</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">return</span> <span class="ident">permissions</span>;
+        }
+
+        <span class="comment">// Remove permissions that can&#39;t be used in a channel, i.e. are relevant</span>
+        <span class="comment">// to guild-level permission calculating.</span>
+        <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">PERMISSIONS_ROOT_ONLY</span>);
+
+        <span class="comment">// Remove the permissions not used by a channel depending on the channel</span>
+        <span class="comment">// type.</span>
+        <span class="kw">if</span> <span class="macro">matches!</span>(<span class="ident">channel_type</span>, <span class="ident">ChannelType::GuildStageVoice</span>) {
+            <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">PERMISSIONS_STAGE_OMIT</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="macro">matches!</span>(<span class="ident">channel_type</span>, <span class="ident">ChannelType::GuildText</span>) {
+            <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">PERMISSIONS_TEXT_OMIT</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="macro">matches!</span>(<span class="ident">channel_type</span>, <span class="ident">ChannelType::GuildVoice</span>) {
+            <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">PERMISSIONS_VOICE_OMIT</span>);
+        }
+
+        <span class="ident">permissions</span>
+    }
+}
+
+<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">has_role</span>(<span class="ident">roles</span>: <span class="kw-2">&amp;</span>[(<span class="ident">RoleId</span>, <span class="ident">Permissions</span>)], <span class="ident">role_id</span>: <span class="ident">RoleId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">roles</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span> <span class="op">=</span> <span class="number">0</span>;
+
+    <span class="kw">while</span> <span class="ident">idx</span> <span class="op">&lt;</span> <span class="ident">len</span> {
+        <span class="kw">let</span> (<span class="ident">iter_role_id</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">roles</span>[<span class="ident">idx</span>];
+
+        <span class="kw">if</span> <span class="ident">iter_role_id</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">role_id</span>.<span class="number">0</span> {
+            <span class="kw">return</span> <span class="bool-val">true</span>;
+        }
+
+        <span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+    }
+
+    <span class="bool-val">false</span>
+}
+
+<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">process_permission_overwrites</span>(
+    <span class="kw-2">mut</span> <span class="ident">permissions</span>: <span class="ident">Permissions</span>,
+    <span class="ident">channel_overwrites</span>: <span class="kw-2">&amp;</span>[<span class="ident">PermissionOverwrite</span>],
+    <span class="ident">member_roles</span>: <span class="kw-2">&amp;</span>[(<span class="ident">RoleId</span>, <span class="ident">Permissions</span>)],
+    <span class="ident">configured_guild_id</span>: <span class="ident">GuildId</span>,
+    <span class="ident">configured_user_id</span>: <span class="ident">UserId</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Permissions</span> {
+    <span class="comment">// Hierarchy documentation:</span>
+    <span class="comment">// &lt;https://discord.com/developers/docs/topics/permissions&gt;</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">member_allow</span> <span class="op">=</span> <span class="ident">Permissions::empty</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">member_deny</span> <span class="op">=</span> <span class="ident">Permissions::empty</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">roles_allow</span> <span class="op">=</span> <span class="ident">Permissions::empty</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">roles_deny</span> <span class="op">=</span> <span class="ident">Permissions::empty</span>();
+
+    <span class="kw">let</span> <span class="ident">channel_overwrite_len</span> <span class="op">=</span> <span class="ident">channel_overwrites</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span> <span class="op">=</span> <span class="number">0</span>;
+
+    <span class="kw">while</span> <span class="ident">idx</span> <span class="op">&lt;</span> <span class="ident">channel_overwrite_len</span> {
+        <span class="kw">let</span> <span class="ident">overwrite</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">channel_overwrites</span>[<span class="ident">idx</span>];
+
+        <span class="kw">match</span> <span class="ident">overwrite</span>.<span class="ident">kind</span> {
+            <span class="ident">PermissionOverwriteType::Role</span>(<span class="ident">role</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="comment">// We need to process the @everyone role first, so apply it</span>
+                <span class="comment">// straight to the permissions. The other roles&#39; permissions</span>
+                <span class="comment">// will be applied later.</span>
+                <span class="kw">if</span> <span class="ident">role</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">configured_guild_id</span>.<span class="number">0</span> {
+                    <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">overwrite</span>.<span class="ident">deny</span>);
+                    <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">permissions</span>, <span class="ident">overwrite</span>.<span class="ident">allow</span>);
+
+                    <span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+
+                    <span class="kw">continue</span>;
+                }
+
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">has_role</span>(<span class="ident">member_roles</span>, <span class="ident">role</span>) {
+                    <span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+
+                    <span class="kw">continue</span>;
+                }
+
+                <span class="ident">roles_allow</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">roles_allow</span>, <span class="ident">overwrite</span>.<span class="ident">allow</span>);
+                <span class="ident">roles_deny</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">roles_deny</span>, <span class="ident">overwrite</span>.<span class="ident">deny</span>);
+            }
+            <span class="ident">PermissionOverwriteType::Member</span>(<span class="ident">user_id</span>) <span class="kw">if</span> <span class="ident">user_id</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">configured_user_id</span>.<span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">member_allow</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">member_allow</span>, <span class="ident">overwrite</span>.<span class="ident">allow</span>);
+                <span class="ident">member_deny</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">member_deny</span>, <span class="ident">overwrite</span>.<span class="ident">deny</span>);
+            }
+            <span class="ident">PermissionOverwriteType::Member</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {}
+        }
+
+        <span class="ident">idx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+    }
+
+    <span class="kw">let</span> <span class="ident">role_view_denied</span> <span class="op">=</span> <span class="ident">roles_deny</span>.<span class="ident">contains</span>(<span class="ident">Permissions::VIEW_CHANNEL</span>)
+        <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">roles_allow</span>.<span class="ident">contains</span>(<span class="ident">Permissions::VIEW_CHANNEL</span>);
+
+    <span class="kw">let</span> <span class="ident">user_view_denied</span> <span class="op">=</span> <span class="ident">member_deny</span>.<span class="ident">contains</span>(<span class="ident">Permissions::VIEW_CHANNEL</span>)
+        <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">member_allow</span>.<span class="ident">contains</span>(<span class="ident">Permissions::VIEW_CHANNEL</span>);
+
+    <span class="kw">if</span> <span class="ident">user_view_denied</span> <span class="op">|</span><span class="op">|</span> <span class="ident">role_view_denied</span> {
+        <span class="kw">return</span> <span class="ident">Permissions::empty</span>();
+    }
+
+    <span class="comment">// If the member or any of their roles denies the Send Messages</span>
+    <span class="comment">// permission, then the rest of the messaging-related permissions can be</span>
+    <span class="comment">// removed.</span>
+    <span class="kw">let</span> <span class="ident">role_send_denied</span> <span class="op">=</span> <span class="ident">roles_deny</span>.<span class="ident">contains</span>(<span class="ident">Permissions::SEND_MESSAGES</span>)
+        <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">roles_allow</span>.<span class="ident">contains</span>(<span class="ident">Permissions::SEND_MESSAGES</span>);
+
+    <span class="kw">let</span> <span class="ident">user_send_denied</span> <span class="op">=</span> <span class="ident">member_deny</span>.<span class="ident">contains</span>(<span class="ident">Permissions::SEND_MESSAGES</span>)
+        <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">member_allow</span>.<span class="ident">contains</span>(<span class="ident">Permissions::SEND_MESSAGES</span>);
+
+    <span class="kw">if</span> <span class="ident">user_send_denied</span> <span class="op">|</span><span class="op">|</span> <span class="ident">role_send_denied</span> {
+        <span class="ident">member_allow</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">member_allow</span>, <span class="ident">PERMISSIONS_MESSAGING</span>);
+        <span class="ident">roles_allow</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">roles_allow</span>, <span class="ident">PERMISSIONS_MESSAGING</span>);
+        <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">PERMISSIONS_MESSAGING</span>);
+    }
+
+    <span class="comment">// Member overwrites take precedence over role overwrites. Permission</span>
+    <span class="comment">// allows take precedence over denies.</span>
+    <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">roles_deny</span>);
+    <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">permissions</span>, <span class="ident">roles_allow</span>);
+    <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::remove</span>(<span class="ident">permissions</span>, <span class="ident">member_deny</span>);
+    <span class="ident">permissions</span> <span class="op">=</span> <span class="ident">bitops::insert</span>(<span class="ident">permissions</span>, <span class="ident">member_allow</span>);
+
+    <span class="ident">permissions</span>
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">preset::PERMISSIONS_ROOT_ONLY</span>, <span class="ident">GuildId</span>, <span class="ident">PermissionCalculator</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>};
+    <span class="kw">use</span> <span class="ident">static_assertions::assert_impl_all</span>;
+    <span class="kw">use</span> <span class="ident">std::fmt::Debug</span>;
+    <span class="kw">use</span> <span class="ident">twilight_model</span>::{
+        <span class="ident">channel</span>::{
+            <span class="ident">permission_overwrite</span>::{<span class="ident">PermissionOverwrite</span>, <span class="ident">PermissionOverwriteType</span>},
+            <span class="ident">ChannelType</span>,
+        },
+        <span class="ident">guild::Permissions</span>,
+    };
+
+    <span class="macro">assert_impl_all!</span>(<span class="ident">PermissionCalculator</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>: <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Send</span>, <span class="ident">Sync</span>);
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_owner_is_admin</span>() {
+        <span class="kw">let</span> <span class="ident">guild_id</span> <span class="op">=</span> <span class="ident">GuildId</span>(<span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">user_id</span> <span class="op">=</span> <span class="ident">UserId</span>(<span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">everyone_role</span> <span class="op">=</span> <span class="ident">Permissions::SEND_MESSAGES</span>;
+        <span class="kw">let</span> <span class="ident">roles</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[];
+
+        <span class="kw">let</span> <span class="ident">calculator</span> <span class="op">=</span>
+            <span class="ident">PermissionCalculator::new</span>(<span class="ident">guild_id</span>, <span class="ident">user_id</span>, <span class="ident">everyone_role</span>, <span class="ident">roles</span>).<span class="ident">owner_id</span>(<span class="ident">user_id</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">Permissions::all</span>(), <span class="ident">calculator</span>.<span class="ident">root</span>());
+    }
+
+    <span class="comment">// Test that a permission overwrite denying the &quot;View Channel&quot; permission</span>
+    <span class="comment">// implicitly denies all other permissions.</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_view_channel_deny_implicit</span>() {
+        <span class="kw">let</span> <span class="ident">guild_id</span> <span class="op">=</span> <span class="ident">GuildId</span>(<span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">user_id</span> <span class="op">=</span> <span class="ident">UserId</span>(<span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">everyone_role</span> <span class="op">=</span> <span class="ident">Permissions::MENTION_EVERYONE</span> <span class="op">|</span> <span class="ident">Permissions::SEND_MESSAGES</span>;
+        <span class="kw">let</span> <span class="ident">roles</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[(<span class="ident">RoleId</span>(<span class="number">3</span>), <span class="ident">Permissions::empty</span>())];
+
+        {
+            <span class="comment">// First, test when it&#39;s denied for an overwrite on a role the user</span>
+            <span class="comment">// has.</span>
+            <span class="kw">let</span> <span class="ident">overwrites</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="ident">PermissionOverwrite</span> {
+                <span class="ident">allow</span>: <span class="ident">Permissions::SEND_TTS_MESSAGES</span>,
+                <span class="ident">deny</span>: <span class="ident">Permissions::VIEW_CHANNEL</span>,
+                <span class="ident">kind</span>: <span class="ident">PermissionOverwriteType::Role</span>(<span class="ident">RoleId</span>(<span class="number">3</span>)),
+            }];
+
+            <span class="kw">let</span> <span class="ident">calculated</span> <span class="op">=</span> <span class="ident">PermissionCalculator::new</span>(<span class="ident">guild_id</span>, <span class="ident">user_id</span>, <span class="ident">everyone_role</span>, <span class="ident">roles</span>)
+                .<span class="ident">in_channel</span>(<span class="ident">ChannelType::GuildText</span>, <span class="ident">overwrites</span>);
+
+            <span class="macro">assert_eq!</span>(<span class="ident">calculated</span>, <span class="ident">Permissions::empty</span>());
+        }
+
+        <span class="comment">// And now that it&#39;s denied for an overwrite on the member.</span>
+        {
+            <span class="kw">let</span> <span class="ident">overwrites</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="ident">PermissionOverwrite</span> {
+                <span class="ident">allow</span>: <span class="ident">Permissions::SEND_TTS_MESSAGES</span>,
+                <span class="ident">deny</span>: <span class="ident">Permissions::VIEW_CHANNEL</span>,
+                <span class="ident">kind</span>: <span class="ident">PermissionOverwriteType::Member</span>(<span class="ident">UserId</span>(<span class="number">2</span>)),
+            }];
+
+            <span class="kw">let</span> <span class="ident">calculated</span> <span class="op">=</span> <span class="ident">PermissionCalculator::new</span>(<span class="ident">guild_id</span>, <span class="ident">user_id</span>, <span class="ident">everyone_role</span>, <span class="ident">roles</span>)
+                .<span class="ident">in_channel</span>(<span class="ident">ChannelType::GuildText</span>, <span class="ident">overwrites</span>);
+
+            <span class="macro">assert_eq!</span>(<span class="ident">calculated</span>, <span class="ident">Permissions::empty</span>());
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_remove_text_and_stage_perms_when_voice</span>() {
+        <span class="kw">let</span> <span class="ident">guild_id</span> <span class="op">=</span> <span class="ident">GuildId</span>(<span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">user_id</span> <span class="op">=</span> <span class="ident">UserId</span>(<span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">everyone_role</span> <span class="op">=</span> <span class="ident">Permissions::CONNECT</span>;
+        <span class="kw">let</span> <span class="ident">roles</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[(<span class="ident">RoleId</span>(<span class="number">3</span>), <span class="ident">Permissions::SEND_MESSAGES</span>)];
+
+        <span class="kw">let</span> <span class="ident">calculated</span> <span class="op">=</span> <span class="ident">PermissionCalculator::new</span>(<span class="ident">guild_id</span>, <span class="ident">user_id</span>, <span class="ident">everyone_role</span>, <span class="ident">roles</span>)
+            .<span class="ident">in_channel</span>(<span class="ident">ChannelType::GuildVoice</span>, <span class="kw-2">&amp;</span>[]);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">calculated</span>, <span class="ident">Permissions::CONNECT</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_remove_audio_perms_when_text</span>() {
+        <span class="kw">let</span> <span class="ident">guild_id</span> <span class="op">=</span> <span class="ident">GuildId</span>(<span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">user_id</span> <span class="op">=</span> <span class="ident">UserId</span>(<span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">everyone_role</span> <span class="op">=</span> <span class="ident">Permissions::CONNECT</span>;
+        <span class="kw">let</span> <span class="ident">roles</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[(<span class="ident">RoleId</span>(<span class="number">3</span>), <span class="ident">Permissions::SEND_MESSAGES</span>)];
+
+        <span class="kw">let</span> <span class="ident">calculated</span> <span class="op">=</span> <span class="ident">PermissionCalculator::new</span>(<span class="ident">guild_id</span>, <span class="ident">user_id</span>, <span class="ident">everyone_role</span>, <span class="ident">roles</span>)
+            .<span class="ident">in_channel</span>(<span class="ident">ChannelType::GuildText</span>, <span class="kw-2">&amp;</span>[]);
+
+        <span class="comment">// The `CONNECT` permission isn&#39;t included because text channels don&#39;t</span>
+        <span class="comment">// have the permission.</span>
+        <span class="macro">assert_eq!</span>(<span class="ident">calculated</span>, <span class="ident">Permissions::SEND_MESSAGES</span>);
+    }
+
+    <span class="comment">// Test that denying the &quot;Send Messages&quot; permission denies all message</span>
+    <span class="comment">// send related permissions.</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_deny_send_messages_removes_related</span>() {
+        <span class="kw">let</span> <span class="ident">guild_id</span> <span class="op">=</span> <span class="ident">GuildId</span>(<span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">user_id</span> <span class="op">=</span> <span class="ident">UserId</span>(<span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">everyone_role</span> <span class="op">=</span>
+            <span class="ident">Permissions::MANAGE_MESSAGES</span> <span class="op">|</span> <span class="ident">Permissions::EMBED_LINKS</span> <span class="op">|</span> <span class="ident">Permissions::MENTION_EVERYONE</span>;
+        <span class="kw">let</span> <span class="ident">roles</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[(<span class="ident">RoleId</span>(<span class="number">3</span>), <span class="ident">Permissions::empty</span>())];
+
+        <span class="comment">// First, test when it&#39;s denied for an overwrite on a role the user has.</span>
+        <span class="kw">let</span> <span class="ident">overwrites</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="ident">PermissionOverwrite</span> {
+            <span class="ident">allow</span>: <span class="ident">Permissions::ATTACH_FILES</span>,
+            <span class="ident">deny</span>: <span class="ident">Permissions::SEND_MESSAGES</span>,
+            <span class="ident">kind</span>: <span class="ident">PermissionOverwriteType::Role</span>(<span class="ident">RoleId</span>(<span class="number">3</span>)),
+        }];
+
+        <span class="kw">let</span> <span class="ident">calculated</span> <span class="op">=</span> <span class="ident">PermissionCalculator::new</span>(<span class="ident">guild_id</span>, <span class="ident">user_id</span>, <span class="ident">everyone_role</span>, <span class="ident">roles</span>)
+            .<span class="ident">in_channel</span>(<span class="ident">ChannelType::GuildText</span>, <span class="ident">overwrites</span>);
+
+        <span class="macro">assert_eq!</span>(<span class="ident">calculated</span>, <span class="ident">Permissions::MANAGE_MESSAGES</span>);
+    }
+
+    <span class="doccomment">/// Test that a member that has a role with the &quot;administrator&quot; permission</span>
+    <span class="doccomment">/// has all denying overwrites ignored.</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_admin</span>() {
+        <span class="kw">let</span> <span class="ident">calc</span> <span class="op">=</span> <span class="ident">PermissionCalculator::new</span>(
+            <span class="ident">GuildId</span>(<span class="number">1</span>),
+            <span class="ident">UserId</span>(<span class="number">2</span>),
+            <span class="ident">Permissions::empty</span>(),
+            <span class="kw-2">&amp;</span>[(<span class="ident">RoleId</span>(<span class="number">3</span>), <span class="ident">Permissions::ADMINISTRATOR</span>)],
+        );
+        <span class="macro">assert!</span>(<span class="ident">calc</span>.<span class="ident">root</span>().<span class="ident">is_all</span>());
+
+        <span class="comment">// Ensure that the denial of &quot;send messages&quot; doesn&#39;t actually occur due</span>
+        <span class="comment">// to the user being an administrator.</span>
+        <span class="macro">assert!</span>(<span class="ident">calc</span>.<span class="ident">in_channel</span>(<span class="ident">ChannelType::GuildText</span>, <span class="kw-2">&amp;</span>[]).<span class="ident">is_all</span>());
+    }
+
+    <span class="doccomment">/// Test that guild-level permissions are removed in the permissions for a</span>
+    <span class="doccomment">/// channel of any type.</span>
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_guild_level_removed_in_channel</span>() {
+        <span class="kw">const</span> <span class="ident">CHANNEL_TYPES</span>: <span class="kw-2">&amp;</span>[<span class="ident">ChannelType</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[
+            <span class="ident">ChannelType::GuildCategory</span>,
+            <span class="ident">ChannelType::GuildNews</span>,
+            <span class="ident">ChannelType::GuildStageVoice</span>,
+            <span class="ident">ChannelType::GuildStore</span>,
+            <span class="ident">ChannelType::GuildText</span>,
+            <span class="ident">ChannelType::GuildVoice</span>,
+        ];
+
+        <span class="comment">// We need to remove the `ADMINISTRATOR` permission or else the</span>
+        <span class="comment">// calculator will (correctly) return all permissions.</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">everyone</span> <span class="op">=</span> <span class="ident">PERMISSIONS_ROOT_ONLY</span>;
+        <span class="ident">everyone</span>.<span class="ident">remove</span>(<span class="ident">Permissions::ADMINISTRATOR</span>);
+
+        <span class="kw">for</span> <span class="ident">kind</span> <span class="kw">in</span> <span class="ident">CHANNEL_TYPES</span> {
+            <span class="kw">let</span> <span class="ident">calc</span> <span class="op">=</span> <span class="ident">PermissionCalculator::new</span>(<span class="ident">GuildId</span>(<span class="number">1</span>), <span class="ident">UserId</span>(<span class="number">2</span>), <span class="ident">everyone</span>, <span class="kw-2">&amp;</span>[]);
+            <span class="kw">let</span> <span class="ident">calculated</span> <span class="op">=</span> <span class="ident">calc</span>.<span class="ident">in_channel</span>(<span class="kw-2">*</span><span class="ident">kind</span>, <span class="kw-2">&amp;</span>[]);
+
+            <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">calculated</span>.<span class="ident">intersects</span>(<span class="ident">PERMISSIONS_ROOT_ONLY</span>));
+        }
+    }
+}
+</pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="twilight_util" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
+    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
+</body></html>
