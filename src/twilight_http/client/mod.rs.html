@@ -2397,6 +2397,28 @@
 <span id="2397">2397</span>
 <span id="2398">2398</span>
 <span id="2399">2399</span>
+<span id="2400">2400</span>
+<span id="2401">2401</span>
+<span id="2402">2402</span>
+<span id="2403">2403</span>
+<span id="2404">2404</span>
+<span id="2405">2405</span>
+<span id="2406">2406</span>
+<span id="2407">2407</span>
+<span id="2408">2408</span>
+<span id="2409">2409</span>
+<span id="2410">2410</span>
+<span id="2411">2411</span>
+<span id="2412">2412</span>
+<span id="2413">2413</span>
+<span id="2414">2414</span>
+<span id="2415">2415</span>
+<span id="2416">2416</span>
+<span id="2417">2417</span>
+<span id="2418">2418</span>
+<span id="2419">2419</span>
+<span id="2420">2420</span>
+<span id="2421">2421</span>
 </pre><pre class="rust">
 <span class="kw">mod</span> <span class="ident">builder</span>;
 
@@ -2410,10 +2432,10 @@
         <span class="ident">application</span>::{
             <span class="ident">CreateFollowupMessage</span>, <span class="ident">CreateGlobalCommand</span>, <span class="ident">CreateGuildCommand</span>, <span class="ident">DeleteFollowupMessage</span>,
             <span class="ident">DeleteGlobalCommand</span>, <span class="ident">DeleteGuildCommand</span>, <span class="ident">DeleteOriginalResponse</span>, <span class="ident">GetCommandPermissions</span>,
-            <span class="ident">GetGlobalCommands</span>, <span class="ident">GetGuildCommandPermissions</span>, <span class="ident">GetGuildCommands</span>, <span class="ident">InteractionCallback</span>,
-            <span class="ident">InteractionError</span>, <span class="ident">InteractionErrorType</span>, <span class="ident">SetCommandPermissions</span>, <span class="ident">SetGlobalCommands</span>,
-            <span class="ident">SetGuildCommands</span>, <span class="ident">UpdateCommandPermissions</span>, <span class="ident">UpdateFollowupMessage</span>, <span class="ident">UpdateGlobalCommand</span>,
-            <span class="ident">UpdateGuildCommand</span>, <span class="ident">UpdateOriginalResponse</span>,
+            <span class="ident">GetGlobalCommands</span>, <span class="ident">GetGuildCommandPermissions</span>, <span class="ident">GetGuildCommands</span>, <span class="ident">GetOriginalResponse</span>,
+            <span class="ident">InteractionCallback</span>, <span class="ident">InteractionError</span>, <span class="ident">InteractionErrorType</span>, <span class="ident">SetCommandPermissions</span>,
+            <span class="ident">SetGlobalCommands</span>, <span class="ident">SetGuildCommands</span>, <span class="ident">UpdateCommandPermissions</span>, <span class="ident">UpdateFollowupMessage</span>,
+            <span class="ident">UpdateGlobalCommand</span>, <span class="ident">UpdateGuildCommand</span>, <span class="ident">UpdateOriginalResponse</span>,
         },
         <span class="ident">channel::stage::create_stage_instance::CreateStageInstanceError</span>,
         <span class="ident">guild</span>::{
@@ -4061,6 +4083,28 @@
         <span class="ident">response</span>: <span class="ident">InteractionResponse</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InteractionCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
         <span class="ident">InteractionCallback::new</span>(<span class="self">self</span>, <span class="ident">interaction_id</span>, <span class="ident">interaction_token</span>, <span class="ident">response</span>)
+    }
+
+    <span class="doccomment">/// Get the original message, by its token.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::ApplicationIdNotPresent`]</span>
+    <span class="doccomment">/// error type if an application ID has not been configured via</span>
+    <span class="doccomment">/// [`Client::set_application_id`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_interaction_original</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">interaction_token</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">GetOriginalResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
+            <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
+        })<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">GetOriginalResponse::new</span>(
+            <span class="self">self</span>,
+            <span class="ident">application_id</span>,
+            <span class="ident">interaction_token</span>,
+        ))
     }
 
     <span class="doccomment">/// Edit the original message, by its token.</span>

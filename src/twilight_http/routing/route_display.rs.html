@@ -951,6 +951,10 @@
 <span id="951">951</span>
 <span id="952">952</span>
 <span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span><span class="ident">::route::Route</span>;
 <span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">utf8_percent_encode</span>, <span class="ident">NON_ALPHANUMERIC</span>};
@@ -1286,6 +1290,10 @@
                 <span class="ident">Display::fmt</span>(<span class="ident">integration_id</span>, <span class="ident">f</span>)
             }
             <span class="ident">Route::DeleteInteractionOriginal</span> {
+                <span class="ident">application_id</span>,
+                <span class="ident">interaction_token</span>,
+            }
+            <span class="op">|</span> <span class="ident">Route::GetInteractionOriginal</span> {
                 <span class="ident">application_id</span>,
                 <span class="ident">interaction_token</span>,
             }

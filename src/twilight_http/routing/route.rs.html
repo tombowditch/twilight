@@ -1250,6 +1250,15 @@
 <span id="1250">1250</span>
 <span id="1251">1251</span>
 <span id="1252">1252</span>
+<span id="1253">1253</span>
+<span id="1254">1254</span>
+<span id="1255">1255</span>
+<span id="1256">1256</span>
+<span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">path::Path</span>, <span class="ident">route_display::RouteDisplay</span>};
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::request::Method</span>;
@@ -1710,6 +1719,13 @@
         <span class="ident">before</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The maximum number of guilds to get.</span>
         <span class="ident">limit</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
+    },
+    <span class="doccomment">/// Route information to get an original interaction response message.</span>
+    <span class="ident">GetInteractionOriginal</span> {
+        <span class="doccomment">/// ID of the owner application.</span>
+        <span class="ident">application_id</span>: <span class="ident">u64</span>,
+        <span class="doccomment">/// Token of the interaction.</span>
+        <span class="ident">interaction_token</span>: <span class="ident">String</span>,
     },
     <span class="doccomment">/// Route information to get an invite.</span>
     <span class="ident">GetInvite</span> {
@@ -2182,6 +2198,7 @@
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildWebhooks</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildWidget</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuilds</span> { .. }
+            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInteractionOriginal</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInvite</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInviteWithExpiration</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetMember</span> { .. }
@@ -2363,6 +2380,7 @@
                 <span class="ident">Path::GuildsIdIntegrationsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
             <span class="self">Self</span><span class="ident">::DeleteInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateInteractionOriginal</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::WebhooksIdTokenMessagesId</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }
