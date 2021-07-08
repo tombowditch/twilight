@@ -384,8 +384,8 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UpdateChannelErrorType</span> {
-    <span class="doccomment">/// The length of the name is either fewer than 2 UTF-16 characters or</span>
-    <span class="doccomment">/// more than 100 UTF-16 characters.</span>
+    <span class="doccomment">/// The length of the name is either fewer than 1 UTF-16 character or more</span>
+    <span class="doccomment">/// than 100 UTF-16 characters.</span>
     <span class="ident">NameInvalid</span> {
         <span class="doccomment">/// Provided name.</span>
         <span class="ident">name</span>: <span class="ident">String</span>,
@@ -433,8 +433,8 @@
 
 <span class="doccomment">/// Update a channel.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// All fields are optional. The minimum length of the name is 2 UTF-16 characters and the maximum</span>
-<span class="doccomment">/// is 100 UTF-16 characters.</span>
+<span class="doccomment">/// All fields are optional. The minimum length of the name is 1 UTF-16 character</span>
+<span class="doccomment">/// and the maximum is 100 UTF-16 characters.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateChannel</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
     <span class="ident">fields</span>: <span class="ident">UpdateChannelFields</span>,
@@ -463,7 +463,7 @@
 
     <span class="doccomment">/// Set the name.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The minimum length is 2 UTF-16 characters and the maximum is 100 UTF-16</span>
+    <span class="doccomment">/// The minimum length is 1 UTF-16 character and the maximum is 100 UTF-16</span>
     <span class="doccomment">/// characters.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>

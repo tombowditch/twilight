@@ -2417,8 +2417,6 @@
 <span id="2417">2417</span>
 <span id="2418">2418</span>
 <span id="2419">2419</span>
-<span id="2420">2420</span>
-<span id="2421">2421</span>
 </pre><pre class="rust">
 <span class="kw">mod</span> <span class="ident">builder</span>;
 
@@ -2774,9 +2772,6 @@
     }
 
     <span class="doccomment">/// Update a channel.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// All fields are optional. The minimum length of the name is 2 UTF-16 characters and the</span>
-    <span class="doccomment">/// maximum is 100 UTF-16 characters.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_channel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UpdateChannel</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
         <span class="ident">UpdateChannel::new</span>(<span class="self">self</span>, <span class="ident">channel_id</span>)
     }
@@ -3133,13 +3128,14 @@
 
     <span class="doccomment">/// Create a new request to create a guild channel.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// All fields are optional except for name. The minimum length of the name is 2 UTF-16</span>
-    <span class="doccomment">/// characters and the maximum is 100 UTF-16 characters.</span>
+    <span class="doccomment">/// All fields are optional except for name. The minimum length of the name</span>
+    <span class="doccomment">/// is 1 UTF-16 character and the maximum is 100 UTF-16 characters.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`CreateGuildChannelErrorType::NameInvalid`] error type when</span>
-    <span class="doccomment">/// the length of the name is either fewer than 2 UTF-16 characters or more than 100 UTF-16 characters.</span>
+    <span class="doccomment">/// the length of the name is either fewer than 1 UTF-16 character or more</span>
+    <span class="doccomment">/// than 100 UTF-16 characters.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`CreateGuildChannelErrorType::RateLimitPerUserInvalid`] error</span>
     <span class="doccomment">/// type when the seconds of the rate limit per user is more than 21600.</span>

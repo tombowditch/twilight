@@ -1249,7 +1249,7 @@
     <span class="doccomment">/// This is used by [`new`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`new`]: Self::new</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MIN_NAME_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MIN_NAME_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span>;
 
     <span class="doccomment">/// The maximum number of UTF-16 code points that can be in a channel name.</span>
     <span class="doccomment">///</span>
@@ -1444,7 +1444,7 @@
     <span class="doccomment">/// This is used by [`new`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`new`]: Self::new</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MIN_NAME_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MIN_NAME_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span>;
 
     <span class="doccomment">/// The maximum number of UTF-16 code points that can be in a channel name.</span>
     <span class="doccomment">///</span>
@@ -1599,7 +1599,7 @@
     <span class="doccomment">/// This is used by [`new`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`new`]: Self::new</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MIN_NAME_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MIN_NAME_LENGTH</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span>;
 
     <span class="doccomment">/// The maximum number of UTF-16 code points that can be in a channel name.</span>
     <span class="doccomment">///</span>
@@ -1800,9 +1800,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_voice_fields</span>() {
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            <span class="ident">VoiceFieldsBuilder::new</span>(<span class="string">&quot;c&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="ident">VoiceFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
             <span class="ident">VoiceFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> }
-            <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;c&quot;</span>
+            <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>()
         ));
 
         <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">voice</span>();
@@ -1839,9 +1839,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_text_fields</span>() {
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            <span class="ident">TextFieldsBuilder::new</span>(<span class="string">&quot;b&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="ident">TextFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
             <span class="ident">TextFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> }
-            <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;b&quot;</span>
+            <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>()
         ));
 
         <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">text</span>();
@@ -1875,9 +1875,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_category_fields</span>() {
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            <span class="ident">CategoryFieldsBuilder::new</span>(<span class="string">&quot;a&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="ident">CategoryFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
             <span class="ident">CategoryFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> }
-            <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;a&quot;</span>
+            <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>()
         ));
 
         <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">category</span>();

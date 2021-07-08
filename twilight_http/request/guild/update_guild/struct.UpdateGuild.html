@@ -17,7 +17,7 @@ information.</p>
 the image MIME type and <code>{data}</code> is the base64-encoded image. Refer to <a href="https://discord.com/developers/docs/reference#image-data">the discord docs</a>
 for more information.</p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.name" class="method has-srclink"><div class="rightside"><a class="srclink" href="../../../../src/twilight_http/request/guild/update_guild.rs.html#234-236" title="goto source code">[src]</a></div><a href="#method.name" class="anchor"></a><code>pub fn <a href="#method.name" class="fnname">name</a>(self, name: impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="struct.UpdateGuildError.html" title="struct twilight_http::request::guild::update_guild::UpdateGuildError">UpdateGuildError</a>&gt;</code></div></summary><div class="docblock"><p>Set the name of the guild.</p>
-<p>The minimum length is 2 UTF-16 characters and the maximum is 100 UTF-16
+<p>The minimum length is 1 UTF-16 character and the maximum is 100 UTF-16
 characters.</p>
 <h1 id="errors" class="section-header"><a href="#errors">Errors</a></h1>
 <p>Returns an <a href="enum.UpdateGuildErrorType.html#variant.NameInvalid" title="UpdateGuildErrorType::NameInvalid"><code>UpdateGuildErrorType::NameInvalid</code></a> error type if the name
