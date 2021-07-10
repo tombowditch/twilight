@@ -982,7 +982,7 @@
         <span class="doccomment">/// included.</span>
         <span class="ident">description</span>: <span class="ident">String</span>,
     },
-    <span class="doccomment">/// Description is longer than 2048 UTF-16 code points.</span>
+    <span class="doccomment">/// Description is longer than 4096 UTF-16 code points.</span>
     <span class="ident">DescriptionTooLong</span> {
         <span class="doccomment">/// Provided description.</span>
         <span class="ident">description</span>: <span class="ident">String</span>,
@@ -1077,7 +1077,7 @@
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">COLOR_MAXIMUM</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0xff_ff_ff</span>;
 
     <span class="doccomment">/// The maximum number of UTF-16 code points that can be in a description.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DESCRIPTION_LENGTH_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2048</span>;
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DESCRIPTION_LENGTH_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4096</span>;
 
     <span class="doccomment">/// The maximum number of fields that can be in an embed.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">EMBED_FIELD_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">25</span>;
@@ -1653,7 +1653,7 @@
     <span class="macro">assert_impl_all!</span>(<span class="ident">EmbedError</span>: <span class="ident">Error</span>, <span class="ident">Send</span>, <span class="ident">Sync</span>);
     <span class="macro">const_assert!</span>(<span class="ident">EmbedBuilder::AUTHOR_NAME_LENGTH_LIMIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">256</span>);
     <span class="macro">const_assert!</span>(<span class="ident">EmbedBuilder::COLOR_MAXIMUM</span> <span class="op">=</span><span class="op">=</span> <span class="number">0xff_ff_ff</span>);
-    <span class="macro">const_assert!</span>(<span class="ident">EmbedBuilder::DESCRIPTION_LENGTH_LIMIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">2048</span>);
+    <span class="macro">const_assert!</span>(<span class="ident">EmbedBuilder::DESCRIPTION_LENGTH_LIMIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">4096</span>);
     <span class="macro">const_assert!</span>(<span class="ident">EmbedBuilder::EMBED_FIELD_LIMIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">25</span>);
     <span class="macro">const_assert!</span>(<span class="ident">EmbedBuilder::EMBED_LENGTH_LIMIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">6000</span>);
     <span class="macro">const_assert!</span>(<span class="ident">EmbedBuilder::FIELD_NAME_LENGTH_LIMIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">256</span>);
