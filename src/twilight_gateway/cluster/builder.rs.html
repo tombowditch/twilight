@@ -243,25 +243,17 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">config::Config</span> <span class="kw">as</span> <span class="ident">ClusterConfig</span>,
+    <span class="ident">event::Events</span>,
     <span class="ident">r#impl</span>::{<span class="ident">Cluster</span>, <span class="ident">ClusterStartError</span>},
     <span class="ident">scheme::ShardScheme</span>,
 };
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">shard</span>::{<span class="ident">LargeThresholdError</span>, <span class="ident">ResumeSession</span>, <span class="ident">ShardBuilder</span>},
-    <span class="ident">Event</span>, <span class="ident">EventTypeFlags</span>,
+    <span class="ident">EventTypeFlags</span>,
 };
-<span class="kw">use</span> <span class="ident">futures_util::stream::Stream</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">collections::HashMap</span>, <span class="ident">sync::Arc</span>};
 <span class="kw">use</span> <span class="ident">twilight_gateway_queue</span>::{<span class="ident">LocalQueue</span>, <span class="ident">Queue</span>};
 <span class="kw">use</span> <span class="ident">twilight_http::Client</span>;
@@ -330,15 +322,7 @@
     <span class="doccomment">/// there was an HTTP error Retrieving the gateway information.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`ClusterStartErrorType::RetrievingGatewayInfo`]: super::ClusterStartErrorType::RetrievingGatewayInfo</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">build</span>(
-        <span class="kw-2">mut</span> <span class="self">self</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>
-        (
-            <span class="ident">Cluster</span>,
-            <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">u64</span>, <span class="ident">Event</span>)<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Unpin</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        ),
-        <span class="ident">ClusterStartError</span>,
-    <span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Cluster</span>, <span class="ident">Events</span>), <span class="ident">ClusterStartError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> (<span class="self">self</span>.<span class="number">1</span>).<span class="number">0</span>.<span class="ident">gateway_url</span>.<span class="ident">is_none</span>() {
             <span class="kw">let</span> <span class="ident">gateway_url</span> <span class="op">=</span> (<span class="self">self</span>.<span class="number">1</span>)
                 .<span class="number">0</span>
