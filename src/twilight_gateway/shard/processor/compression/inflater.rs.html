@@ -181,6 +181,73 @@
 <span id="181">181</span>
 <span id="182">182</span>
 <span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">flate2</span>::{<span class="ident">Decompress</span>, <span class="ident">DecompressError</span>, <span class="ident">FlushDecompress</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert::TryInto</span>, <span class="ident">mem</span>, <span class="ident">time::Instant</span>};
@@ -363,6 +430,73 @@
         );
 
         <span class="self">self</span>.<span class="ident">last_resize</span> <span class="op">=</span> <span class="ident">Instant::now</span>();
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Inflater</span>;
+    <span class="kw">use</span> <span class="ident">std::error::Error</span>;
+
+    <span class="kw">const</span> <span class="ident">MESSAGE</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[
+        <span class="number">120</span>, <span class="number">156</span>, <span class="number">52</span>, <span class="number">201</span>, <span class="number">65</span>, <span class="number">10</span>, <span class="number">131</span>, <span class="number">48</span>, <span class="number">16</span>, <span class="number">5</span>, <span class="number">208</span>, <span class="number">187</span>, <span class="number">252</span>, <span class="number">117</span>, <span class="number">82</span>, <span class="number">98</span>, <span class="number">169</span>, <span class="number">32</span>, <span class="number">115</span>, <span class="number">21</span>,
+        <span class="number">35</span>, <span class="number">50</span>, <span class="number">53</span>, <span class="number">67</span>, <span class="number">27</span>, <span class="number">136</span>, <span class="number">81</span>, <span class="number">226</span>, <span class="number">216</span>, <span class="number">82</span>, <span class="number">66</span>, <span class="number">238</span>, <span class="number">222</span>, <span class="number">110</span>, <span class="number">186</span>, <span class="number">123</span>, <span class="number">240</span>, <span class="number">42</span>, <span class="number">20</span>, <span class="number">148</span>,
+        <span class="number">207</span>, <span class="number">148</span>, <span class="number">12</span>, <span class="number">142</span>, <span class="number">63</span>, <span class="number">182</span>, <span class="number">29</span>, <span class="number">212</span>, <span class="number">57</span>, <span class="number">131</span>, <span class="number">0</span>, <span class="number">170</span>, <span class="number">120</span>, <span class="number">10</span>, <span class="number">23</span>, <span class="number">189</span>, <span class="number">11</span>, <span class="number">235</span>, <span class="number">28</span>, <span class="number">179</span>,
+        <span class="number">74</span>, <span class="number">121</span>, <span class="number">113</span>, <span class="number">2</span>, <span class="number">221</span>, <span class="number">186</span>, <span class="number">107</span>, <span class="number">255</span>, <span class="number">251</span>, <span class="number">89</span>, <span class="number">11</span>, <span class="number">47</span>, <span class="number">2</span>, <span class="number">26</span>, <span class="number">49</span>, <span class="number">122</span>, <span class="number">60</span>, <span class="number">88</span>, <span class="number">229</span>, <span class="number">205</span>, <span class="number">31</span>,
+        <span class="number">187</span>, <span class="number">151</span>, <span class="number">96</span>, <span class="number">87</span>, <span class="number">142</span>, <span class="number">217</span>, <span class="number">14</span>, <span class="number">253</span>, <span class="number">16</span>, <span class="number">60</span>, <span class="number">76</span>, <span class="number">245</span>, <span class="number">88</span>, <span class="number">227</span>, <span class="number">82</span>, <span class="number">182</span>, <span class="number">195</span>, <span class="number">131</span>, <span class="number">220</span>, <span class="number">197</span>,
+        <span class="number">181</span>, <span class="number">9</span>, <span class="number">83</span>, <span class="number">107</span>, <span class="number">95</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>,
+    ];
+    <span class="kw">const</span> <span class="ident">OUTPUT</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[
+        <span class="number">123</span>, <span class="number">34</span>, <span class="number">116</span>, <span class="number">34</span>, <span class="number">58</span>, <span class="number">110</span>, <span class="number">117</span>, <span class="number">108</span>, <span class="number">108</span>, <span class="number">44</span>, <span class="number">34</span>, <span class="number">115</span>, <span class="number">34</span>, <span class="number">58</span>, <span class="number">110</span>, <span class="number">117</span>, <span class="number">108</span>, <span class="number">108</span>, <span class="number">44</span>, <span class="number">34</span>,
+        <span class="number">111</span>, <span class="number">112</span>, <span class="number">34</span>, <span class="number">58</span>, <span class="number">49</span>, <span class="number">48</span>, <span class="number">44</span>, <span class="number">34</span>, <span class="number">100</span>, <span class="number">34</span>, <span class="number">58</span>, <span class="number">123</span>, <span class="number">34</span>, <span class="number">104</span>, <span class="number">101</span>, <span class="number">97</span>, <span class="number">114</span>, <span class="number">116</span>, <span class="number">98</span>, <span class="number">101</span>,
+        <span class="number">97</span>, <span class="number">116</span>, <span class="number">95</span>, <span class="number">105</span>, <span class="number">110</span>, <span class="number">116</span>, <span class="number">101</span>, <span class="number">114</span>, <span class="number">118</span>, <span class="number">97</span>, <span class="number">108</span>, <span class="number">34</span>, <span class="number">58</span>, <span class="number">52</span>, <span class="number">49</span>, <span class="number">50</span>, <span class="number">53</span>, <span class="number">48</span>, <span class="number">44</span>, <span class="number">34</span>, <span class="number">95</span>,
+        <span class="number">116</span>, <span class="number">114</span>, <span class="number">97</span>, <span class="number">99</span>, <span class="number">101</span>, <span class="number">34</span>, <span class="number">58</span>, <span class="number">91</span>, <span class="number">34</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">34</span>, <span class="number">103</span>, <span class="number">97</span>, <span class="number">116</span>, <span class="number">101</span>, <span class="number">119</span>, <span class="number">97</span>, <span class="number">121</span>, <span class="number">45</span>,
+        <span class="number">112</span>, <span class="number">114</span>, <span class="number">100</span>, <span class="number">45</span>, <span class="number">109</span>, <span class="number">97</span>, <span class="number">105</span>, <span class="number">110</span>, <span class="number">45</span>, <span class="number">56</span>, <span class="number">53</span>, <span class="number">56</span>, <span class="number">100</span>, <span class="number">92</span>, <span class="number">34</span>, <span class="number">44</span>, <span class="number">123</span>, <span class="number">92</span>, <span class="number">34</span>, <span class="number">109</span>,
+        <span class="number">105</span>, <span class="number">99</span>, <span class="number">114</span>, <span class="number">111</span>, <span class="number">115</span>, <span class="number">92</span>, <span class="number">34</span>, <span class="number">58</span>, <span class="number">48</span>, <span class="number">46</span>, <span class="number">48</span>, <span class="number">125</span>, <span class="number">93</span>, <span class="number">34</span>, <span class="number">93</span>, <span class="number">125</span>, <span class="number">125</span>,
+    ];
+    <span class="kw">const</span> <span class="ident">SHARD</span>: [<span class="ident">u64</span>; <span class="number">2</span>] <span class="op">=</span> [<span class="number">2</span>, <span class="number">5</span>];
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_inflater</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inflater</span> <span class="op">=</span> <span class="ident">Inflater::new</span>(<span class="ident">SHARD</span>);
+        <span class="ident">inflater</span>.<span class="ident">extend</span>(<span class="kw-2">&amp;</span><span class="ident">MESSAGE</span>[<span class="number">0</span>..<span class="ident">MESSAGE</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">2</span>]);
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, <span class="ident">inflater</span>.<span class="ident">msg</span>()<span class="question-mark">?</span>);
+
+        <span class="ident">inflater</span>.<span class="ident">reset</span>();
+        <span class="ident">inflater</span>.<span class="ident">extend</span>(<span class="kw-2">&amp;</span><span class="ident">MESSAGE</span>);
+
+        <span class="comment">// Check the state of fields.</span>
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">inflater</span>.<span class="ident">compressed</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="ident">inflater</span>.<span class="ident">internal_buffer</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="ident">inflater</span>.<span class="ident">buffer</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="ident">OUTPUT</span>), <span class="ident">inflater</span>.<span class="ident">msg</span>()<span class="question-mark">?</span>.<span class="ident">as_deref</span>());
+
+        <span class="comment">// Calling `msg` clears `compressed` and fills `buffer` and `internal_buffer`.</span>
+        <span class="macro">assert!</span>(<span class="ident">inflater</span>.<span class="ident">compressed</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">inflater</span>.<span class="ident">buffer</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">inflater</span>.<span class="ident">internal_buffer</span>.<span class="ident">is_empty</span>());
+
+        <span class="macro">assert_eq!</span>(<span class="ident">OUTPUT</span>, <span class="ident">inflater</span>.<span class="ident">buffer_mut</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">OUTPUT</span>, <span class="ident">inflater</span>.<span class="ident">buffer_ref</span>());
+
+        <span class="comment">// Check to make sure `buffer` and `internal_buffer` haven&#39;t been cleared.</span>
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">inflater</span>.<span class="ident">internal_buffer</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">inflater</span>.<span class="ident">buffer</span>.<span class="ident">is_empty</span>());
+
+        <span class="comment">// Now clear the inflater and make sure all buffers are empty.</span>
+        <span class="ident">inflater</span>.<span class="ident">clear</span>();
+        <span class="macro">assert!</span>(<span class="ident">inflater</span>.<span class="ident">compressed</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="ident">inflater</span>.<span class="ident">internal_buffer</span>.<span class="ident">is_empty</span>());
+        <span class="macro">assert!</span>(<span class="ident">inflater</span>.<span class="ident">buffer</span>.<span class="ident">is_empty</span>());
+
+        <span class="comment">// Reset the inflater after extending it, bringing it back to a default</span>
+        <span class="comment">// state.</span>
+        <span class="ident">inflater</span>.<span class="ident">extend</span>(<span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">inflater</span>.<span class="ident">compressed</span>.<span class="ident">is_empty</span>());
+        <span class="ident">inflater</span>.<span class="ident">reset</span>();
+        <span class="macro">assert!</span>(<span class="ident">inflater</span>.<span class="ident">compressed</span>.<span class="ident">is_empty</span>());
+
+        <span class="prelude-val">Ok</span>(())
     }
 }
 </pre></div>
