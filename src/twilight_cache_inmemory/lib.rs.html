@@ -632,6 +632,66 @@
 <span id="632">632</span>
 <span id="633">633</span>
 <span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-cache-inmemory</span>
 <span class="doccomment">//!</span>
@@ -640,6 +700,20 @@
 <span class="doccomment">//! `twilight-cache-inmemory` is an in-process-memory cache for the</span>
 <span class="doccomment">//! [`twilight-rs`] ecosystem. It&#39;s responsible for processing events and</span>
 <span class="doccomment">//! caching things like guilds, channels, users, and voice states.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Features</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! By default no feature is enabled.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### `permission-calculator`</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The `permission-calculator` feature flag will bring in support for the</span>
+<span class="doccomment">//! `PermissionCalculator`; an API for calculating permissions through it is</span>
+<span class="doccomment">//! exposed via `InMemoryCache::permissions`. Support for calculating the</span>
+<span class="doccomment">//! permissions of a member on a root guild-level and in a guild channel is</span>
+<span class="doccomment">//! included.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Refer to the `permission` module for more documentation.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Examples</span>
 <span class="doccomment">//!</span>
@@ -680,6 +754,7 @@
 <span class="doccomment">//! [license link]: https://github.com/twilight-rs/twilight/blob/main/LICENSE.md</span>
 <span class="doccomment">//! [rust badge]: https://img.shields.io/badge/rust-1.49+-93450a.svg?style=for-the-badge&amp;logo=rust</span>
 
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">feature</span>(<span class="ident">doc_cfg</span>))]</span>
 <span class="attribute">#![<span class="ident">deny</span>(
     <span class="ident">broken_intra_doc_links</span>,
     <span class="ident">clippy::missing_const_for_fn</span>,
@@ -690,6 +765,10 @@
 )]</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">model</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)))]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">permission</span>;
 
 <span class="kw">mod</span> <span class="ident">builder</span>;
 <span class="kw">mod</span> <span class="ident">config</span>;
@@ -704,6 +783,10 @@
     <span class="ident">config</span>::{<span class="ident">Config</span>, <span class="ident">ResourceType</span>},
     <span class="ident">stats::InMemoryCacheStats</span>,
 };
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)))]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::permission::InMemoryCachePermissions</span>;
 
 <span class="kw">use</span> <span class="self">self</span><span class="ident">::model</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">dashmap</span>::{
@@ -912,6 +995,43 @@
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">stats</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InMemoryCacheStats</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
         <span class="ident">InMemoryCacheStats::new</span>(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Create an interface for retrieving the permissions of a member in a</span>
+    <span class="doccomment">/// guild or channel.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`ResourceType`]s must be configured for the permission interface to</span>
+    <span class="doccomment">/// properly work; refer to the [`permission`] module-level documentation</span>
+    <span class="doccomment">/// for more information.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Calculate the permissions of a member in a guild channel:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```no_run</span>
+    <span class="doccomment">/// # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// use twilight_cache_inmemory::{InMemoryCache, ResourceType};</span>
+    <span class="doccomment">/// use twilight_model::id::{ChannelId, UserId};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let resource_types = ResourceType::CHANNEL</span>
+    <span class="doccomment">///     | ResourceType::MEMBER</span>
+    <span class="doccomment">///     | ResourceType::ROLE;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let cache = InMemoryCache::builder()</span>
+    <span class="doccomment">///     .resource_types(resource_types)</span>
+    <span class="doccomment">///     .build();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let channel_id = ChannelId(4);</span>
+    <span class="doccomment">/// let user_id = UserId(5);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let permissions = cache.permissions().in_channel(user_id, channel_id)?;</span>
+    <span class="doccomment">/// println!(&quot;member has these permissions: {:?}&quot;, permissions);</span>
+    <span class="doccomment">/// # Ok(()) }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)))]</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">permissions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">InMemoryCachePermissions</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+        <span class="ident">InMemoryCachePermissions::new</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Update the cache with an event from the gateway.</span>

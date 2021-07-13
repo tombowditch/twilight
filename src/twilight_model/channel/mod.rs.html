@@ -748,6 +748,66 @@
 <span id="748">748</span>
 <span id="749">749</span>
 <span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
 </pre><pre class="rust">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">embed</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">message</span>;
@@ -829,6 +889,15 @@
         }
     }
 
+    <span class="doccomment">/// Type of the channel.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelType</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="self">Self</span><span class="ident">::Group</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="self">Self</span><span class="ident">::Guild</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>(),
+            <span class="self">Self</span><span class="ident">::Private</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+        }
+    }
+
     <span class="doccomment">/// Return an immutable reference to the name of the inner channel.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The group variant might not always have a name, since they are optional</span>
@@ -870,6 +939,15 @@
             <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">text</span>.<span class="ident">id</span>,
             <span class="self">Self</span><span class="ident">::Voice</span>(<span class="ident">voice</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">voice</span>.<span class="ident">id</span>,
             <span class="self">Self</span><span class="ident">::Stage</span>(<span class="ident">stage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stage</span>.<span class="ident">id</span>,
+        }
+    }
+
+    <span class="doccomment">/// Type of the guild channel.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelType</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="self">Self</span><span class="ident">::Category</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="self">Self</span><span class="ident">::Stage</span>(<span class="ident">c</span>) <span class="op">|</span> <span class="self">Self</span><span class="ident">::Voice</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
         }
     }
 
@@ -1286,6 +1364,48 @@
             <span class="ident">ChannelId</span>(<span class="number">789</span>)
         );
         <span class="macro">assert_eq!</span>(<span class="ident">Channel::Private</span>(<span class="ident">private</span>()).<span class="ident">id</span>(), <span class="ident">ChannelId</span>(<span class="number">234</span>));
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_channel_kind</span>() {
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">Channel::Guild</span>(<span class="ident">GuildChannel::Category</span>(<span class="ident">guild_category</span>())).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildCategory</span>
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">Channel::Guild</span>(<span class="ident">GuildChannel::Stage</span>(<span class="ident">guild_stage</span>())).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildStageVoice</span>
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">Channel::Guild</span>(<span class="ident">GuildChannel::Text</span>(<span class="ident">guild_text</span>())).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildText</span>
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">Channel::Guild</span>(<span class="ident">GuildChannel::Stage</span>(<span class="ident">guild_voice</span>())).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildVoice</span>
+        );
+        <span class="macro">assert_eq!</span>(<span class="ident">Channel::Group</span>(<span class="ident">group</span>()).<span class="ident">kind</span>(), <span class="ident">ChannelType::Group</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">Channel::Private</span>(<span class="ident">private</span>()).<span class="ident">kind</span>(), <span class="ident">ChannelType::Private</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_guild_channel_kind</span>() {
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">GuildChannel::Category</span>(<span class="ident">guild_category</span>()).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildCategory</span>
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">GuildChannel::Stage</span>(<span class="ident">guild_stage</span>()).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildStageVoice</span>
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">GuildChannel::Text</span>(<span class="ident">guild_text</span>()).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildText</span>
+        );
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">GuildChannel::Stage</span>(<span class="ident">guild_voice</span>()).<span class="ident">kind</span>(),
+            <span class="ident">ChannelType::GuildVoice</span>
+        );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
