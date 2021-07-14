@@ -808,6 +808,16 @@
 <span id="808">808</span>
 <span id="809">809</span>
 <span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
 </pre><pre class="rust">
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">embed</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">message</span>;
@@ -976,6 +986,7 @@
     <span class="ident">PermissionOverwrites</span>,
     <span class="ident">Position</span>,
     <span class="ident">RateLimitPerUser</span>,
+    <span class="ident">RtcRegion</span>,
     <span class="ident">Topic</span>,
     <span class="ident">Type</span>,
     <span class="ident">UserLimit</span>,
@@ -1013,6 +1024,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">permission_overwrites</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">position</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rate_limit_per_user</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rtc_region</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">topic</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">user_limit</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">video_quality_mode</span> <span class="op">=</span> <span class="prelude-val">None</span>;
@@ -1126,6 +1138,13 @@
 
                     <span class="ident">rate_limit_per_user</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">next_value</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
                 }
+                <span class="ident">GuildChannelField::RtcRegion</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">if</span> <span class="ident">rtc_region</span>.<span class="ident">is_some</span>() {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DeError::duplicate_field</span>(<span class="string">&quot;rtc_region&quot;</span>));
+                    }
+
+                    <span class="ident">rtc_region</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">map</span>.<span class="ident">next_value</span>()<span class="question-mark">?</span>);
+                }
                 <span class="ident">GuildChannelField::Topic</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">if</span> <span class="ident">topic</span>.<span class="ident">is_some</span>() {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DeError::duplicate_field</span>(<span class="string">&quot;topic&quot;</span>));
@@ -1188,19 +1207,20 @@
             }
             <span class="ident">ChannelType::GuildVoice</span> <span class="op">|</span> <span class="ident">ChannelType::GuildStageVoice</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">bitrate</span> <span class="op">=</span> <span class="ident">bitrate</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">DeError::missing_field</span>(<span class="string">&quot;bitrate&quot;</span>))<span class="question-mark">?</span>;
+                <span class="kw">let</span> <span class="ident">rtc_region</span> <span class="op">=</span> <span class="ident">rtc_region</span>.<span class="ident">unwrap_or_default</span>();
                 <span class="kw">let</span> <span class="ident">user_limit</span> <span class="op">=</span> <span class="ident">user_limit</span>.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">DeError::missing_field</span>(<span class="string">&quot;user_limit&quot;</span>))<span class="question-mark">?</span>;
 
                 <span class="macro">tracing::trace!</span>(<span class="op">%</span><span class="ident">bitrate</span>, <span class="question-mark">?</span><span class="ident">user_limit</span>, <span class="string">&quot;handling voice channel&quot;</span>);
                 <span class="kw">let</span> <span class="ident">voice_channel</span> <span class="op">=</span> <span class="ident">VoiceChannel</span> {
-                    <span class="ident">id</span>,
                     <span class="ident">bitrate</span>,
                     <span class="ident">guild_id</span>,
+                    <span class="ident">id</span>,
                     <span class="ident">kind</span>,
                     <span class="ident">name</span>,
                     <span class="ident">parent_id</span>,
                     <span class="ident">permission_overwrites</span>,
                     <span class="ident">position</span>,
-                    <span class="ident">rtc_region</span>: <span class="prelude-val">None</span>,
+                    <span class="ident">rtc_region</span>,
                     <span class="ident">user_limit</span>,
                     <span class="ident">video_quality_mode</span>,
                 };
