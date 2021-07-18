@@ -303,12 +303,12 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns a [`EmitJsonError::EventTypeUnknown`] error type if the</span>
+    <span class="doccomment">/// Returns a [`EmitJsonErrorType::EventTypeUnknown`] error type if the</span>
     <span class="doccomment">/// event type is unknown.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns a [`EmitJsonError::Parsing`] error type if the combination of</span>
-    <span class="doccomment">/// the provided opcode, sequence, event type, and JSON could not be parsed</span>
-    <span class="doccomment">/// into an event.</span>
+    <span class="doccomment">/// Returns a [`EmitJsonErrorType::Parsing`] error type if the combination</span>
+    <span class="doccomment">/// of the provided opcode, sequence, event type, and JSON could not be</span>
+    <span class="doccomment">/// parsed into an event.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">json</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">op</span>: <span class="ident">u8</span>,
