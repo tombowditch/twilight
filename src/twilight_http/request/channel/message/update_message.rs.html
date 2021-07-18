@@ -352,6 +352,8 @@
 <span id="352">352</span>
 <span id="353">353</span>
 <span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -542,6 +544,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If called, all unspecified attachments will be removed from the message.</span>
     <span class="doccomment">/// If not called, all attachments will be kept.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.5&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;will be removed in favor of `attachments`&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attachment</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">attachment</span>: <span class="ident">Attachment</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">attachments</span>.<span class="ident">push</span>(<span class="ident">attachment</span>);
 
@@ -612,6 +615,7 @@
     <span class="doccomment">/// embed is too large.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`embeds`]: Self::embeds</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.5&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;will be removed in favor of `embeds`&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">embed</span>(<span class="self">self</span>, <span class="ident">embed</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Embed</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateMessageError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">_embed</span>(<span class="ident">embed</span>.<span class="ident">into</span>())
     }

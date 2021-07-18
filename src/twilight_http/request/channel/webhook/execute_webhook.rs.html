@@ -283,6 +283,9 @@
 <span id="283">283</span>
 <span id="284">284</span>
 <span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -401,6 +404,7 @@
     <span class="doccomment">/// Attach a file to the webhook.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method is repeatable.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.5&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;will be removed in favor of `files`&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">file</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">push</span>((<span class="ident">name</span>.<span class="ident">into</span>(), <span class="ident">file</span>.<span class="ident">into</span>()));
 
@@ -410,11 +414,13 @@
     <span class="doccomment">/// Attach multiple files to the webhook.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">files</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">F</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">attachments</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">N</span>, <span class="ident">F</span>)<span class="op">&gt;</span>,
+        <span class="ident">files</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">N</span>, <span class="ident">F</span>)<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">for</span> (<span class="ident">name</span>, <span class="ident">file</span>) <span class="kw">in</span> <span class="ident">attachments</span> {
-            <span class="self">self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">file</span>(<span class="ident">name</span>, <span class="ident">file</span>);
-        }
+        <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">extend</span>(
+            <span class="ident">files</span>
+                .<span class="ident">into_iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">name</span>, <span class="ident">file</span>)<span class="op">|</span> (<span class="ident">name</span>.<span class="ident">into</span>(), <span class="ident">file</span>.<span class="ident">into</span>())),
+        );
 
         <span class="self">self</span>
     }

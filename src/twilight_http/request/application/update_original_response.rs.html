@@ -401,6 +401,10 @@
 <span id="401">401</span>
 <span id="402">402</span>
 <span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Update a original response create for a interaction.</span>
 
@@ -598,6 +602,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If called, all unspecified attachments will be removed from the message.</span>
     <span class="doccomment">/// If not called, all attachments will be kept.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.5&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;will be removed in favor of `attachments`&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attachment</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">attachment</span>: <span class="ident">Attachment</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">attachments</span>.<span class="ident">push</span>(<span class="ident">attachment</span>);
 
@@ -735,6 +740,7 @@
     <span class="doccomment">/// Attach a file to the original response.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method is repeatable.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.5&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;will be removed in favor of `files`&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">file</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">push</span>((<span class="ident">name</span>.<span class="ident">into</span>(), <span class="ident">file</span>.<span class="ident">into</span>()));
 
@@ -744,11 +750,13 @@
     <span class="doccomment">/// Attach multiple files to the original response.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">files</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">F</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">attachments</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">N</span>, <span class="ident">F</span>)<span class="op">&gt;</span>,
+        <span class="ident">files</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">N</span>, <span class="ident">F</span>)<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">for</span> (<span class="ident">name</span>, <span class="ident">file</span>) <span class="kw">in</span> <span class="ident">attachments</span> {
-            <span class="self">self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">file</span>(<span class="ident">name</span>, <span class="ident">file</span>);
-        }
+        <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">extend</span>(
+            <span class="ident">files</span>
+                .<span class="ident">into_iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">name</span>, <span class="ident">file</span>)<span class="op">|</span> (<span class="ident">name</span>.<span class="ident">into</span>(), <span class="ident">file</span>.<span class="ident">into</span>())),
+        );
 
         <span class="self">self</span>
     }
