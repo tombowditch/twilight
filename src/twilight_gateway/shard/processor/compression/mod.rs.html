@@ -182,24 +182,11 @@
 <span id="182">182</span>
 <span id="183">183</span>
 <span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
 </pre><pre class="rust">
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compression&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">inflater</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">r#impl</span><span class="ident">::ReceivingEventError</span>;
-<span class="kw">use</span> <span class="ident">std::str</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compression&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">inflater::Inflater</span>;
@@ -263,17 +250,6 @@
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compression&quot;</span>))]</span>
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_slice</span>()
-    }
-
-    <span class="doccomment">/// Mutable reference to the internal buffer slice as a mutable string slice.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Ensuring that the internal buffer slice is UTF-8 valid is left to the</span>
-    <span class="doccomment">/// caller to determine.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">buffer_str_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">str</span> {
-        <span class="comment">// SAFETY: ensuring safety is left to the caller.</span>
-        <span class="ident">str::from_utf8_unchecked_mut</span>(<span class="self">self</span>.<span class="ident">buffer_slice_mut</span>())
     }
 
     <span class="doccomment">/// Clear the inner buffer.</span>

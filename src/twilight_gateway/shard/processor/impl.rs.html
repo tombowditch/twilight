@@ -985,8 +985,6 @@
 <span id="985">985</span>
 <span id="986">986</span>
 <span id="987">987</span>
-<span id="988">988</span>
-<span id="989">989</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="kw">super</span>::{
@@ -1429,7 +1427,7 @@
                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">op</span> <span class="op">=</span><span class="op">=</span> <span class="ident">OpCode::Reconnect</span> <span class="kw">as</span> <span class="ident">u8</span> {
                     <span class="ident">GatewayEvent::Reconnect</span>
                 } <span class="kw">else</span> {
-                    <span class="ident">json::parse_gateway_event</span>(<span class="ident">op</span>, <span class="ident">seq</span>, <span class="ident">event_type</span>.<span class="ident">as_deref</span>(), <span class="ident">json</span>).<span class="ident">map_err</span>(
+                    <span class="ident">json::parse_gateway_event</span>(<span class="ident">op</span>, <span class="ident">seq</span>, <span class="ident">event_type</span>.<span class="ident">as_deref</span>(), <span class="ident">buffer</span>).<span class="ident">map_err</span>(
                         <span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ProcessError</span> {
                             <span class="ident">kind</span>: <span class="ident">ProcessErrorType::ParsingPayload</span>,
                             <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
@@ -1484,12 +1482,10 @@
             (<span class="ident">op</span>, <span class="ident">seq</span>, <span class="ident">event_type</span>)
         };
 
-        <span class="comment">// We already know from earlier that the payload is valid UTF-8, so we</span>
-        <span class="comment">// can skip having to re-validate here since it hasn&#39;t been mutated.</span>
-        <span class="kw">let</span> <span class="ident">json</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">compression</span>.<span class="ident">buffer_str_mut</span>() };
+        <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">compression</span>.<span class="ident">buffer_slice_mut</span>();
 
         <span class="self">self</span>.<span class="ident">emitter</span>
-            .<span class="ident">json</span>(<span class="ident">op</span>, <span class="prelude-val">Some</span>(<span class="ident">seq</span>), <span class="ident">event_type</span>.<span class="ident">as_deref</span>(), <span class="ident">json</span>)
+            .<span class="ident">json</span>(<span class="ident">op</span>, <span class="prelude-val">Some</span>(<span class="ident">seq</span>), <span class="ident">event_type</span>.<span class="ident">as_deref</span>(), <span class="ident">buffer</span>)
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
                 <span class="kw">let</span> (<span class="ident">kind</span>, <span class="ident">source</span>) <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_parts</span>();
 
