@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["InviteCreate","A new `Invite` has been created."],["PartialUser","Information about the user whose stream to display for a voice channel stream invite."]]});
