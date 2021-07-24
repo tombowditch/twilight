@@ -225,7 +225,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">GetCurrentUserGuildsErrorType</span> {
-    <span class="doccomment">/// The maximum number of guilds to retrieve is 0 or more than 100.</span>
+    <span class="doccomment">/// The maximum number of guilds to retrieve is 0 or more than 200.</span>
     <span class="ident">LimitInvalid</span> {
         <span class="doccomment">/// Provided maximum number of guilds to retrieve.</span>
         <span class="ident">limit</span>: <span class="ident">u64</span>,
@@ -297,12 +297,12 @@
 
     <span class="doccomment">/// Set the maximum number of guilds to retrieve.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The minimum is 1 and the maximum is 100. Refer to [the discord docs] for more information.</span>
+    <span class="doccomment">/// The minimum is 1 and the maximum is 200. Refer to [the discord docs] for more information.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`GetCurrentUserGuildsErrorType::LimitInvalid`] error type if</span>
-    <span class="doccomment">/// the amount is greater than 100.</span>
+    <span class="doccomment">/// the amount is greater than 200.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [the discord docs]: https://discordapp.com/developers/docs/resources/user#get-current-user-guilds-query-string-params</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">GetCurrentUserGuildsError</span><span class="op">&gt;</span> {
