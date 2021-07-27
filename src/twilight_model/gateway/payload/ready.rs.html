@@ -162,8 +162,8 @@
     <span class="kw">use</span> <span class="kw">crate</span>::{
         <span class="ident">guild::UnavailableGuild</span>,
         <span class="ident">id</span>::{<span class="ident">ApplicationId</span>, <span class="ident">GuildId</span>, <span class="ident">UserId</span>},
-        <span class="ident">oauth::PartialApplication</span>,
-        <span class="ident">user</span>::{<span class="ident">CurrentUser</span>, <span class="ident">UserFlags</span>},
+        <span class="ident">oauth</span>::{<span class="ident">current_application_info::ApplicationFlags</span>, <span class="ident">PartialApplication</span>},
+        <span class="ident">user::CurrentUser</span>,
     };
     <span class="kw">use</span> <span class="ident">serde_test::Token</span>;
 
@@ -183,7 +183,7 @@
 
         <span class="kw">let</span> <span class="ident">ready</span> <span class="op">=</span> <span class="ident">Ready</span> {
             <span class="ident">application</span>: <span class="ident">PartialApplication</span> {
-                <span class="ident">flags</span>: <span class="ident">UserFlags::empty</span>(),
+                <span class="ident">flags</span>: <span class="ident">ApplicationFlags::empty</span>(),
                 <span class="ident">id</span>: <span class="ident">ApplicationId</span>(<span class="number">100</span>),
             },
             <span class="ident">guilds</span>,

@@ -7,12 +7,12 @@
 <span id="7">7</span>
 <span id="8">8</span>
 </pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">id::ApplicationId</span>, <span class="ident">user::UserFlags</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">id::ApplicationId</span>, <span class="ident">oauth::current_application_info::ApplicationFlags</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PartialApplication</span> {
-    <span class="kw">pub</span> <span class="ident">flags</span>: <span class="ident">UserFlags</span>,
+    <span class="kw">pub</span> <span class="ident">flags</span>: <span class="ident">ApplicationFlags</span>,
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">ApplicationId</span>,
 }
 </pre></div>

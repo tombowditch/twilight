@@ -2057,8 +2057,8 @@
             <span class="ident">payload</span>::{<span class="ident">MessageCreate</span>, <span class="ident">ReactionAdd</span>, <span class="ident">Ready</span>, <span class="ident">RoleDelete</span>},
         },
         <span class="ident">id</span>::{<span class="ident">ApplicationId</span>, <span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>},
-        <span class="ident">oauth::PartialApplication</span>,
-        <span class="ident">user</span>::{<span class="ident">CurrentUser</span>, <span class="ident">User</span>, <span class="ident">UserFlags</span>},
+        <span class="ident">oauth</span>::{<span class="ident">current_application_info::ApplicationFlags</span>, <span class="ident">PartialApplication</span>},
+        <span class="ident">user</span>::{<span class="ident">CurrentUser</span>, <span class="ident">User</span>},
     };
 
     <span class="macro">assert_impl_all!</span>(<span class="ident">Standby</span>: <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Send</span>, <span class="ident">Sync</span>);
@@ -2187,7 +2187,7 @@
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_wait_for_event</span>() {
         <span class="kw">let</span> <span class="ident">ready</span> <span class="op">=</span> <span class="ident">Ready</span> {
             <span class="ident">application</span>: <span class="ident">PartialApplication</span> {
-                <span class="ident">flags</span>: <span class="ident">UserFlags::empty</span>(),
+                <span class="ident">flags</span>: <span class="ident">ApplicationFlags::empty</span>(),
                 <span class="ident">id</span>: <span class="ident">ApplicationId</span>(<span class="number">0</span>),
             },
             <span class="ident">guilds</span>: <span class="ident">Vec::new</span>(),
