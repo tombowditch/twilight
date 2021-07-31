@@ -764,9 +764,6 @@
 <span id="764">764</span>
 <span id="765">765</span>
 <span id="766">766</span>
-<span id="767">767</span>
-<span id="768">768</span>
-<span id="769">769</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-cache-inmemory</span>
 <span class="doccomment">//!</span>
@@ -865,10 +862,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::permission::InMemoryCachePermissions</span>;
 
 <span class="kw">use</span> <span class="self">self</span><span class="ident">::model</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">dashmap</span>::{
-    <span class="ident">mapref</span>::{<span class="ident">entry::Entry</span>, <span class="ident">one::Ref</span>},
-    <span class="ident">DashMap</span>, <span class="ident">DashSet</span>,
-};
+<span class="kw">use</span> <span class="ident">dashmap</span>::{<span class="ident">mapref::entry::Entry</span>, <span class="ident">DashMap</span>, <span class="ident">DashSet</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::{<span class="ident">BTreeSet</span>, <span class="ident">HashSet</span>, <span class="ident">VecDeque</span>},
     <span class="ident">hash::Hash</span>,
