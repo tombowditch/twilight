@@ -78,8 +78,8 @@
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span>,
-    <span class="ident">request</span>::{<span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request::Request</span>,
+    <span class="ident">response</span>::{<span class="ident">marker::EmptyBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
@@ -95,14 +95,13 @@
 <span class="doccomment">/// Update another user&#39;s voice state.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateUserVoiceState</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">fields</span>: <span class="ident">UpdateUserVoiceStateFields</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
     <span class="ident">user_id</span>: <span class="ident">UserId</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">UpdateUserVoiceState</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
         <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
         <span class="ident">user_id</span>: <span class="ident">UserId</span>,
@@ -113,7 +112,6 @@
                 <span class="ident">channel_id</span>,
                 <span class="ident">suppress</span>: <span class="prelude-val">None</span>,
             },
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
             <span class="ident">guild_id</span>,
             <span class="ident">http</span>,
             <span class="ident">user_id</span>,
@@ -132,27 +130,29 @@
     <span class="doccomment">/// removed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`MUTE_MEMBERS`]: twilight_model::guild::Permissions::MUTE_MEMBERS</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">suppress</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">suppress</span>.<span class="ident">replace</span>(<span class="bool-val">true</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">suppress</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">suppress</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>);
 
         <span class="self">self</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::UpdateUserVoiceState</span> {
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">EmptyBody</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::UpdateUserVoiceState</span> {
             <span class="ident">guild_id</span>: <span class="self">self</span>.<span class="ident">guild_id</span>.<span class="number">0</span>,
             <span class="ident">user_id</span>: <span class="self">self</span>.<span class="ident">user_id</span>.<span class="number">0</span>,
-        })
-        .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>
-        .<span class="ident">build</span>();
+        });
 
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">verify</span>(<span class="ident">request</span>)));
+        <span class="ident">request</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">request</span>.<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">request</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">request</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">ResponseFuture::error</span>(<span class="ident">source</span>),
+        };
 
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>.<span class="ident">build</span>())
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">UpdateUserVoiceState</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, ());
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>
     <script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script>

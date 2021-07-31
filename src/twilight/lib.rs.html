@@ -233,6 +233,9 @@
 <span id="233">233</span>
 <span id="234">234</span>
 <span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight</span>
 <span class="doccomment">//!</span>
@@ -376,7 +379,7 @@
 <span class="doccomment">//!     let scheme = ShardScheme::Auto;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // Use intents to only receive guild message events.</span>
-<span class="doccomment">//!     let (cluster, mut events) = Cluster::builder(&amp;token, Intents::GUILD_MESSAGES)</span>
+<span class="doccomment">//!     let (cluster, mut events) = Cluster::builder(token.to_owned(), Intents::GUILD_MESSAGES)</span>
 <span class="doccomment">//!         .shard_scheme(scheme)</span>
 <span class="doccomment">//!         .build()</span>
 <span class="doccomment">//!         .await?;</span>
@@ -390,7 +393,7 @@
 <span class="doccomment">//!     });</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // HTTP is separate from the gateway, so create a new client.</span>
-<span class="doccomment">//!     let http = HttpClient::new(&amp;token);</span>
+<span class="doccomment">//!     let http = HttpClient::new(token);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // Since we only care about new messages, make the cache only</span>
 <span class="doccomment">//!     // cache new messages.</span>
@@ -416,7 +419,10 @@
 <span class="doccomment">//! ) -&gt; Result&lt;(), Box&lt;dyn Error + Send + Sync&gt;&gt; {</span>
 <span class="doccomment">//!     match event {</span>
 <span class="doccomment">//!         Event::MessageCreate(msg) if msg.content == &quot;!ping&quot; =&gt; {</span>
-<span class="doccomment">//!             http.create_message(msg.channel_id).content(&quot;Pong!&quot;)?.await?;</span>
+<span class="doccomment">//!             http.create_message(msg.channel_id)</span>
+<span class="doccomment">//!                 .content(&quot;Pong!&quot;)?</span>
+<span class="doccomment">//!                 .exec()</span>
+<span class="doccomment">//!                 .await?;</span>
 <span class="doccomment">//!         }</span>
 <span class="doccomment">//!         Event::ShardConnected(_) =&gt; {</span>
 <span class="doccomment">//!             println!(&quot;Connected on shard {}&quot;, shard_id);</span>

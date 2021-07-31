@@ -154,6 +154,14 @@
 <span id="154">154</span>
 <span id="155">155</span>
 <span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-gateway</span>
 <span class="doccomment">//!</span>
@@ -241,6 +249,12 @@
 <span class="doccomment">//! Enabling **only** `zlib-simd` will make the library use [`zlib-ng`] which is a modern</span>
 <span class="doccomment">//! fork of zlib that is faster and more effective, but it needs `cmake` to compile.</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! ### Tracing</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The `tracing` feature enables logging via the [`tracing`] crate.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This is enabled by default.</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! ### Metrics</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The `metrics` feature provides metrics information via the `metrics` crate.</span>
@@ -255,6 +269,7 @@
 <span class="doccomment">//! [`rustls`]: https://crates.io/crates/rustls</span>
 <span class="doccomment">//! [`serde_json`]: https://crates.io/crates/serde_json</span>
 <span class="doccomment">//! [`simd-json`]: https://crates.io/crates/simd-json</span>
+<span class="doccomment">//! [`tracing`]: https://crates.io/crates/tracing</span>
 <span class="doccomment">//! [`twilight-http`]: https://twilight-rs.github.io/twilight/twilight_http/index.html</span>
 <span class="doccomment">//! [`zlib-ng`]: https://github.com/zlib-ng/zlib-ng</span>
 <span class="doccomment">//! [discord badge]: https://img.shields.io/discord/745809834183753828?color=%237289DA&amp;label=discord%20server&amp;logo=discord&amp;style=for-the-badge</span>
@@ -282,7 +297,8 @@
 <span class="attribute">#![<span class="ident">allow</span>(
     <span class="ident">clippy::module_name_repetitions</span>,
     <span class="ident">clippy::must_use_candidate</span>,
-    <span class="ident">clippy::semicolon_if_nothing_returned</span>
+    <span class="ident">clippy::semicolon_if_nothing_returned</span>,
+    <span class="ident">clippy::used_underscore_binding</span>
 )]</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cluster</span>;

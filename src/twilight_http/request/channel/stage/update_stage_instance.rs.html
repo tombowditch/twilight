@@ -131,15 +131,11 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
-<span id="134">134</span>
-<span id="135">135</span>
-<span id="136">136</span>
-<span id="137">137</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>},
+    <span class="ident">response</span>::{<span class="ident">marker::EmptyBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
@@ -200,18 +196,15 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UpdateStageInstanceErrorType</span> {
     <span class="doccomment">/// Topic is not between 1 and 120 characters in length.</span>
-    <span class="ident">InvalidTopic</span> {
-        <span class="doccomment">/// Invalid topic.</span>
-        <span class="ident">topic</span>: <span class="ident">String</span>,
-    },
+    <span class="ident">InvalidTopic</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Serialize</span>)]</span>
-<span class="kw">struct</span> <span class="ident">UpdateStageInstanceFields</span> {
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>)]</span>
+<span class="kw">struct</span> <span class="ident">UpdateStageInstanceFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">privacy_level</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PrivacyLevel</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">topic</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">topic</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Update fields of an existing stage instance.</span>
@@ -219,37 +212,34 @@
 <span class="doccomment">/// Requires the user to be a moderator of the stage channel.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateStageInstance</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
-    <span class="ident">fields</span>: <span class="ident">UpdateStageInstanceFields</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">fields</span>: <span class="ident">UpdateStageInstanceFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">UpdateStageInstance</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">channel_id</span>,
-            <span class="ident">fields</span>: <span class="ident">UpdateStageInstanceFields::default</span>(),
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
+            <span class="ident">fields</span>: <span class="ident">UpdateStageInstanceFields</span> {
+                <span class="ident">privacy_level</span>: <span class="prelude-val">None</span>,
+                <span class="ident">topic</span>: <span class="prelude-val">None</span>,
+            },
             <span class="ident">http</span>,
         }
     }
 
     <span class="doccomment">/// Set the [`PrivacyLevel`] of the instance.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">privacy_level</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">privacy_level</span>: <span class="ident">PrivacyLevel</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">privacy_level</span>.<span class="ident">replace</span>(<span class="ident">privacy_level</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">privacy_level</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">privacy_level</span>: <span class="ident">PrivacyLevel</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">privacy_level</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">privacy_level</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the new topic of the instance.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">topic</span>(<span class="self">self</span>, <span class="ident">topic</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateStageInstanceError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">_topic</span>(<span class="ident">topic</span>.<span class="ident">into</span>())
-    }
-
-    <span class="kw">fn</span> <span class="ident">_topic</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">topic</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateStageInstanceError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">topic</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">topic</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateStageInstanceError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::stage_topic</span>(<span class="kw-2">&amp;</span><span class="ident">topic</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UpdateStageInstanceError</span> {
-                <span class="ident">kind</span>: <span class="ident">UpdateStageInstanceErrorType::InvalidTopic</span> { <span class="ident">topic</span> },
+                <span class="ident">kind</span>: <span class="ident">UpdateStageInstanceErrorType::InvalidTopic</span>,
                 <span class="ident">source</span>: <span class="prelude-val">None</span>,
             });
         }
@@ -259,20 +249,22 @@
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HttpError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::UpdateStageInstance</span> {
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">EmptyBody</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::UpdateStageInstance</span> {
             <span class="ident">channel_id</span>: <span class="self">self</span>.<span class="ident">channel_id</span>.<span class="number">0</span>,
-        })
-        .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>
-        .<span class="ident">build</span>();
+        });
 
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">verify</span>(<span class="ident">request</span>)));
+        <span class="ident">request</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">request</span>.<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">request</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">request</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">ResponseFuture::error</span>(<span class="ident">source</span>),
+        };
 
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>.<span class="ident">build</span>())
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">UpdateStageInstance</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, ());
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>
     <script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script>

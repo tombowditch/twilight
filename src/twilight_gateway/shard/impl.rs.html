@@ -726,6 +726,42 @@
 <span id="726">726</span>
 <span id="727">727</span>
 <span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">builder::ShardBuilder</span>,
@@ -745,7 +781,7 @@
     <span class="ident">borrow::Cow</span>,
     <span class="ident">error::Error</span>,
     <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
-    <span class="ident">sync</span>::{<span class="ident">atomic::Ordering</span>, <span class="ident">Arc</span>},
+    <span class="ident">sync</span>::{<span class="ident">atomic::Ordering</span>, <span class="ident">Arc</span>, <span class="ident">Mutex</span>},
 };
 <span class="kw">use</span> <span class="ident">tokio</span>::{<span class="ident">sync::watch::Receiver</span> <span class="kw">as</span> <span class="ident">WatchReceiver</span>, <span class="ident">task::JoinHandle</span>};
 <span class="kw">use</span> <span class="ident">tokio_tungstenite::tungstenite::protocol</span>::{
@@ -930,6 +966,9 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ShardStartError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
+            <span class="ident">ShardStartErrorType::AlreadyStarted</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;shard has already been previously started&quot;</span>)
+            }
             <span class="ident">ShardStartErrorType::Establishing</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;establishing the connection failed&quot;</span>),
             <span class="ident">ShardStartErrorType::ParsingGatewayUrl</span> { <span class="ident">url</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the gateway url `&quot;</span>)<span class="question-mark">?</span>;
@@ -956,6 +995,11 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ShardStartErrorType</span> {
+    <span class="doccomment">/// Shard has already been previously started.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Shards can&#39;t be started multiple times; you need to create a new</span>
+    <span class="doccomment">/// instance of the shard.</span>
+    <span class="ident">AlreadyStarted</span>,
     <span class="doccomment">/// Establishing a connection to the gateway failed.</span>
     <span class="ident">Establishing</span>,
     <span class="doccomment">/// Parsing the gateway URL provided by Discord to connect to the gateway</span>
@@ -1031,7 +1075,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">ShardRef</span> {
     <span class="ident">config</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
-    <span class="ident">emitter</span>: <span class="ident">Emitter</span>,
+    <span class="ident">emitter</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Emitter</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">processor_handle</span>: <span class="ident">OnceCell</span><span class="op">&lt;</span><span class="ident">JoinHandle</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">session</span>: <span class="ident">OnceCell</span><span class="op">&lt;</span><span class="ident">WatchReceiver</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
@@ -1138,7 +1182,7 @@
 
         <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">ShardRef</span> {
             <span class="ident">config</span>,
-            <span class="ident">emitter</span>,
+            <span class="ident">emitter</span>: <span class="ident">Mutex::new</span>(<span class="prelude-val">Some</span>(<span class="ident">emitter</span>)),
             <span class="ident">processor_handle</span>: <span class="ident">OnceCell::new</span>(),
             <span class="ident">session</span>: <span class="ident">OnceCell::new</span>(),
         }));
@@ -1161,7 +1205,14 @@
     <span class="doccomment">/// Start the shard, connecting it to the gateway and starting the process</span>
     <span class="doccomment">/// of receiving and processing events.</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// The same shard can&#39;t be started multiple times. If you stop a shard via</span>
+    <span class="doccomment">/// [`shutdown`] or [`shutdown_resumable`] you need to create a new instance</span>
+    <span class="doccomment">/// of the shard.</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns a [`ShardStartErrorType::AlreadyStarted`] error type if the</span>
+    <span class="doccomment">/// shard has already been started.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`ShardStartErrorType::Establishing`] error type if</span>
     <span class="doccomment">/// establishing a connection to the gateway failed.</span>
@@ -1171,6 +1222,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`ShardStartErrorType::RetrievingGatewayUrl`] error type if</span>
     <span class="doccomment">/// the gateway URL couldn&#39;t be retrieved from the HTTP API.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`shutdown_resumable`]: Self::shutdown_resumable</span>
+    <span class="doccomment">/// [`shutdown`]: Self::shutdown</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ShardStartError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">url</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">u</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">config</span>.<span class="ident">gateway_url</span>.<span class="ident">clone</span>() {
             <span class="ident">u</span>.<span class="ident">into_string</span>()
@@ -1180,6 +1234,13 @@
                 .<span class="ident">http_client</span>()
                 .<span class="ident">gateway</span>()
                 .<span class="ident">authed</span>()
+                .<span class="ident">exec</span>()
+                .<span class="kw">await</span>
+                .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ShardStartError</span> {
+                    <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
+                    <span class="ident">kind</span>: <span class="ident">ShardStartErrorType::RetrievingGatewayUrl</span>,
+                })<span class="question-mark">?</span>
+                .<span class="ident">model</span>()
                 .<span class="kw">await</span>
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ShardStartError</span> {
                     <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
@@ -1188,8 +1249,18 @@
                 .<span class="ident">url</span>
         };
 
+        <span class="kw">let</span> <span class="ident">emitter</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="number">0</span>
+            .<span class="ident">emitter</span>
+            .<span class="ident">lock</span>()
+            .<span class="ident">expect</span>(<span class="string">&quot;emitter poisoned&quot;</span>)
+            .<span class="ident">take</span>()
+            .<span class="ident">ok_or</span>(<span class="ident">ShardStartError</span> {
+                <span class="ident">kind</span>: <span class="ident">ShardStartErrorType::AlreadyStarted</span>,
+                <span class="ident">source</span>: <span class="prelude-val">None</span>,
+            })<span class="question-mark">?</span>;
+
         <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">Arc::clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">config</span>);
-        <span class="kw">let</span> <span class="ident">emitter</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">emitter</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> (<span class="ident">processor</span>, <span class="ident">wrx</span>) <span class="op">=</span>
             <span class="ident">ShardProcessor::new</span>(<span class="ident">config</span>, <span class="ident">url</span>, <span class="ident">emitter</span>)
                 .<span class="kw">await</span>
@@ -1212,6 +1283,7 @@
         <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="ident">tokio::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
             <span class="ident">processor</span>.<span class="ident">run</span>().<span class="kw">await</span>;
 
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
             <span class="macro">tracing::debug!</span>(<span class="string">&quot;shard processor future ended&quot;</span>);
         });
 

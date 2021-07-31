@@ -157,18 +157,11 @@
 <span id="157">157</span>
 <span id="158">158</span>
 <span id="159">159</span>
-<span id="160">160</span>
-<span id="161">161</span>
-<span id="162">162</span>
-<span id="163">163</span>
-<span id="164">164</span>
-<span id="165">165</span>
-<span id="166">166</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>},
+    <span class="ident">response</span>::{<span class="ident">marker::ListBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -212,9 +205,7 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">GetCurrentUserGuildsError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">GetCurrentUserGuildsErrorType::LimitInvalid</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the limit is invalid&quot;</span>)
-            }
+            <span class="ident">GetCurrentUserGuildsErrorType::LimitInvalid</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the limit is invalid&quot;</span>),
         }
     }
 }
@@ -226,10 +217,7 @@
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">GetCurrentUserGuildsErrorType</span> {
     <span class="doccomment">/// The maximum number of guilds to retrieve is 0 or more than 200.</span>
-    <span class="ident">LimitInvalid</span> {
-        <span class="doccomment">/// Provided maximum number of guilds to retrieve.</span>
-        <span class="ident">limit</span>: <span class="ident">u64</span>,
-    },
+    <span class="ident">LimitInvalid</span>,
 }
 
 <span class="kw">struct</span> <span class="ident">GetCurrentUserGuildsFields</span> {
@@ -251,7 +239,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[tokio::main]</span>
 <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-<span class="doccomment">/// let client = Client::new(&quot;my token&quot;);</span>
+<span class="doccomment">/// let client = Client::new(&quot;my token&quot;.to_owned());</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// let after = GuildId(300);</span>
 <span class="doccomment">/// let before = GuildId(400);</span>
@@ -259,38 +247,37 @@
 <span class="doccomment">///     .after(after)</span>
 <span class="doccomment">///     .before(before)</span>
 <span class="doccomment">///     .limit(25)?</span>
+<span class="doccomment">///     .exec()</span>
 <span class="doccomment">///     .await?;</span>
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetCurrentUserGuilds</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">fields</span>: <span class="ident">GetCurrentUserGuildsFields</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">CurrentUserGuild</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">GetCurrentUserGuilds</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">fields</span>: <span class="ident">GetCurrentUserGuildsFields</span> {
                 <span class="ident">after</span>: <span class="prelude-val">None</span>,
                 <span class="ident">before</span>: <span class="prelude-val">None</span>,
                 <span class="ident">limit</span>: <span class="prelude-val">None</span>,
             },
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
             <span class="ident">http</span>,
         }
     }
 
     <span class="doccomment">/// Get guilds after this guild id.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">after</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">after</span>.<span class="ident">replace</span>(<span class="ident">guild_id</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">after</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">after</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">guild_id</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Get guilds before this guild id.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">before</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">before</span>.<span class="ident">replace</span>(<span class="ident">guild_id</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">before</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">before</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">guild_id</span>);
 
         <span class="self">self</span>
     }
@@ -305,32 +292,31 @@
     <span class="doccomment">/// the amount is greater than 200.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [the discord docs]: https://discordapp.com/developers/docs/resources/user#get-current-user-guilds-query-string-params</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">GetCurrentUserGuildsError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">GetCurrentUserGuildsError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::get_current_user_guilds_limit</span>(<span class="ident">limit</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">GetCurrentUserGuildsError</span> {
-                <span class="ident">kind</span>: <span class="ident">GetCurrentUserGuildsErrorType::LimitInvalid</span> { <span class="ident">limit</span> },
+                <span class="ident">kind</span>: <span class="ident">GetCurrentUserGuildsErrorType::LimitInvalid</span>,
             });
         }
 
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">limit</span>.<span class="ident">replace</span>(<span class="ident">limit</span>);
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">limit</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">limit</span>);
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HttpError</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">ListBody</span><span class="op">&lt;</span><span class="ident">CurrentUserGuild</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::from_route</span>(<span class="ident">Route::GetGuilds</span> {
             <span class="ident">after</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">after</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="number">0</span>),
             <span class="ident">before</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">before</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="number">0</span>),
             <span class="ident">limit</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">limit</span>,
         });
 
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)));
-
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">GetCurrentUserGuilds</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">CurrentUserGuild</span><span class="op">&gt;</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
     <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>

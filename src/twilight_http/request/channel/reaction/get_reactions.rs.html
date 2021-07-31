@@ -141,13 +141,12 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
-<span id="144">144</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span><span class="ident">::RequestReactionType</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>},
+    <span class="ident">response</span>::{<span class="ident">marker::ListBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -207,7 +206,6 @@
     },
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
 <span class="kw">struct</span> <span class="ident">GetReactionsFields</span> {
     <span class="ident">after</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UserId</span><span class="op">&gt;</span>,
     <span class="ident">limit</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
@@ -219,33 +217,34 @@
 <span class="doccomment">/// requests must be chained until all reactions are retireved.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetReactions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
-    <span class="ident">emoji</span>: <span class="ident">RequestReactionType</span>,
+    <span class="ident">emoji</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RequestReactionType</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">fields</span>: <span class="ident">GetReactionsFields</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
     <span class="ident">message_id</span>: <span class="ident">MessageId</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">GetReactions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
         <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
         <span class="ident">message_id</span>: <span class="ident">MessageId</span>,
-        <span class="ident">emoji</span>: <span class="ident">RequestReactionType</span>,
+        <span class="ident">emoji</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RequestReactionType</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">channel_id</span>,
             <span class="ident">emoji</span>,
-            <span class="ident">fields</span>: <span class="ident">GetReactionsFields::default</span>(),
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
+            <span class="ident">fields</span>: <span class="ident">GetReactionsFields</span> {
+                <span class="ident">after</span>: <span class="prelude-val">None</span>,
+                <span class="ident">limit</span>: <span class="prelude-val">None</span>,
+            },
             <span class="ident">http</span>,
             <span class="ident">message_id</span>,
         }
     }
 
     <span class="doccomment">/// Get users after this id.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">after</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">after</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">after</span>.<span class="ident">replace</span>(<span class="ident">after</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">after</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">after</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">after</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">after</span>);
 
         <span class="self">self</span>
     }
@@ -259,34 +258,33 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`GetReactionsErrorType::LimitInvalid`] error type if the</span>
     <span class="doccomment">/// amount is greater than 100.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">GetReactionsError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">GetReactionsError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::get_reactions_limit</span>(<span class="ident">limit</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">GetReactionsError</span> {
                 <span class="ident">kind</span>: <span class="ident">GetReactionsErrorType::LimitInvalid</span> { <span class="ident">limit</span> },
             });
         }
 
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">limit</span>.<span class="ident">replace</span>(<span class="ident">limit</span>);
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">limit</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">limit</span>);
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HttpError</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">ListBody</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::from_route</span>(<span class="ident">Route::GetReactionUsers</span> {
             <span class="ident">after</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">after</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="number">0</span>),
             <span class="ident">channel_id</span>: <span class="self">self</span>.<span class="ident">channel_id</span>.<span class="number">0</span>,
-            <span class="ident">emoji</span>: <span class="self">self</span>.<span class="ident">emoji</span>.<span class="ident">display</span>().<span class="ident">to_string</span>(),
+            <span class="ident">emoji</span>: <span class="self">self</span>.<span class="ident">emoji</span>,
             <span class="ident">limit</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">limit</span>,
             <span class="ident">message_id</span>: <span class="self">self</span>.<span class="ident">message_id</span>.<span class="number">0</span>,
         });
 
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)));
-
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">GetReactions</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>
     <script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script>

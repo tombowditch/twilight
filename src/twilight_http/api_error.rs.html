@@ -1015,8 +1015,8 @@
     <span class="ident">AnnouncementRateLimitReached</span>,
     <span class="doccomment">/// The channel you are writing has hit the write rate limit</span>
     <span class="ident">ChannelRateLimitReached</span>,
-    <span class="doccomment">/// Your Stage topic contains words that are not allowed for public Stages</span>
-    <span class="ident">UnallowedWordsForPublicStage</span>,
+    <span class="doccomment">/// Your Stage topic, server name, server description, or channel names contain words that are not allowed</span>
+    <span class="ident">UnallowedWords</span>,
     <span class="doccomment">/// Maximum number of guilds reached (100)</span>
     <span class="ident">MaximumGuildsReached</span>,
     <span class="doccomment">/// Maximum number of friends reached (1000)</span>
@@ -1203,7 +1203,7 @@
             <span class="self">Self</span><span class="ident">::NotAccountOwner</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20018</span>,
             <span class="self">Self</span><span class="ident">::AnnouncementRateLimitReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20022</span>,
             <span class="self">Self</span><span class="ident">::ChannelRateLimitReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20028</span>,
-            <span class="self">Self</span><span class="ident">::UnallowedWordsForPublicStage</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20031</span>,
+            <span class="self">Self</span><span class="ident">::UnallowedWords</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20031</span>,
             <span class="self">Self</span><span class="ident">::MaximumGuildsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30001</span>,
             <span class="self">Self</span><span class="ident">::MaximumFriendsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30002</span>,
             <span class="self">Self</span><span class="ident">::MaximumPinsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30003</span>,
@@ -1323,7 +1323,7 @@
             <span class="number">20016</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::SlowModeRateLimitReached</span>,
             <span class="number">20018</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::NotAccountOwner</span>,
             <span class="number">20028</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::ChannelRateLimitReached</span>,
-            <span class="number">20031</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnallowedWordsForPublicStage</span>,
+            <span class="number">20031</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::UnallowedWords</span>,
             <span class="number">30001</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumGuildsReached</span>,
             <span class="number">30002</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumFriendsReached</span>,
             <span class="number">30003</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MaximumPinsReached</span>,
@@ -1443,7 +1443,7 @@
             <span class="self">Self</span><span class="ident">::NotAccountOwner</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Only the owner of this account can perform this action&quot;</span>),
             <span class="self">Self</span><span class="ident">::AnnouncementRateLimitReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Message cannot be edited due to announcement rate limits&quot;</span>),
             <span class="self">Self</span><span class="ident">::ChannelRateLimitReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;The channel you are writing has hit the write rate limit&quot;</span>),
-            <span class="self">Self</span><span class="ident">::UnallowedWordsForPublicStage</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Your Stage topic contains words that are not allowed for public Stages&quot;</span>),
+            <span class="self">Self</span><span class="ident">::UnallowedWords</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Your Stage topic, server name, server description, or channel names contain words that are not allowed&quot;</span>),
             <span class="self">Self</span><span class="ident">::MaximumGuildsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of guilds reached (100)&quot;</span>),
             <span class="self">Self</span><span class="ident">::MaximumFriendsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of friends reached (1000)&quot;</span>),
             <span class="self">Self</span><span class="ident">::MaximumPinsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of pins reached for the channel (50)&quot;</span>),

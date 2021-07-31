@@ -66,13 +66,11 @@
 <span id="66">66</span>
 <span id="67">67</span>
 <span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span>,
-    <span class="ident">request</span>::{<span class="ident">GetGatewayAuthed</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">GetGatewayAuthed</span>, <span class="ident">Request</span>},
+    <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">twilight_model::gateway::connection_info::ConnectionInfo</span>;
@@ -89,9 +87,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[tokio::main]</span>
 <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-<span class="doccomment">/// let client = Client::new(&quot;my token&quot;);</span>
+<span class="doccomment">/// let client = Client::new(&quot;my token&quot;.to_owned());</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let info = client.gateway().await?;</span>
+<span class="doccomment">/// let info = client.gateway().exec().await?.model().await?;</span>
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
@@ -103,42 +101,40 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[tokio::main]</span>
 <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-<span class="doccomment">/// let client = Client::new(&quot;my token&quot;);</span>
+<span class="doccomment">/// let client = Client::new(&quot;my token&quot;.to_owned());</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let info = client.gateway().authed().await?;</span>
+<span class="doccomment">/// let info = client.gateway().authed().exec().await?.model().await?;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// println!(&quot;URL: {}&quot;, info.url);</span>
 <span class="doccomment">/// println!(&quot;Recommended shards to use: {}&quot;, info.shards);</span>
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetGateway</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ConnectionInfo</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">GetGateway</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">fut</span>: <span class="prelude-val">None</span>, <span class="ident">http</span> }
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span> { <span class="ident">http</span> }
     }
 
     <span class="doccomment">/// Call to authenticate this request.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns additional information: the recommended number of shards to use, and information on</span>
     <span class="doccomment">/// the current session start limit.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">authed</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GetGatewayAuthed</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">authed</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">GetGatewayAuthed</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="ident">GetGatewayAuthed::new</span>(<span class="self">self</span>.<span class="ident">http</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">ConnectionInfo</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::from_route</span>(<span class="ident">Route::GetGateway</span>);
 
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)));
-
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">GetGateway</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">ConnectionInfo</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="twilight_http" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
     <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>

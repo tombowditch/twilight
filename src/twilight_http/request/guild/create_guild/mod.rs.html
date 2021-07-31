@@ -459,39 +459,11 @@
 <span id="459">459</span>
 <span id="460">460</span>
 <span id="461">461</span>
-<span id="462">462</span>
-<span id="463">463</span>
-<span id="464">464</span>
-<span id="465">465</span>
-<span id="466">466</span>
-<span id="467">467</span>
-<span id="468">468</span>
-<span id="469">469</span>
-<span id="470">470</span>
-<span id="471">471</span>
-<span id="472">472</span>
-<span id="473">473</span>
-<span id="474">474</span>
-<span id="475">475</span>
-<span id="476">476</span>
-<span id="477">477</span>
-<span id="478">478</span>
-<span id="479">479</span>
-<span id="480">480</span>
-<span id="481">481</span>
-<span id="482">482</span>
-<span id="483">483</span>
-<span id="484">484</span>
-<span id="485">485</span>
-<span id="486">486</span>
-<span id="487">487</span>
-<span id="488">488</span>
-<span id="489">489</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>},
+    <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
@@ -625,15 +597,6 @@
     <span class="kw">pub</span> <span class="ident">position</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">RoleFieldsBuilder</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RoleFields</span> {
-    <span class="doccomment">/// Convert a [`RoleFieldsBuilder`] into a [`RoleFields`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is equivalent to calling [`RoleFieldsBuilder::build`].</span>
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">builder</span>: <span class="ident">RoleFieldsBuilder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">builder</span>.<span class="ident">build</span>()
-    }
-}
-
 <span class="doccomment">/// Variants of channel fields sent to Discord.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Use [`GuildChannelFieldsBuilder`] to build one.</span>
@@ -647,8 +610,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">GuildChannelFields</span> {
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::missing_const_for_fn</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelId</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelId</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="self">Self</span><span class="ident">::Category</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">id</span>,
             <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">t</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">t</span>.<span class="ident">id</span>,
@@ -691,12 +653,6 @@
     <span class="kw">pub</span> <span class="ident">topic</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">TextFieldsBuilder</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">TextFields</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">builder</span>: <span class="ident">TextFieldsBuilder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TextFields</span> {
-        <span class="ident">builder</span>.<span class="ident">build</span>()
-    }
-}
-
 <span class="doccomment">/// Voice channel fields sent to Discord.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Use [`VoiceFieldsBuilder`] to build one.</span>
@@ -716,28 +672,17 @@
     <span class="kw">pub</span> <span class="ident">user_limit</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">VoiceFieldsBuilder</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">VoiceFields</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">builder</span>: <span class="ident">VoiceFieldsBuilder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VoiceFields</span> {
-        <span class="ident">builder</span>.<span class="ident">build</span>()
-    }
-}
-
 <span class="doccomment">/// Create a new request to create a guild.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The minimum length of the name is 2 UTF-16 characters and the maximum is 100 UTF-16 characters.</span>
 <span class="doccomment">/// This endpoint can only be used by bots in less than 10 guilds.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateGuild</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">fields</span>: <span class="ident">CreateGuildFields</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">PartialGuild</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">CreateGuild</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateGuildError</span><span class="op">&gt;</span> {
-        <span class="self">Self</span><span class="ident">::_new</span>(<span class="ident">http</span>, <span class="ident">name</span>.<span class="ident">into</span>())
-    }
-
-    <span class="kw">fn</span> <span class="ident">_new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateGuildError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateGuildError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::guild_name</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateGuildError</span> {
                 <span class="ident">kind</span>: <span class="ident">CreateGuildErrorType::NameInvalid</span> { <span class="ident">name</span> },
@@ -758,20 +703,19 @@
                 <span class="ident">system_channel_flags</span>: <span class="prelude-val">None</span>,
                 <span class="ident">verification_level</span>: <span class="prelude-val">None</span>,
             },
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
             <span class="ident">http</span>,
         })
     }
 
     <span class="doccomment">/// Add a role to the list of roles.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_role</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">role</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">RoleFields</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_role</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">role</span>: <span class="ident">RoleFields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">roles</span>.<span class="ident">is_none</span>() {
-            <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;@everyone&quot;</span>);
+            <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;@everyone&quot;</span>.<span class="ident">to_owned</span>());
             <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">roles</span>.<span class="ident">replace</span>(<span class="macro">vec!</span>[<span class="ident">builder</span>.<span class="ident">build</span>()]);
         }
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">roles</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">roles</span>.<span class="ident">as_mut</span>() {
-            <span class="ident">roles</span>.<span class="ident">push</span>(<span class="ident">role</span>.<span class="ident">into</span>());
+            <span class="ident">roles</span>.<span class="ident">push</span>(<span class="ident">role</span>);
         }
 
         <span class="self">self</span>
@@ -782,15 +726,15 @@
     <span class="doccomment">/// This must be an ID specified in [`channels`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`channels`]: Self::channels</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">afk_channel_id</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">afk_channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">afk_channel_id</span>.<span class="ident">replace</span>(<span class="ident">afk_channel_id</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">afk_channel_id</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">afk_channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">afk_channel_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">afk_channel_id</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the AFK timeout, in seconds.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">afk_timeout</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">afk_timeout</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">afk_timeout</span>.<span class="ident">replace</span>(<span class="ident">afk_timeout</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">afk_timeout</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">afk_timeout</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">afk_timeout</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">afk_timeout</span>);
 
         <span class="self">self</span>
     }
@@ -810,14 +754,15 @@
     <span class="doccomment">///     },</span>
     <span class="doccomment">/// };</span>
     <span class="doccomment">/// # #[tokio::main] async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-    <span class="doccomment">/// # let client = Client::new(&quot;my token&quot;);</span>
+    <span class="doccomment">/// # let client = Client::new(&quot;my token&quot;.to_owned());</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// let text = TextFieldsBuilder::new(&quot;text channel&quot;)?;</span>
-    <span class="doccomment">/// let voice = VoiceFieldsBuilder::new(&quot;voice channel&quot;)?;</span>
-    <span class="doccomment">/// let text2 = TextFieldsBuilder::new(&quot;other text channel&quot;)?</span>
-    <span class="doccomment">///     .topic(&quot;posting&quot;)?;</span>
+    <span class="doccomment">/// let text = TextFieldsBuilder::new(&quot;text channel&quot;.to_owned())?.build();</span>
+    <span class="doccomment">/// let voice = VoiceFieldsBuilder::new(&quot;voice channel&quot;.to_owned())?.build();</span>
+    <span class="doccomment">/// let text2 = TextFieldsBuilder::new(&quot;other text channel&quot;.to_owned())?</span>
+    <span class="doccomment">///     .topic(&quot;posting&quot;.to_owned())?</span>
+    <span class="doccomment">///     .build();</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// let category = CategoryFieldsBuilder::new(&quot;category channel&quot;)?</span>
+    <span class="doccomment">/// let category = CategoryFieldsBuilder::new(&quot;category channel&quot;.to_owned())?</span>
     <span class="doccomment">///     .add_text(text2)</span>
     <span class="doccomment">///     .add_voice(voice);</span>
     <span class="doccomment">///</span>
@@ -826,7 +771,10 @@
     <span class="doccomment">///     .add_category_builder(category)</span>
     <span class="doccomment">///     .build();</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// let guild = client.create_guild(&quot;guild name&quot;)?.channels(channels)?.await?;</span>
+    <span class="doccomment">/// let guild = client.create_guild(&quot;guild name&quot;.to_owned())?</span>
+    <span class="doccomment">///     .channels(channels)?</span>
+    <span class="doccomment">///     .exec()</span>
+    <span class="doccomment">///     .await?;</span>
     <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
@@ -852,25 +800,21 @@
     <span class="doccomment">/// information.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/resources/guild#create-guild</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_message_notifications</span>(
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">default_message_notifications</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">default_message_notifications</span>: <span class="ident">DefaultMessageNotificationLevel</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>
-            .<span class="ident">default_message_notifications</span>
-            .<span class="ident">replace</span>(<span class="ident">default_message_notifications</span>);
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">default_message_notifications</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">default_message_notifications</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the explicit content filter level.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">explicit_content_filter</span>(
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">explicit_content_filter</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">explicit_content_filter</span>: <span class="ident">ExplicitContentFilter</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>
-            .<span class="ident">explicit_content_filter</span>
-            .<span class="ident">replace</span>(<span class="ident">explicit_content_filter</span>);
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">explicit_content_filter</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">explicit_content_filter</span>);
 
         <span class="self">self</span>
     }
@@ -882,8 +826,8 @@
     <span class="doccomment">/// for more information.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/reference#image-data</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">icon</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">icon</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">icon</span>.<span class="ident">replace</span>(<span class="ident">icon</span>.<span class="ident">into</span>());
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">icon</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">icon</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">icon</span>.<span class="ident">replace</span>(<span class="ident">icon</span>);
 
         <span class="self">self</span>
     }
@@ -895,12 +839,12 @@
     <span class="doccomment">/// If there are roles, this replaces the first role in the position.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`roles`]: Self::roles</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">override_everyone</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">everyone</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">RoleFields</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">override_everyone</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">everyone</span>: <span class="ident">RoleFields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">roles</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">roles</span>.<span class="ident">as_mut</span>() {
             <span class="ident">roles</span>.<span class="ident">remove</span>(<span class="number">0</span>);
-            <span class="ident">roles</span>.<span class="ident">insert</span>(<span class="number">0</span>, <span class="ident">everyone</span>.<span class="ident">into</span>());
+            <span class="ident">roles</span>.<span class="ident">insert</span>(<span class="number">0</span>, <span class="ident">everyone</span>);
         } <span class="kw">else</span> {
-            <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">roles</span>.<span class="ident">replace</span>(<span class="macro">vec!</span>[<span class="ident">everyone</span>.<span class="ident">into</span>()]);
+            <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">roles</span>.<span class="ident">replace</span>(<span class="macro">vec!</span>[<span class="ident">everyone</span>]);
         }
 
         <span class="self">self</span>
@@ -911,17 +855,15 @@
     <span class="doccomment">/// This must be an ID specified in [`channels`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`channels`]: Self::channels</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">system_channel_id</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">system_channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">system_channel_id</span>.<span class="ident">replace</span>(<span class="ident">system_channel_id</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">system_channel_id</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">system_channel_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">system_channel_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">system_channel_id</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the guild&#39;s [`SystemChannelFlags`].</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">system_channel_flags</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">system_channel_flags</span>: <span class="ident">SystemChannelFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>
-            .<span class="ident">system_channel_flags</span>
-            .<span class="ident">replace</span>(<span class="ident">system_channel_flags</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">system_channel_flags</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">system_channel_flags</span>: <span class="ident">SystemChannelFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">system_channel_flags</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">system_channel_flags</span>);
 
         <span class="self">self</span>
     }
@@ -935,10 +877,10 @@
     <span class="doccomment">/// ```rust,no_run</span>
     <span class="doccomment">/// use twilight_http::{Client, request::guild::create_guild::RoleFieldsBuilder};</span>
     <span class="doccomment">/// # #[tokio::main] async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-    <span class="doccomment">/// # let client = Client::new(&quot;my token&quot;);</span>
+    <span class="doccomment">/// # let client = Client::new(&quot;my token&quot;.to_owned());</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// let roles = vec![RoleFieldsBuilder::new(&quot;role 1&quot;).color(0x543923)?.build()];</span>
-    <span class="doccomment">/// client.create_guild(&quot;guild name&quot;)?.roles(roles)?.await?;</span>
+    <span class="doccomment">/// let roles = vec![RoleFieldsBuilder::new(&quot;role 1&quot;.to_owned()).color(0x543923)?.build()];</span>
+    <span class="doccomment">/// client.create_guild(&quot;guild name&quot;.to_owned())?.roles(roles)?.exec().await?;</span>
     <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
@@ -956,7 +898,7 @@
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">prev_roles</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">roles</span>.<span class="ident">as_mut</span>() {
             <span class="ident">roles</span>.<span class="ident">insert</span>(<span class="number">0</span>, <span class="ident">prev_roles</span>.<span class="ident">remove</span>(<span class="number">0</span>));
         } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;@everyone&quot;</span>);
+            <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;@everyone&quot;</span>.<span class="ident">to_owned</span>());
             <span class="ident">roles</span>.<span class="ident">insert</span>(<span class="number">0</span>, <span class="ident">builder</span>.<span class="ident">build</span>());
         }
 
@@ -965,18 +907,20 @@
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HttpError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::CreateGuild</span>)
-            .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>
-            .<span class="ident">build</span>();
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">PartialGuild</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::CreateGuild</span>);
 
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)));
+        <span class="ident">request</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">request</span>.<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">request</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">request</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">ResponseFuture::error</span>(<span class="ident">source</span>),
+        };
 
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>.<span class="ident">build</span>())
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">CreateGuild</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">PartialGuild</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>
     <script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script>

@@ -784,7 +784,7 @@
                 <span class="kw">let</span> <span class="ident">buckets</span> <span class="op">=</span> <span class="ident">total</span> <span class="op">/</span> <span class="ident">concurrency</span>;
 
                 <span class="comment">// Total is 1-indexed but shards are 0-indexed, so we need to</span>
-                <span class="comment">// substract 1 here.</span>
+                <span class="comment">// subtract 1 here.</span>
                 <span class="prelude-val">Some</span>(<span class="ident">total</span> <span class="op">-</span> (<span class="ident">buckets</span> <span class="op">-</span> <span class="ident">bucket_id</span>) <span class="op">-</span> <span class="number">1</span>)
             }
             <span class="self">Self</span><span class="ident">::Range</span> { <span class="ident">to</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">*</span><span class="ident">to</span>),

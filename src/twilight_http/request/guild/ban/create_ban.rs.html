@@ -151,14 +151,11 @@
 <span id="151">151</span>
 <span id="152">152</span>
 <span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
-<span id="156">156</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
+    <span class="ident">response</span>::{<span class="ident">marker::EmptyBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -197,7 +194,7 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">CreateBanError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">CreateBanErrorType::DeleteMessageDaysInvalid</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">CreateBanErrorType::DeleteMessageDaysInvalid</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;the number of days&#39; worth of messages to delete is invalid&quot;</span>)
             }
         }
@@ -211,16 +208,12 @@
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CreateBanErrorType</span> {
     <span class="doccomment">/// The number of days&#39; worth of messages to delete is greater than 7.</span>
-    <span class="ident">DeleteMessageDaysInvalid</span> {
-        <span class="doccomment">/// Provided number of days&#39; worth of messages to delete.</span>
-        <span class="ident">days</span>: <span class="ident">u64</span>,
-    },
+    <span class="ident">DeleteMessageDaysInvalid</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
-<span class="kw">struct</span> <span class="ident">CreateBanFields</span> {
+<span class="kw">struct</span> <span class="ident">CreateBanFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">delete_message_days</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
-    <span class="ident">reason</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">reason</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Bans a user from a guild, optionally with the number of days&#39; worth of</span>
@@ -237,29 +230,31 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[tokio::main]</span>
 <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-<span class="doccomment">/// let client = Client::new(&quot;my token&quot;);</span>
+<span class="doccomment">/// let client = Client::new(&quot;my token&quot;.to_owned());</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// let guild_id = GuildId(100);</span>
 <span class="doccomment">/// let user_id = UserId(200);</span>
 <span class="doccomment">/// client.create_ban(guild_id, user_id)</span>
 <span class="doccomment">///     .delete_message_days(1)?</span>
 <span class="doccomment">///     .reason(&quot;memes&quot;)?</span>
+<span class="doccomment">///     .exec()</span>
 <span class="doccomment">///     .await?;</span>
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateBan</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">fields</span>: <span class="ident">CreateBanFields</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">fields</span>: <span class="ident">CreateBanFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
     <span class="ident">user_id</span>: <span class="ident">UserId</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">CreateBan</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>, <span class="ident">user_id</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>, <span class="ident">user_id</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">fields</span>: <span class="ident">CreateBanFields::default</span>(),
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
+            <span class="ident">fields</span>: <span class="ident">CreateBanFields</span> {
+                <span class="ident">delete_message_days</span>: <span class="prelude-val">None</span>,
+                <span class="ident">reason</span>: <span class="prelude-val">None</span>,
+            },
             <span class="ident">guild_id</span>,
             <span class="ident">http</span>,
             <span class="ident">user_id</span>,
@@ -274,43 +269,42 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`CreateBanErrorType::DeleteMessageDaysInvalid`] error type if</span>
     <span class="doccomment">/// the number of days is greater than 7.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete_message_days</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">days</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateBanError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">delete_message_days</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">days</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateBanError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::ban_delete_message_days</span>(<span class="ident">days</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBanError</span> {
-                <span class="ident">kind</span>: <span class="ident">CreateBanErrorType::DeleteMessageDaysInvalid</span> { <span class="ident">days</span> },
+                <span class="ident">kind</span>: <span class="ident">CreateBanErrorType::DeleteMessageDaysInvalid</span>,
             });
         }
 
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">delete_message_days</span>.<span class="ident">replace</span>(<span class="ident">days</span>);
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">delete_message_days</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">days</span>);
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HttpError</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">EmptyBody</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::from_route</span>(<span class="ident">Route::CreateBan</span> {
             <span class="ident">delete_message_days</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">delete_message_days</span>,
             <span class="ident">guild_id</span>: <span class="self">self</span>.<span class="ident">guild_id</span>.<span class="number">0</span>,
-            <span class="ident">reason</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">reason</span>.<span class="ident">clone</span>(),
+            <span class="ident">reason</span>: <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">reason</span>,
             <span class="ident">user_id</span>: <span class="self">self</span>.<span class="ident">user_id</span>.<span class="number">0</span>,
         });
 
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">verify</span>(<span class="ident">request</span>)));
-
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AuditLogReason</span> <span class="kw">for</span> <span class="ident">CreateBan</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">reason</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reason</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">AuditLogReasonError</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AuditLogReason</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CreateBan</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reason</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reason</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">AuditLogReasonError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">fields</span>
             .<span class="ident">reason</span>
-            .<span class="ident">replace</span>(<span class="ident">AuditLogReasonError::validate</span>(<span class="ident">reason</span>.<span class="ident">into</span>())<span class="question-mark">?</span>);
+            .<span class="ident">replace</span>(<span class="ident">AuditLogReasonError::validate</span>(<span class="ident">reason</span>)<span class="question-mark">?</span>);
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">CreateBan</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, ());
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>
     <script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script>

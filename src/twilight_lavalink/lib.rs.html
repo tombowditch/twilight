@@ -208,8 +208,8 @@
 <span class="doccomment">//!     let lavalink_auth = env::var(&quot;LAVALINK_AUTHORIZATION&quot;)?;</span>
 <span class="doccomment">//!     let shard_count = 1u64;</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//!     let http = HttpClient::new(&amp;token);</span>
-<span class="doccomment">//!     let user_id = http.current_user().await?.id;</span>
+<span class="doccomment">//!     let http = HttpClient::new(token.clone());</span>
+<span class="doccomment">//!     let user_id = http.current_user().exec().await?.model().await?.id;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     let lavalink = Lavalink::new(user_id, shard_count);</span>
 <span class="doccomment">//!     lavalink.add(lavalink_host, lavalink_auth).await?;</span>

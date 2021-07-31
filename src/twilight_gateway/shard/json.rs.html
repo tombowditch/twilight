@@ -136,6 +136,8 @@
 <span id="136">136</span>
 <span id="137">137</span>
 <span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
 </pre><pre class="rust">
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;simd-json&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">from_slice</span>, <span class="ident">from_str</span>, <span class="ident">to_string</span>, <span class="ident">to_vec</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="ident">JsonError</span>};
@@ -216,6 +218,7 @@
     <span class="ident">gateway_deserializer</span>
         .<span class="ident">deserialize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">json_deserializer</span>)
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
             <span class="macro">tracing::debug!</span>(<span class="string">&quot;invalid JSON: {}&quot;</span>, <span class="ident">String::from_utf8_lossy</span>(<span class="ident">json</span>));
 
             <span class="ident">GatewayEventParsingError</span> {
@@ -257,6 +260,7 @@
     <span class="ident">gateway_deserializer</span>
         .<span class="ident">deserialize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">json_deserializer</span>)
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
             <span class="macro">tracing::debug!</span>(<span class="string">&quot;invalid JSON: {}&quot;</span>, <span class="ident">String::from_utf8_lossy</span>(<span class="ident">json</span>));
 
             <span class="ident">GatewayEventParsingError</span> {

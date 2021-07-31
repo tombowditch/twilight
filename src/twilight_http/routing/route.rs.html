@@ -1255,18 +1255,14 @@
 <span id="1255">1255</span>
 <span id="1256">1256</span>
 <span id="1257">1257</span>
-<span id="1258">1258</span>
-<span id="1259">1259</span>
-<span id="1260">1260</span>
-<span id="1261">1261</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">path::Path</span>, <span class="ident">route_display::RouteDisplay</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::request::Method</span>;
-<span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::request</span>::{<span class="ident">channel::reaction::RequestReactionType</span>, <span class="ident">Method</span>};
+<span class="kw">use</span> <span class="ident">twilight_model::id::RoleId</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Route</span> {
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Route information to add a user to a guild.</span>
     <span class="ident">AddGuildMember</span> { <span class="ident">guild_id</span>: <span class="ident">u64</span>, <span class="ident">user_id</span>: <span class="ident">u64</span> },
     <span class="doccomment">/// Route information to add a role to guild member.</span>
@@ -1286,7 +1282,7 @@
         <span class="doccomment">/// The ID of the guild.</span>
         <span class="ident">guild_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The reason for the ban.</span>
-        <span class="ident">reason</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        <span class="ident">reason</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the user.</span>
         <span class="ident">user_id</span>: <span class="ident">u64</span>,
     },
@@ -1317,7 +1313,7 @@
     <span class="doccomment">/// Route information to create a guild from a template.</span>
     <span class="ident">CreateGuildFromTemplate</span> {
         <span class="doccomment">/// Code of the template.</span>
-        <span class="ident">template_code</span>: <span class="ident">String</span>,
+        <span class="ident">template_code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to create a guild&#39;s integration.</span>
     <span class="ident">CreateGuildIntegration</span> {
@@ -1337,7 +1333,7 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// A user must have at least one of these roles to be able to be</span>
         <span class="doccomment">/// pruned.</span>
-        <span class="ident">include_roles</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
+        <span class="ident">include_roles</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">RoleId</span>],
     },
     <span class="doccomment">/// Route information to create an invite to a channel.</span>
     <span class="ident">CreateInvite</span> {
@@ -1356,7 +1352,7 @@
         <span class="doccomment">/// The ID of the channel.</span>
         <span class="ident">channel_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The URI encoded custom or unicode emoji.</span>
-        <span class="ident">emoji</span>: <span class="ident">String</span>,
+        <span class="ident">emoji</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RequestReactionType</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the message.</span>
         <span class="ident">message_id</span>: <span class="ident">u64</span>,
     },
@@ -1439,14 +1435,14 @@
     <span class="doccomment">/// Route information to delete an invite.</span>
     <span class="ident">DeleteInvite</span> {
         <span class="doccomment">/// The unique invite code.</span>
-        <span class="ident">code</span>: <span class="ident">String</span>,
+        <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to delete the original interaction response.</span>
     <span class="ident">DeleteInteractionOriginal</span> {
         <span class="doccomment">/// The ID of the owner application</span>
         <span class="ident">application_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The token of the interaction.</span>
-        <span class="ident">interaction_token</span>: <span class="ident">String</span>,
+        <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to delete a channel&#39;s message.</span>
     <span class="ident">DeleteMessage</span> {
@@ -1473,7 +1469,7 @@
         <span class="doccomment">/// The ID of the channel.</span>
         <span class="ident">channel_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The URI encoded custom or unicode emoji.</span>
-        <span class="ident">emoji</span>: <span class="ident">String</span>,
+        <span class="ident">emoji</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RequestReactionType</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the message.</span>
         <span class="ident">message_id</span>: <span class="ident">u64</span>,
     },
@@ -1485,16 +1481,25 @@
         <span class="doccomment">/// The ID of the target role or user.</span>
         <span class="ident">target_id</span>: <span class="ident">u64</span>,
     },
+    <span class="doccomment">/// Route information to delete the current user&#39;s reaction on a message.</span>
+    <span class="ident">DeleteReactionCurrentUser</span> {
+        <span class="doccomment">/// ID of the channel.</span>
+        <span class="ident">channel_id</span>: <span class="ident">u64</span>,
+        <span class="doccomment">/// URI encoded custom or unicode emoji.</span>
+        <span class="ident">emoji</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RequestReactionType</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// ID of the message.</span>
+        <span class="ident">message_id</span>: <span class="ident">u64</span>,
+    },
     <span class="doccomment">/// Route information to delete a user&#39;s reaction on a message.</span>
     <span class="ident">DeleteReaction</span> {
         <span class="doccomment">/// The ID of the channel.</span>
         <span class="ident">channel_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The URI encoded custom or unicode emoji.</span>
-        <span class="ident">emoji</span>: <span class="ident">String</span>,
+        <span class="ident">emoji</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RequestReactionType</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the message.</span>
         <span class="ident">message_id</span>: <span class="ident">u64</span>,
-        <span class="doccomment">/// The ID of the user. This can be `@me` to specify the current user.</span>
-        <span class="ident">user</span>: <span class="ident">String</span>,
+        <span class="doccomment">/// The ID of the user.</span>
+        <span class="ident">user_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to delete a guild&#39;s role.</span>
     <span class="ident">DeleteRole</span> {
@@ -1513,25 +1518,25 @@
         <span class="doccomment">/// The ID of the guild.</span>
         <span class="ident">guild_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The target template code.</span>
-        <span class="ident">template_code</span>: <span class="ident">String</span>,
+        <span class="ident">template_code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to delete a message created by a webhook.</span>
     <span class="ident">DeleteWebhookMessage</span> {
         <span class="ident">message_id</span>: <span class="ident">u64</span>,
-        <span class="ident">token</span>: <span class="ident">String</span>,
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="ident">webhook_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to delete a webhook.</span>
     <span class="ident">DeleteWebhook</span> {
         <span class="doccomment">/// The token of the webhook.</span>
-        <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the webhook.</span>
         <span class="ident">webhook_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to execute a webhook by ID and token.</span>
     <span class="ident">ExecuteWebhook</span> {
         <span class="doccomment">/// The token of the webhook.</span>
-        <span class="ident">token</span>: <span class="ident">String</span>,
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="doccomment">/// Whether to wait for a message response.</span>
         <span class="ident">wait</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the webhook.</span>
@@ -1598,6 +1603,8 @@
     },
     <span class="doccomment">/// Route information to get info about application the current bot user belongs to</span>
     <span class="ident">GetCurrentUserApplicationInfo</span>,
+    <span class="doccomment">/// Route information to get the current user.</span>
+    <span class="ident">GetCurrentUser</span>,
     <span class="doccomment">/// Route information to get an emoji by ID within a guild.</span>
     <span class="ident">GetEmoji</span> {
         <span class="doccomment">/// The ID of the emoji.</span>
@@ -1684,7 +1691,7 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// A user must have at least one of these roles to be able to be</span>
         <span class="doccomment">/// pruned.</span>
-        <span class="ident">include_roles</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
+        <span class="ident">include_roles</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">RoleId</span>],
     },
     <span class="doccomment">/// Route information to get a guild&#39;s roles.</span>
     <span class="ident">GetGuildRoles</span> {
@@ -1725,19 +1732,19 @@
         <span class="doccomment">/// ID of the owner application.</span>
         <span class="ident">application_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// Token of the interaction.</span>
-        <span class="ident">interaction_token</span>: <span class="ident">String</span>,
+        <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to get an invite.</span>
     <span class="ident">GetInvite</span> {
         <span class="doccomment">/// The unique invite code.</span>
-        <span class="ident">code</span>: <span class="ident">String</span>,
+        <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="doccomment">/// Whether to retrieve statistics about the invite.</span>
         <span class="ident">with_counts</span>: <span class="ident">bool</span>,
     },
     <span class="doccomment">/// Route information to get an invite with an expiration.</span>
     <span class="ident">GetInviteWithExpiration</span> {
         <span class="doccomment">/// The unique invite code.</span>
-        <span class="ident">code</span>: <span class="ident">String</span>,
+        <span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="doccomment">/// Whether to retrieve statistics about the invite.</span>
         <span class="ident">with_counts</span>: <span class="ident">bool</span>,
         <span class="doccomment">/// Whether to retrieve the expiration date of the invite.</span>
@@ -1783,7 +1790,7 @@
         <span class="doccomment">/// The ID of the channel.</span>
         <span class="ident">channel_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The URI encoded custom or unicode emoji.</span>
-        <span class="ident">emoji</span>: <span class="ident">String</span>,
+        <span class="ident">emoji</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">RequestReactionType</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The maximum number of users to retrieve.</span>
         <span class="ident">limit</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the message.</span>
@@ -1797,18 +1804,17 @@
     <span class="doccomment">/// Route information to get a template.</span>
     <span class="ident">GetTemplate</span> {
         <span class="doccomment">/// The template code.</span>
-        <span class="ident">template_code</span>: <span class="ident">String</span>,
+        <span class="ident">template_code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to get a list of templates from a guild.</span>
     <span class="ident">GetTemplates</span> {
         <span class="doccomment">/// The ID of the guild.</span>
         <span class="ident">guild_id</span>: <span class="ident">u64</span>,
     },
-    <span class="doccomment">/// Route information to get the current user.</span>
+    <span class="doccomment">/// Route information to get a user.</span>
     <span class="ident">GetUser</span> {
-        <span class="doccomment">/// The ID of the target user. This can be `@me` to specify the current</span>
-        <span class="doccomment">/// user.</span>
-        <span class="ident">target_user</span>: <span class="ident">String</span>,
+        <span class="doccomment">/// ID of the target user.</span>
+        <span class="ident">user_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to get the current user&#39;s connections.</span>
     <span class="ident">GetUserConnections</span>,
@@ -1820,7 +1826,7 @@
     <span class="doccomment">/// current user doesn&#39;t have access to it.</span>
     <span class="ident">GetWebhook</span> {
         <span class="doccomment">/// The token of the webhook.</span>
-        <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the webhook.</span>
         <span class="ident">webhook_id</span>: <span class="ident">u64</span>,
     },
@@ -1829,7 +1835,7 @@
         <span class="doccomment">/// ID of the message.</span>
         <span class="ident">message_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// Token of the webhook.</span>
-        <span class="ident">token</span>: <span class="ident">String</span>,
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="doccomment">/// ID of the webhook.</span>
         <span class="ident">webhook_id</span>: <span class="ident">u64</span>,
     },
@@ -1838,7 +1844,7 @@
         <span class="doccomment">/// The ID of the interaction.</span>
         <span class="ident">interaction_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The token for the interaction.</span>
-        <span class="ident">interaction_token</span>: <span class="ident">String</span>,
+        <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to leave the guild.</span>
     <span class="ident">LeaveGuild</span> {
@@ -1875,7 +1881,7 @@
         <span class="doccomment">/// Upper limit of members to query for.</span>
         <span class="ident">limit</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
         <span class="doccomment">/// Query to search by.</span>
-        <span class="ident">query</span>: <span class="ident">String</span>,
+        <span class="ident">query</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to set permissions of commands in a guild.</span>
     <span class="ident">SetCommandPermissions</span> {
@@ -1908,7 +1914,7 @@
         <span class="doccomment">/// The ID of the guild.</span>
         <span class="ident">guild_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The template code.</span>
-        <span class="ident">template_code</span>: <span class="ident">String</span>,
+        <span class="ident">template_code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to unpin a message from a channel.</span>
     <span class="ident">UnpinMessage</span> {
@@ -1993,7 +1999,7 @@
         <span class="doccomment">/// The ID of the owner application.</span>
         <span class="ident">application_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The token for the interaction.</span>
-        <span class="ident">interaction_token</span>: <span class="ident">String</span>,
+        <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to update a member.</span>
     <span class="ident">UpdateMember</span> {
@@ -2044,7 +2050,7 @@
         <span class="doccomment">/// The ID of the guild.</span>
         <span class="ident">guild_id</span>: <span class="ident">u64</span>,
         <span class="doccomment">/// The template code.</span>
-        <span class="ident">template_code</span>: <span class="ident">String</span>,
+        <span class="ident">template_code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     },
     <span class="doccomment">/// Route information to update a user&#39;s voice state.</span>
     <span class="ident">UpdateUserVoiceState</span> {
@@ -2056,37 +2062,19 @@
     <span class="doccomment">/// Route information to update a message created by a webhook.</span>
     <span class="ident">UpdateWebhookMessage</span> {
         <span class="ident">message_id</span>: <span class="ident">u64</span>,
-        <span class="ident">token</span>: <span class="ident">String</span>,
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="ident">webhook_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to update a webhook.</span>
     <span class="ident">UpdateWebhook</span> {
         <span class="doccomment">/// The token of the webhook.</span>
-        <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The ID of the webhook.</span>
         <span class="ident">webhook_id</span>: <span class="ident">u64</span>,
     },
 }
 
-<span class="kw">impl</span> <span class="ident">Route</span> {
-    <span class="doccomment">/// Separate a route into its parts: the HTTP method, the path enum to use</span>
-    <span class="doccomment">/// for ratelimit buckets, and the URI path.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The method and URI path are useful for actually performing requests,</span>
-    <span class="doccomment">/// while the returned path enum is useful for ratelimiting.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::cognitive_complexity</span>, <span class="ident">clippy::too_many_lines</span>)]</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(
-        <span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.1&quot;</span>,
-        <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;use the individual `display`, `method`, and `path` methods&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_parts</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Method</span>, <span class="ident">Path</span>, <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span>) {
-        (
-            <span class="self">self</span>.<span class="ident">method</span>(),
-            <span class="self">self</span>.<span class="ident">path</span>(),
-            <span class="ident">Cow::Owned</span>(<span class="self">self</span>.<span class="ident">display</span>().<span class="ident">to_string</span>()),
-        )
-    }
-
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Display formatter of the route portion of a URL.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
@@ -2109,7 +2097,7 @@
     <span class="doccomment">/// use twilight_http::routing::Route;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// let route = Route::GetInvite {</span>
-    <span class="doccomment">///     code: &quot;twilight-rs&quot;.to_owned(),</span>
+    <span class="doccomment">///     code: &quot;twilight-rs&quot;,</span>
     <span class="doccomment">///     with_counts: true,</span>
     <span class="doccomment">/// };</span>
     <span class="doccomment">///</span>
@@ -2121,7 +2109,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`GetInvite`]: Self::GetInvite</span>
     <span class="doccomment">/// [`GetPins`]: Self::GetPins</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">display</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RouteDisplay</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">display</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RouteDisplay</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="ident">RouteDisplay::new</span>(<span class="self">self</span>)
     }
 
@@ -2159,6 +2147,7 @@
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteMessageSpecificReaction</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteMessage</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeletePermissionOverwrite</span> { .. }
+            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReactionCurrentUser</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReaction</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteRole</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteStageInstance</span> { .. }
@@ -2179,6 +2168,7 @@
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetChannels</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetCommandPermissions</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetCurrentUserApplicationInfo</span>
+            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetCurrentUser</span>
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetEmoji</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetEmojis</span> { .. }
             <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGateway</span>
@@ -2348,7 +2338,9 @@
                 <span class="ident">Path::ChannelsIdMessages</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
             <span class="self">Self</span><span class="ident">::CreatePrivateChannel</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetUserPrivateChannels</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdChannels</span>,
-            <span class="self">Self</span><span class="ident">::CreateReaction</span> { <span class="ident">channel_id</span>, .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReaction</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="self">Self</span><span class="ident">::CreateReaction</span> { <span class="ident">channel_id</span>, .. }
+            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReactionCurrentUser</span> { <span class="ident">channel_id</span>, .. }
+            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReaction</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessagesIdReactionsUserIdType</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
             <span class="self">Self</span><span class="ident">::CreateRole</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildRoles</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
@@ -2431,7 +2423,7 @@
                 <span class="ident">Path::ApplicationGuildCommandId</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }
             <span class="self">Self</span><span class="ident">::GetCurrentUserApplicationInfo</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::OauthApplicationsMe</span>,
-            <span class="self">Self</span><span class="ident">::GetUser</span> { .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateCurrentUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersId</span>,
+            <span class="self">Self</span><span class="ident">::GetCurrentUser</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetUser</span> { .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateCurrentUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersId</span>,
             <span class="self">Self</span><span class="ident">::GetEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdEmojisId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
@@ -2490,14 +2482,14 @@
         <span class="macro">assert_eq!</span>(
             <span class="ident">Method::Delete</span>,
             <span class="ident">Route::DeleteInvite</span> {
-                <span class="ident">code</span>: <span class="string">&quot;twilight-rs&quot;</span>.<span class="ident">to_owned</span>(),
+                <span class="ident">code</span>: <span class="string">&quot;twilight-rs&quot;</span>,
             }
             .<span class="ident">method</span>()
         );
         <span class="macro">assert_eq!</span>(
             <span class="ident">Method::Get</span>,
             <span class="ident">Route::GetInvite</span> {
-                <span class="ident">code</span>: <span class="string">&quot;twilight-rs&quot;</span>.<span class="ident">to_owned</span>(),
+                <span class="ident">code</span>: <span class="string">&quot;twilight-rs&quot;</span>,
                 <span class="ident">with_counts</span>: <span class="bool-val">false</span>,
             }
             .<span class="ident">method</span>()
@@ -2515,7 +2507,7 @@
             <span class="ident">Method::Put</span>,
             <span class="ident">Route::SyncTemplate</span> {
                 <span class="ident">guild_id</span>: <span class="number">123</span>,
-                <span class="ident">template_code</span>: <span class="string">&quot;abc&quot;</span>.<span class="ident">to_owned</span>(),
+                <span class="ident">template_code</span>: <span class="string">&quot;abc&quot;</span>,
             }
             .<span class="ident">method</span>()
         );

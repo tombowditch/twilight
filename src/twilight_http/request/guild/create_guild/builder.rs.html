@@ -965,25 +965,6 @@
 <span id="965">965</span>
 <span id="966">966</span>
 <span id="967">967</span>
-<span id="968">968</span>
-<span id="969">969</span>
-<span id="970">970</span>
-<span id="971">971</span>
-<span id="972">972</span>
-<span id="973">973</span>
-<span id="974">974</span>
-<span id="975">975</span>
-<span id="976">976</span>
-<span id="977">977</span>
-<span id="978">978</span>
-<span id="979">979</span>
-<span id="980">980</span>
-<span id="981">981</span>
-<span id="982">982</span>
-<span id="983">983</span>
-<span id="984">984</span>
-<span id="985">985</span>
-<span id="986">986</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">CategoryFields</span>, <span class="ident">GuildChannelFields</span>, <span class="ident">RoleFields</span>, <span class="ident">TextFields</span>, <span class="ident">VoiceFields</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -1070,13 +1051,13 @@
     <span class="kw">const</span> <span class="ident">ROLE_ID</span>: <span class="ident">RoleId</span> <span class="op">=</span> <span class="ident">RoleId</span>(<span class="number">1</span>);
 
     <span class="doccomment">/// Create a new default role field builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">RoleFields</span> {
             <span class="ident">color</span>: <span class="prelude-val">None</span>,
             <span class="ident">hoist</span>: <span class="prelude-val">None</span>,
             <span class="ident">id</span>: <span class="self">Self</span><span class="ident">::ROLE_ID</span>,
             <span class="ident">mentionable</span>: <span class="prelude-val">None</span>,
-            <span class="ident">name</span>: <span class="ident">name</span>.<span class="ident">into</span>(),
+            <span class="ident">name</span>,
             <span class="ident">permissions</span>: <span class="prelude-val">None</span>,
             <span class="ident">position</span>: <span class="prelude-val">None</span>,
         })
@@ -1109,8 +1090,8 @@
     }
 
     <span class="doccomment">/// Show the role above other roles in the user list.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hoist</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">hoist</span>.<span class="ident">replace</span>(<span class="bool-val">true</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">hoist</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">hoist</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>);
 
         <span class="self">self</span>
     }
@@ -1134,22 +1115,22 @@
     }
 
     <span class="doccomment">/// Allow the role to be @mentioned.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mentionable</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">mentionable</span>.<span class="ident">replace</span>(<span class="bool-val">true</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">mentionable</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">mentionable</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the permissions of the role.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">permissions</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">permissions</span>: <span class="ident">Permissions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">permissions</span>.<span class="ident">replace</span>(<span class="ident">permissions</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">permissions</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">permissions</span>: <span class="ident">Permissions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">permissions</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">permissions</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the position of the role.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">position</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">position</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">position</span>.<span class="ident">replace</span>(<span class="ident">position</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">position</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">position</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">position</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">position</span>);
 
         <span class="self">self</span>
     }
@@ -1281,11 +1262,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`TextFieldsErrorType::NameTooLong`] error type if the name is</span>
     <span class="doccomment">/// too long.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
-        <span class="self">Self</span><span class="ident">::_new</span>(<span class="ident">name</span>.<span class="ident">into</span>())
-    }
-
-    <span class="kw">fn</span> <span class="ident">_new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="self">Self</span><span class="ident">::MIN_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TextFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">TextFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> },
@@ -1317,8 +1294,8 @@
     }
 
     <span class="doccomment">/// Make the channel NSFW.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">nsfw</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">nsfw</span>.<span class="ident">replace</span>(<span class="bool-val">true</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">nsfw</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">nsfw</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>);
 
         <span class="self">self</span>
     }
@@ -1354,11 +1331,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`TextFieldsErrorType::TopicTooLong`] error type if the topic</span>
     <span class="doccomment">/// is too long.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">topic</span>(<span class="self">self</span>, <span class="ident">topic</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">_topic</span>(<span class="ident">topic</span>.<span class="ident">into</span>())
-    }
-
-    <span class="kw">fn</span> <span class="ident">_topic</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">topic</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">topic</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">topic</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">topic</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MAX_TOPIC_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TextFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">TextFieldsErrorType::TopicTooLong</span> { <span class="ident">topic</span> },
@@ -1462,11 +1435,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`VoiceFieldsErrorType::NameTooLong`] error type if the name</span>
     <span class="doccomment">/// is too long.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">VoiceFieldsError</span><span class="op">&gt;</span> {
-        <span class="self">Self</span><span class="ident">::_new</span>(<span class="ident">name</span>.<span class="ident">into</span>())
-    }
-
-    <span class="kw">fn</span> <span class="ident">_new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">VoiceFieldsError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">VoiceFieldsError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="self">Self</span><span class="ident">::MIN_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">VoiceFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">VoiceFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> },
@@ -1497,8 +1466,8 @@
     }
 
     <span class="doccomment">/// Set the voice channel&#39;s bitrate.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bitrate</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bitrate</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">bitrate</span>.<span class="ident">replace</span>(<span class="ident">bitrate</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">bitrate</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">bitrate</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">bitrate</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">bitrate</span>);
 
         <span class="self">self</span>
     }
@@ -1511,8 +1480,8 @@
     }
 
     <span class="doccomment">/// Set the voice channel&#39;s user limit.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">user_limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">user_limit</span>.<span class="ident">replace</span>(<span class="ident">limit</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">user_limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">user_limit</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">limit</span>);
 
         <span class="self">self</span>
     }
@@ -1617,11 +1586,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`CategoryFieldsErrorType::NameTooLong`] error type if the</span>
     <span class="doccomment">/// name is too long.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CategoryFieldsError</span><span class="op">&gt;</span> {
-        <span class="self">Self</span><span class="ident">::_new</span>(<span class="ident">name</span>.<span class="ident">into</span>())
-    }
-
-    <span class="kw">fn</span> <span class="ident">_new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CategoryFieldsError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CategoryFieldsError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="self">Self</span><span class="ident">::MIN_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CategoryFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">CategoryFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> },
@@ -1663,16 +1628,15 @@
     }
 
     <span class="doccomment">/// Add a child text channel.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_text</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">TextFields</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">channels</span>.<span class="ident">push</span>(<span class="ident">GuildChannelFields::Text</span>(<span class="ident">channel</span>.<span class="ident">into</span>()));
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_text</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">TextFields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">channels</span>.<span class="ident">push</span>(<span class="ident">GuildChannelFields::Text</span>(<span class="ident">channel</span>));
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// add a child voice channel.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_voice</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">VoiceFields</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">channels</span>
-            .<span class="ident">push</span>(<span class="ident">GuildChannelFields::Voice</span>(<span class="ident">channel</span>.<span class="ident">into</span>()));
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_voice</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">VoiceFields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">channels</span>.<span class="ident">push</span>(<span class="ident">GuildChannelFields::Voice</span>(<span class="ident">channel</span>));
 
         <span class="self">self</span>
     }
@@ -1680,7 +1644,7 @@
 
 <span class="doccomment">/// A builder for a list of channels.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;must be built into a list of channnels&quot;</span>]</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;must be built into a list of channels&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GuildChannelFieldsBuilder</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">GuildChannelFields</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span> <span class="ident">GuildChannelFieldsBuilder</span> {
@@ -1696,15 +1660,15 @@
     }
 
     <span class="doccomment">/// Add a text channel to the builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_text</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">TextFields</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">push</span>(<span class="ident">GuildChannelFields::Text</span>(<span class="ident">channel</span>.<span class="ident">into</span>()));
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_text</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">TextFields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">push</span>(<span class="ident">GuildChannelFields::Text</span>(<span class="ident">channel</span>));
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Add a voice channel to the builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_voice</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">VoiceFields</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">push</span>(<span class="ident">GuildChannelFields::Voice</span>(<span class="ident">channel</span>.<span class="ident">into</span>()));
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_voice</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">channel</span>: <span class="ident">VoiceFields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">push</span>(<span class="ident">GuildChannelFields::Voice</span>(<span class="ident">channel</span>));
 
         <span class="self">self</span>
     }
@@ -1716,7 +1680,7 @@
             .<span class="ident">iter</span>()
             .<span class="ident">rev</span>()
             .<span class="ident">find</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="macro">matches!</span>(<span class="ident">c</span>, <span class="ident">GuildChannelFields::Category</span>(<span class="kw">_</span>)))
-            .<span class="ident">map_or</span>(<span class="ident">ChannelId</span>(<span class="number">1</span>), <span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">clone</span>().<span class="ident">id</span>());
+            .<span class="ident">map_or</span>(<span class="ident">ChannelId</span>(<span class="number">1</span>), <span class="ident">GuildChannelFields::id</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">channels</span> <span class="op">=</span> <span class="ident">channel</span>.<span class="ident">build</span>(<span class="ident">ChannelId</span>(<span class="ident">last_id</span>.<span class="number">0</span> <span class="op">+</span> <span class="number">1</span>));
 
@@ -1755,25 +1719,26 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">voice</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VoiceFieldsBuilder</span> {
-        <span class="ident">VoiceFieldsBuilder::new</span>(<span class="string">&quot;voicename&quot;</span>)
+    <span class="kw">fn</span> <span class="ident">voice</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VoiceFields</span> {
+        <span class="ident">VoiceFieldsBuilder::new</span>(<span class="string">&quot;voicename&quot;</span>.<span class="ident">to_owned</span>())
             .<span class="ident">unwrap</span>()
             .<span class="ident">bitrate</span>(<span class="number">96_000</span>)
             .<span class="ident">permission_overwrites</span>(<span class="macro">vec!</span>[<span class="ident">overwrite</span>()])
             .<span class="ident">user_limit</span>(<span class="number">40</span>)
+            .<span class="ident">build</span>()
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_role_fields</span>() {
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;role&quot;</span>)
+            <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;role&quot;</span>.<span class="ident">to_owned</span>())
                 .<span class="ident">color</span>(<span class="number">123_123_123</span>)
                 .<span class="ident">unwrap_err</span>()
                 .<span class="ident">kind</span>(),
             <span class="ident">RoleFieldsErrorType::ColorNotRgb</span> { <span class="ident">color</span>: <span class="number">123_123_123</span> },
         ));
 
-        <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;rolename&quot;</span>)
+        <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">RoleFieldsBuilder::new</span>(<span class="string">&quot;rolename&quot;</span>.<span class="ident">to_owned</span>())
             .<span class="ident">color</span>(<span class="number">0x12_34_56</span>)
             .<span class="ident">unwrap</span>()
             .<span class="ident">hoist</span>()
@@ -1800,15 +1765,13 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_voice_fields</span>() {
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            <span class="ident">VoiceFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="ident">VoiceFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_owned</span>()).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
             <span class="ident">VoiceFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> }
             <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>()
         ));
 
-        <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">voice</span>();
-
         <span class="macro">assert_eq!</span>(
-            <span class="ident">fields</span>.<span class="ident">build</span>(),
+            <span class="ident">voice</span>(),
             <span class="ident">VoiceFields</span> {
                 <span class="ident">bitrate</span>: <span class="prelude-val">Some</span>(<span class="number">96_000</span>),
                 <span class="ident">id</span>: <span class="ident">ChannelId</span>(<span class="number">1</span>),
@@ -1825,29 +1788,28 @@
         );
     }
 
-    <span class="kw">fn</span> <span class="ident">text</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TextFieldsBuilder</span> {
-        <span class="ident">TextFieldsBuilder::new</span>(<span class="string">&quot;textname&quot;</span>)
+    <span class="kw">fn</span> <span class="ident">text</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TextFields</span> {
+        <span class="ident">TextFieldsBuilder::new</span>(<span class="string">&quot;textname&quot;</span>.<span class="ident">to_owned</span>())
             .<span class="ident">unwrap</span>()
             .<span class="ident">nsfw</span>()
             .<span class="ident">permission_overwrites</span>(<span class="macro">vec!</span>[<span class="ident">overwrite</span>()])
             .<span class="ident">rate_limit_per_user</span>(<span class="number">4_000</span>)
             .<span class="ident">unwrap</span>()
-            .<span class="ident">topic</span>(<span class="string">&quot;a topic&quot;</span>)
+            .<span class="ident">topic</span>(<span class="string">&quot;a topic&quot;</span>.<span class="ident">to_owned</span>())
             .<span class="ident">unwrap</span>()
+            .<span class="ident">build</span>()
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_text_fields</span>() {
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            <span class="ident">TextFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="ident">TextFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_owned</span>()).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
             <span class="ident">TextFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> }
             <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>()
         ));
 
-        <span class="kw">let</span> <span class="ident">fields</span> <span class="op">=</span> <span class="ident">text</span>();
-
         <span class="macro">assert_eq!</span>(
-            <span class="ident">fields</span>.<span class="ident">build</span>(),
+            <span class="ident">text</span>(),
             <span class="ident">TextFields</span> {
                 <span class="ident">id</span>: <span class="ident">ChannelId</span>(<span class="number">1</span>),
                 <span class="ident">kind</span>: <span class="ident">ChannelType::GuildText</span>,
@@ -1866,7 +1828,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">category</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CategoryFieldsBuilder</span> {
-        <span class="ident">CategoryFieldsBuilder::new</span>(<span class="string">&quot;category&quot;</span>)
+        <span class="ident">CategoryFieldsBuilder::new</span>(<span class="string">&quot;category&quot;</span>.<span class="ident">to_owned</span>())
             .<span class="ident">unwrap</span>()
             .<span class="ident">add_text</span>(<span class="ident">text</span>())
             .<span class="ident">add_voice</span>(<span class="ident">voice</span>())
@@ -1875,7 +1837,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_category_fields</span>() {
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            <span class="ident">CategoryFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
+            <span class="ident">CategoryFieldsBuilder::new</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_owned</span>()).<span class="ident">unwrap_err</span>().<span class="ident">kind</span>(),
             <span class="ident">CategoryFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> }
             <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">is_empty</span>()
         ));

@@ -126,11 +126,22 @@
 <span id="126">126</span>
 <span id="127">127</span>
 <span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">error::Error</span>,
-    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
+    <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
@@ -139,8 +150,8 @@
     <span class="ident">id::GuildId</span>,
 };
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Serialize</span>)]</span>
-<span class="kw">struct</span> <span class="ident">CreateRoleFields</span> {
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>)]</span>
+<span class="kw">struct</span> <span class="ident">CreateRoleFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">color</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
@@ -148,7 +159,7 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">mentionable</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">permissions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Permissions</span><span class="op">&gt;</span>,
 }
@@ -163,28 +174,33 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[tokio::main]</span>
 <span class="doccomment">/// # async fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
-<span class="doccomment">/// let client = Client::new(&quot;my token&quot;);</span>
+<span class="doccomment">/// let client = Client::new(&quot;my token&quot;.to_owned());</span>
 <span class="doccomment">/// let guild_id = GuildId(234);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// client.create_role(guild_id)</span>
 <span class="doccomment">///     .color(0xd90083)</span>
 <span class="doccomment">///     .name(&quot;Bright Pink&quot;)</span>
+<span class="doccomment">///     .exec()</span>
 <span class="doccomment">///     .await?;</span>
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateRole</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">fields</span>: <span class="ident">CreateRoleFields</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Role</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">fields</span>: <span class="ident">CreateRoleFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
-    <span class="ident">reason</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">reason</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">CreateRole</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">fields</span>: <span class="ident">CreateRoleFields::default</span>(),
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
+            <span class="ident">fields</span>: <span class="ident">CreateRoleFields</span> {
+                <span class="ident">color</span>: <span class="prelude-val">None</span>,
+                <span class="ident">hoist</span>: <span class="prelude-val">None</span>,
+                <span class="ident">mentionable</span>: <span class="prelude-val">None</span>,
+                <span class="ident">name</span>: <span class="prelude-val">None</span>,
+                <span class="ident">permissions</span>: <span class="prelude-val">None</span>,
+            },
             <span class="ident">guild_id</span>,
             <span class="ident">http</span>,
             <span class="ident">reason</span>: <span class="prelude-val">None</span>,
@@ -192,22 +208,22 @@
     }
 
     <span class="doccomment">/// Set the color of the role.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">color</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">color</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">color</span>.<span class="ident">replace</span>(<span class="ident">color</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">color</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">color</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">color</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">color</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// If true, display the role in the members list.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hoist</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">hoist</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">hoist</span>.<span class="ident">replace</span>(<span class="ident">hoist</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">hoist</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">hoist</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">hoist</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">hoist</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// If true, the role can be @mentioned (pinged) in chat.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mentionable</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mentionable</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">mentionable</span>.<span class="ident">replace</span>(<span class="ident">mentionable</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">mentionable</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mentionable</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">mentionable</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">mentionable</span>);
 
         <span class="self">self</span>
     }
@@ -215,46 +231,52 @@
     <span class="doccomment">/// Set the name of the role.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If none is specified, Discord sets this to `New Role`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">name</span>.<span class="ident">replace</span>(<span class="ident">name</span>.<span class="ident">into</span>());
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">name</span>);
 
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set the allowed permissions of this role.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">permissions</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">permissions</span>: <span class="ident">Permissions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">permissions</span>.<span class="ident">replace</span>(<span class="ident">permissions</span>);
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">permissions</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">permissions</span>: <span class="ident">Permissions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">permissions</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">permissions</span>);
 
         <span class="self">self</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Execute the request, returning a future resolving to a [`Response`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Response`]: crate::response::Response</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">Role</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::CreateRole</span> {
             <span class="ident">guild_id</span>: <span class="self">self</span>.<span class="ident">guild_id</span>.<span class="number">0</span>,
-        })
-        .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>;
+        });
+
+        <span class="ident">request</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">request</span>.<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">request</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">request</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">ResponseFuture::error</span>(<span class="ident">source</span>),
+        };
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">reason</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">reason</span> {
-            <span class="ident">request</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">headers</span>(<span class="ident">request::audit_header</span>(<span class="ident">reason</span>)<span class="question-mark">?</span>);
+            <span class="kw">let</span> <span class="ident">header</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">request::audit_header</span>(<span class="ident">reason</span>) {
+                <span class="prelude-val">Ok</span>(<span class="ident">header</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">header</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">ResponseFuture::error</span>(<span class="ident">source</span>),
+            };
+
+            <span class="ident">request</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">headers</span>(<span class="ident">header</span>);
         }
 
-        <span class="self">self</span>.<span class="ident">fut</span>
-            .<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>.<span class="ident">build</span>())));
-
-        <span class="prelude-val">Ok</span>(())
+        <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>.<span class="ident">build</span>())
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AuditLogReason</span> <span class="kw">for</span> <span class="ident">CreateRole</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">reason</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reason</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">AuditLogReasonError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">reason</span>
-            .<span class="ident">replace</span>(<span class="ident">AuditLogReasonError::validate</span>(<span class="ident">reason</span>.<span class="ident">into</span>())<span class="question-mark">?</span>);
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AuditLogReason</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CreateRole</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">reason</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reason</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">AuditLogReasonError</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">reason</span>.<span class="ident">replace</span>(<span class="ident">AuditLogReasonError::validate</span>(<span class="ident">reason</span>)<span class="question-mark">?</span>);
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">CreateRole</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">Role</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../../search-index.js" data-search-js="../../../../../search.js"></div>
     <script src="../../../../../main.js"></script><script src="../../../../../source-script.js"></script><script src="../../../../../source-files.js"></script>

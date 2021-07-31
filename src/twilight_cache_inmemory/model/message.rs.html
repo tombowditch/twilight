@@ -99,11 +99,6 @@
 <span id="99"> 99</span>
 <span id="100">100</span>
 <span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
-<span id="105">105</span>
-<span id="106">106</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
@@ -111,7 +106,7 @@
         <span class="ident">embed::Embed</span>,
         <span class="ident">message</span>::{
             <span class="ident">sticker::MessageSticker</span>, <span class="ident">Message</span>, <span class="ident">MessageActivity</span>, <span class="ident">MessageApplication</span>, <span class="ident">MessageFlags</span>,
-            <span class="ident">MessageReaction</span>, <span class="ident">MessageReference</span>, <span class="ident">MessageType</span>, <span class="ident">Sticker</span>,
+            <span class="ident">MessageReaction</span>, <span class="ident">MessageReference</span>, <span class="ident">MessageType</span>,
         },
         <span class="ident">Attachment</span>, <span class="ident">ChannelMention</span>,
     },
@@ -166,9 +161,6 @@
     <span class="kw">pub</span> <span class="ident">reactions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MessageReaction</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Message reference.</span>
     <span class="kw">pub</span> <span class="ident">reference</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MessageReference</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.2&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;use `sticker_items`&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">stickers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Sticker</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Stickers within the message.</span>
     <span class="kw">pub</span> <span class="ident">sticker_items</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MessageSticker</span><span class="op">&gt;</span>,
     <span class="doccomment">/// ISO 8601 timestamp of the date the message was sent.</span>
@@ -181,7 +173,6 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CachedMessage</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">msg</span>: <span class="ident">Message</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
         <span class="self">Self</span> {
             <span class="ident">id</span>: <span class="ident">msg</span>.<span class="ident">id</span>,
             <span class="ident">activity</span>: <span class="ident">msg</span>.<span class="ident">activity</span>,
@@ -203,7 +194,6 @@
             <span class="ident">pinned</span>: <span class="ident">msg</span>.<span class="ident">pinned</span>,
             <span class="ident">reactions</span>: <span class="ident">msg</span>.<span class="ident">reactions</span>,
             <span class="ident">reference</span>: <span class="ident">msg</span>.<span class="ident">reference</span>,
-            <span class="ident">stickers</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">sticker_items</span>: <span class="ident">msg</span>.<span class="ident">sticker_items</span>,
             <span class="ident">timestamp</span>: <span class="ident">msg</span>.<span class="ident">timestamp</span>,
             <span class="ident">tts</span>: <span class="ident">msg</span>.<span class="ident">tts</span>,

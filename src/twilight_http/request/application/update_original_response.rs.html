@@ -368,50 +368,14 @@
 <span id="368">368</span>
 <span id="369">369</span>
 <span id="370">370</span>
-<span id="371">371</span>
-<span id="372">372</span>
-<span id="373">373</span>
-<span id="374">374</span>
-<span id="375">375</span>
-<span id="376">376</span>
-<span id="377">377</span>
-<span id="378">378</span>
-<span id="379">379</span>
-<span id="380">380</span>
-<span id="381">381</span>
-<span id="382">382</span>
-<span id="383">383</span>
-<span id="384">384</span>
-<span id="385">385</span>
-<span id="386">386</span>
-<span id="387">387</span>
-<span id="388">388</span>
-<span id="389">389</span>
-<span id="390">390</span>
-<span id="391">391</span>
-<span id="392">392</span>
-<span id="393">393</span>
-<span id="394">394</span>
-<span id="395">395</span>
-<span id="396">396</span>
-<span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
-<span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Update a original response create for a interaction.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
     <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Form</span>, <span class="ident">NullableField</span>, <span class="ident">Pending</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate</span>, <span class="ident">Form</span>, <span class="ident">NullableField</span>, <span class="ident">Request</span>},
+    <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
@@ -459,16 +423,14 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">UpdateOriginalResponseError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">UpdateOriginalResponseErrorType::ContentInvalid</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">UpdateOriginalResponseErrorType::ContentInvalid</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;message content is invalid&quot;</span>)
             }
             <span class="ident">UpdateOriginalResponseErrorType::EmbedTooLarge</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;length of one of the embeds is too large&quot;</span>)
             }
-            <span class="ident">UpdateOriginalResponseErrorType::TooManyEmbeds</span> { <span class="ident">embeds</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">embeds</span>.<span class="ident">len</span>(), <span class="ident">f</span>)<span class="question-mark">?</span>;
-
-                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; embeds were provided, but only 10 may be provided&quot;</span>)
+            <span class="ident">UpdateOriginalResponseErrorType::TooManyEmbeds</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;more than 10 embeds were provided&quot;</span>)
             }
         }
     }
@@ -487,42 +449,33 @@
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UpdateOriginalResponseErrorType</span> {
     <span class="doccomment">/// Content is over 2000 UTF-16 characters.</span>
-    <span class="ident">ContentInvalid</span> {
-        <span class="doccomment">/// Provided content.</span>
-        <span class="ident">content</span>: <span class="ident">String</span>,
-    },
+    <span class="ident">ContentInvalid</span>,
     <span class="doccomment">/// Length of one of the embeds is over 6000 characters.</span>
     <span class="ident">EmbedTooLarge</span> {
-        <span class="doccomment">/// Provided embeds.</span>
-        <span class="ident">embeds</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Embed</span><span class="op">&gt;</span>,
         <span class="doccomment">/// Index of the embed that was too large.</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// This can be used to index into [`embeds`] to retrieve the bad embed.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// [`embeds`]: Self::EmbedTooLarge.embeds</span>
+        <span class="doccomment">/// This can be used to index into the provided embeds to retrieve the</span>
+        <span class="doccomment">/// invalid embed.</span>
         <span class="ident">index</span>: <span class="ident">usize</span>,
     },
     <span class="doccomment">/// Too many embeds were provided.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// A original response can have up to 10 embeds.</span>
-    <span class="ident">TooManyEmbeds</span> {
-        <span class="doccomment">/// Provided embeds.</span>
-        <span class="ident">embeds</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Embed</span><span class="op">&gt;</span>,
-    },
+    <span class="ident">TooManyEmbeds</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Serialize</span>)]</span>
-<span class="kw">struct</span> <span class="ident">UpdateOriginalResponseFields</span> {
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>)]</span>
+<span class="kw">struct</span> <span class="ident">UpdateOriginalResponseFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">allowed_mentions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AllowedMentions</span><span class="op">&gt;</span>,
-    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Vec::is_empty&quot;</span>)]</span>
-    <span class="ident">attachments</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Attachment</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;request::slice_is_empty&quot;</span>)]</span>
+    <span class="ident">attachments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Attachment</span>],
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">embeds</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Embed</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">embeds</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Embed</span>]<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
-    <span class="ident">payload_json</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">payload_json</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Update the original response created by a interaction.</span>
@@ -554,7 +507,8 @@
 <span class="doccomment">///     // By creating a default set of allowed mentions, no entity can be</span>
 <span class="doccomment">///     // mentioned.</span>
 <span class="doccomment">///     .allowed_mentions(AllowedMentions::default())</span>
-<span class="doccomment">///     .content(Some(&quot;test &lt;@3&gt;&quot;.to_owned()))?</span>
+<span class="doccomment">///     .content(Some(&quot;test &lt;@3&gt;&quot;))?</span>
+<span class="doccomment">///     .exec()</span>
 <span class="doccomment">///     .await?;</span>
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
@@ -562,32 +516,33 @@
 <span class="doccomment">/// [`DeleteOriginalResponse`]: super::DeleteOriginalResponse</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateOriginalResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">application_id</span>: <span class="ident">ApplicationId</span>,
-    <span class="ident">fields</span>: <span class="ident">UpdateOriginalResponseFields</span>,
-    <span class="ident">files</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
-    <span class="ident">fut</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Pending</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Message</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">fields</span>: <span class="ident">UpdateOriginalResponseFields</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">files</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>])],
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
-    <span class="ident">token</span>: <span class="ident">String</span>,
+    <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">UpdateOriginalResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Maximum number of embeds that a original response may have.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">EMBED_COUNT_LIMIT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">10</span>;
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
         <span class="ident">application_id</span>: <span class="ident">ApplicationId</span>,
-        <span class="ident">interaction_token</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">application_id</span>,
             <span class="ident">fields</span>: <span class="ident">UpdateOriginalResponseFields</span> {
-                <span class="ident">allowed_mentions</span>: <span class="ident">http</span>.<span class="ident">default_allowed_mentions</span>(),
-                ..<span class="ident">UpdateOriginalResponseFields::default</span>()
+                <span class="ident">allowed_mentions</span>: <span class="prelude-val">None</span>,
+                <span class="ident">attachments</span>: <span class="kw-2">&amp;</span>[],
+                <span class="ident">content</span>: <span class="prelude-val">None</span>,
+                <span class="ident">embeds</span>: <span class="prelude-val">None</span>,
+                <span class="ident">payload_json</span>: <span class="prelude-val">None</span>,
             },
-            <span class="ident">files</span>: <span class="ident">Vec::new</span>(),
-            <span class="ident">fut</span>: <span class="prelude-val">None</span>,
+            <span class="ident">files</span>: <span class="kw-2">&amp;</span>[],
             <span class="ident">http</span>,
-            <span class="ident">token</span>: <span class="ident">interaction_token</span>.<span class="ident">into</span>(),
+            <span class="ident">token</span>: <span class="ident">interaction_token</span>,
         }
     }
 
@@ -598,25 +553,12 @@
         <span class="self">self</span>
     }
 
-    <span class="doccomment">/// Specify an attachment already present in the target message to keep.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If called, all unspecified attachments will be removed from the message.</span>
-    <span class="doccomment">/// If not called, all attachments will be kept.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.5&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;will be removed in favor of `attachments`&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attachment</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">attachment</span>: <span class="ident">Attachment</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">attachments</span>.<span class="ident">push</span>(<span class="ident">attachment</span>);
-
-        <span class="self">self</span>
-    }
-
     <span class="doccomment">/// Specify multiple attachments already present in the target message to keep.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If called, all unspecified attachments will be removed from the message.</span>
     <span class="doccomment">/// If not called, all attachments will be kept.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attachments</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">attachments</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Attachment</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>
-            .<span class="ident">attachments</span>
-            .<span class="ident">extend</span>(<span class="ident">attachments</span>.<span class="ident">into_iter</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Attachment</span><span class="op">&gt;</span><span class="op">&gt;</span>());
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">attachments</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">attachments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Attachment</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">attachments</span> <span class="op">=</span> <span class="ident">attachments</span>;
 
         <span class="self">self</span>
     }
@@ -634,21 +576,20 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns an [`UpdateOriginalResponseErrorType::ContentInvalid`] error type if</span>
     <span class="doccomment">/// the content length is too long.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">content</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateOriginalResponseError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">content_ref</span>) <span class="op">=</span> <span class="ident">content</span>.<span class="ident">as_ref</span>() {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">content</span>(
+        <span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateOriginalResponseError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">content_ref</span>) <span class="op">=</span> <span class="ident">content</span> {
             <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::content_limit</span>(<span class="ident">content_ref</span>) {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UpdateOriginalResponseError</span> {
-                    <span class="ident">kind</span>: <span class="ident">UpdateOriginalResponseErrorType::ContentInvalid</span> {
-                        <span class="ident">content</span>: <span class="ident">content</span>.<span class="ident">expect</span>(<span class="string">&quot;content is known to be some&quot;</span>),
-                    },
+                    <span class="ident">kind</span>: <span class="ident">UpdateOriginalResponseErrorType::ContentInvalid</span>,
                     <span class="ident">source</span>: <span class="prelude-val">None</span>,
                 });
             }
         }
 
-        <span class="self">self</span>.<span class="ident">fields</span>
-            .<span class="ident">content</span>
-            .<span class="ident">replace</span>(<span class="ident">NullableField::from_option</span>(<span class="ident">content</span>));
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">content</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">NullableField</span>(<span class="ident">content</span>));
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
@@ -688,7 +629,8 @@
     <span class="doccomment">///     .build()?;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// client.update_interaction_original(&quot;token&quot;)?</span>
-    <span class="doccomment">///     .embeds(Some(vec![embed]))?</span>
+    <span class="doccomment">///     .embeds(Some(&amp;[embed]))?</span>
+    <span class="doccomment">///     .exec()</span>
     <span class="doccomment">///     .await?;</span>
     <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">/// ```</span>
@@ -705,14 +647,12 @@
     <span class="doccomment">/// [`EMBED_COUNT_LIMIT`]: Self::EMBED_COUNT_LIMIT</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">embeds</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">embeds</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Embed</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">embeds</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Embed</span>]<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateOriginalResponseError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">embeds_present</span>) <span class="op">=</span> <span class="ident">embeds</span>.<span class="ident">as_deref</span>() {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">embeds_present</span>) <span class="op">=</span> <span class="ident">embeds</span> {
             <span class="kw">if</span> <span class="ident">embeds_present</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::EMBED_COUNT_LIMIT</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UpdateOriginalResponseError</span> {
-                    <span class="ident">kind</span>: <span class="ident">UpdateOriginalResponseErrorType::TooManyEmbeds</span> {
-                        <span class="ident">embeds</span>: <span class="ident">embeds</span>.<span class="ident">expect</span>(<span class="string">&quot;embeds are known to be present&quot;</span>),
-                    },
+                    <span class="ident">kind</span>: <span class="ident">UpdateOriginalResponseErrorType::TooManyEmbeds</span>,
                     <span class="ident">source</span>: <span class="prelude-val">None</span>,
                 });
             }
@@ -720,43 +660,21 @@
             <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">embed</span>) <span class="kw">in</span> <span class="ident">embeds_present</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span> <span class="ident">validate::embed</span>(<span class="ident">embed</span>) {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UpdateOriginalResponseError</span> {
-                        <span class="ident">kind</span>: <span class="ident">UpdateOriginalResponseErrorType::EmbedTooLarge</span> {
-                            <span class="ident">embeds</span>: <span class="ident">embeds</span>.<span class="ident">expect</span>(<span class="string">&quot;embeds are known to be present&quot;</span>),
-                            <span class="ident">index</span>: <span class="ident">idx</span>,
-                        },
+                        <span class="ident">kind</span>: <span class="ident">UpdateOriginalResponseErrorType::EmbedTooLarge</span> { <span class="ident">index</span>: <span class="ident">idx</span> },
                         <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
                     });
                 }
             }
         }
 
-        <span class="self">self</span>.<span class="ident">fields</span>
-            .<span class="ident">embeds</span>
-            .<span class="ident">replace</span>(<span class="ident">NullableField::from_option</span>(<span class="ident">embeds</span>));
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">embeds</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">NullableField</span>(<span class="ident">embeds</span>));
 
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// Attach a file to the original response.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method is repeatable.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.5&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;will be removed in favor of `files`&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">file</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">push</span>((<span class="ident">name</span>.<span class="ident">into</span>(), <span class="ident">file</span>.<span class="ident">into</span>()));
-
-        <span class="self">self</span>
-    }
-
     <span class="doccomment">/// Attach multiple files to the original response.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">files</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">F</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(
-        <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">files</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">N</span>, <span class="ident">F</span>)<span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">extend</span>(
-            <span class="ident">files</span>
-                .<span class="ident">into_iter</span>()
-                .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">name</span>, <span class="ident">file</span>)<span class="op">|</span> (<span class="ident">name</span>.<span class="ident">into</span>(), <span class="ident">file</span>.<span class="ident">into</span>())),
-        );
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">files</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">files</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>])]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">files</span> <span class="op">=</span> <span class="ident">files</span>;
 
         <span class="self">self</span>
     }
@@ -764,55 +682,63 @@
     <span class="doccomment">/// JSON encoded body of any additional request fields.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If this method is called, all other fields are ignored, except for</span>
-    <span class="doccomment">/// [`file`]. See [Discord Docs/Create Message] and</span>
+    <span class="doccomment">/// [`files`]. See [Discord Docs/Create Message] and</span>
     <span class="doccomment">/// [`CreateFollowupMessage::payload_json`].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [`file`]: Self::file</span>
+    <span class="doccomment">/// [`files`]: Self::files</span>
     <span class="doccomment">/// [`CreateFollowupMessage::payload_json`]: super::CreateFollowupMessage::payload_json</span>
     <span class="doccomment">/// [Discord Docs/Create Message]: https://discord.com/developers/docs/resources/channel#create-message-params</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">payload_json</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">payload_json</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">payload_json</span>.<span class="ident">replace</span>(<span class="ident">payload_json</span>.<span class="ident">into</span>());
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">payload_json</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">payload_json</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">payload_json</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">payload_json</span>);
 
         <span class="self">self</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">request</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request</span>, <span class="ident">HttpError</span><span class="op">&gt;</span> {
+    <span class="comment">// `self` needs to be consumed and the client returned due to parameters</span>
+    <span class="comment">// being consumed in request construction.</span>
+    <span class="kw">fn</span> <span class="ident">request</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">HttpError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::UpdateInteractionOriginal</span> {
             <span class="ident">application_id</span>: <span class="self">self</span>.<span class="ident">application_id</span>.<span class="number">0</span>,
-            <span class="ident">interaction_token</span>: <span class="self">self</span>.<span class="ident">token</span>.<span class="ident">clone</span>(),
+            <span class="ident">interaction_token</span>: <span class="self">self</span>.<span class="ident">token</span>,
         });
 
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">files</span>.<span class="ident">is_empty</span>() <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">payload_json</span>.<span class="ident">is_some</span>() {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">form</span> <span class="op">=</span> <span class="ident">Form::new</span>();
 
-            <span class="kw">for</span> (<span class="ident">index</span>, (<span class="ident">name</span>, <span class="ident">file</span>)) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">drain</span>(..).<span class="ident">enumerate</span>() {
-                <span class="ident">form</span>.<span class="ident">file</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">index</span>).<span class="ident">as_bytes</span>(), <span class="ident">name</span>.<span class="ident">as_bytes</span>(), <span class="kw-2">&amp;</span><span class="ident">file</span>);
+            <span class="kw">for</span> (<span class="ident">index</span>, (<span class="ident">name</span>, <span class="ident">file</span>)) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+                <span class="ident">form</span>.<span class="ident">file</span>(<span class="ident">index</span>.<span class="ident">to_be_bytes</span>().<span class="ident">as_ref</span>(), <span class="ident">name</span>.<span class="ident">as_bytes</span>(), <span class="ident">file</span>);
             }
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">payload_json</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">payload_json</span> {
                 <span class="ident">form</span>.<span class="ident">payload_json</span>(<span class="ident">payload_json</span>);
             } <span class="kw">else</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">allowed_mentions</span>.<span class="ident">is_none</span>() {
+                    <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">allowed_mentions</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">default_allowed_mentions</span>();
+                }
+
                 <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="kw">crate</span><span class="ident">::json::to_vec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>).<span class="ident">map_err</span>(<span class="ident">HttpError::json</span>)<span class="question-mark">?</span>;
                 <span class="ident">form</span>.<span class="ident">payload_json</span>(<span class="kw-2">&amp;</span><span class="ident">body</span>);
             }
 
             <span class="ident">request</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">form</span>(<span class="ident">form</span>);
         } <span class="kw">else</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">allowed_mentions</span>.<span class="ident">is_none</span>() {
+                <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">allowed_mentions</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">default_allowed_mentions</span>();
+            }
+
             <span class="ident">request</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(<span class="ident">request</span>.<span class="ident">build</span>())
     }
 
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">HttpError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">request</span>()<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">fut</span>.<span class="ident">replace</span>(<span class="ident">Box::pin</span>(<span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)));
-
-        <span class="prelude-val">Ok</span>(())
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">request</span>() {
+            <span class="prelude-val">Ok</span>(<span class="ident">request</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ResponseFuture::error</span>(<span class="ident">source</span>),
+        }
     }
 }
-
-<span class="macro">poll_req!</span>(<span class="ident">UpdateOriginalResponse</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">Message</span>);
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="twilight_http" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>
     <script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script>

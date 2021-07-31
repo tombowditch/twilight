@@ -767,17 +767,6 @@
 <span id="767">767</span>
 <span id="768">768</span>
 <span id="769">769</span>
-<span id="770">770</span>
-<span id="771">771</span>
-<span id="772">772</span>
-<span id="773">773</span>
-<span id="774">774</span>
-<span id="775">775</span>
-<span id="776">776</span>
-<span id="777">777</span>
-<span id="778">778</span>
-<span id="779">779</span>
-<span id="780">780</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # twilight-cache-inmemory</span>
 <span class="doccomment">//!</span>
@@ -1313,17 +1302,6 @@
     <span class="doccomment">/// [`GUILD_MEMBERS`]: ::twilight_model::gateway::Intents::GUILD_MEMBERS</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">user</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">user_id</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">User</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">users</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="number">0</span>.<span class="ident">clone</span>())
-    }
-
-    <span class="doccomment">/// Gets a user by ID.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is an O(1) operation. This requires the [`GUILD_MEMBERS`] intent.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`GUILD_MEMBERS`]: ::twilight_model::gateway::Intents::GUILD_MEMBERS</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.1&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;use `user`&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">user_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">user_id</span>: <span class="ident">UserId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ref</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">UserId</span>, (<span class="ident">User</span>, <span class="ident">BTreeSet</span><span class="op">&lt;</span><span class="ident">GuildId</span><span class="op">&gt;</span>)<span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">users</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>)
     }
 
     <span class="doccomment">/// Gets the voice states within a voice channel.</span>
