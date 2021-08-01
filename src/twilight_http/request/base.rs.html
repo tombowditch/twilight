@@ -170,9 +170,86 @@
 <span id="170">170</span>
 <span id="171">171</span>
 <span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
 </pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Form</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error::Error</span>, <span class="ident">routing::Route</span>};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Form</span>, <span class="ident">Method</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">error::Error</span>,
+    <span class="ident">routing</span>::{<span class="ident">Path</span>, <span class="ident">Route</span>},
+};
 <span class="kw">use</span> <span class="ident">hyper::header</span>::{<span class="ident">HeaderMap</span>, <span class="ident">HeaderName</span>, <span class="ident">HeaderValue</span>};
 <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 
@@ -190,24 +267,66 @@
 <span class="doccomment">///     &quot;content&quot;: &quot;test&quot;</span>
 <span class="doccomment">/// }&quot;#.to_vec();</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let request = Request::builder(Route::CreateMessage {</span>
+<span class="doccomment">/// let request = Request::builder(&amp;Route::CreateMessage {</span>
 <span class="doccomment">///     channel_id: 1,</span>
 <span class="doccomment">/// }).body(body).build();</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestBuilder</span>(<span class="ident">Request</span>);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">RequestBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">RequestBuilder</span> {
     <span class="doccomment">/// Create a new request builder.</span>
     <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;request has not been fully built&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">route</span>: <span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">route</span>: <span class="kw-2">&amp;</span><span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">Request::from_route</span>(<span class="ident">route</span>))
+    }
+
+    <span class="doccomment">/// Create a request with raw information about the method, ratelimiting</span>
+    <span class="doccomment">/// path, and URL path and query.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The path and query should not include the leading slash as that is</span>
+    <span class="doccomment">/// prefixed by the client. In the URL</span>
+    <span class="doccomment">/// `https://discord.com/api/vX/channels/123/pins` the &quot;path and query&quot;</span>
+    <span class="doccomment">/// is considered to be `channels/123/pins`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Create a request from a method and the URL path and query</span>
+    <span class="doccomment">/// `channels/123/pins`:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// use std::str::FromStr;</span>
+    <span class="doccomment">/// use twilight_http::{request::{Method, RequestBuilder}, routing::Path};</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let method = Method::Post;</span>
+    <span class="doccomment">/// let path_and_query = &quot;channels/123/pins&quot;.to_owned();</span>
+    <span class="doccomment">/// let ratelimit_path = Path::from_str(&amp;path_and_query)?;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let _request = RequestBuilder::raw(</span>
+    <span class="doccomment">///     method,</span>
+    <span class="doccomment">///     ratelimit_path,</span>
+    <span class="doccomment">///     path_and_query,</span>
+    <span class="doccomment">/// ).build();</span>
+    <span class="doccomment">/// # Ok(()) }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;request has not been fully built&quot;</span>]</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">raw</span>(<span class="ident">method</span>: <span class="ident">Method</span>, <span class="ident">ratelimit_path</span>: <span class="ident">Path</span>, <span class="ident">path_and_query</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>(<span class="ident">Request</span> {
+            <span class="ident">body</span>: <span class="prelude-val">None</span>,
+            <span class="ident">form</span>: <span class="prelude-val">None</span>,
+            <span class="ident">headers</span>: <span class="prelude-val">None</span>,
+            <span class="ident">method</span>,
+            <span class="ident">path</span>: <span class="ident">path_and_query</span>,
+            <span class="ident">ratelimit_path</span>,
+            <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
+        })
     }
 
     <span class="doccomment">/// Consume the builder, returning the built request.</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::missing_const_for_fn</span>)]</span>
     <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;request information is not useful on its own and must be acted on&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Request</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
 
@@ -263,20 +382,17 @@
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The body of the request, if any.</span>
-    <span class="kw">pub</span> <span class="ident">body</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The multipart form of the request, if any.</span>
-    <span class="kw">pub</span> <span class="ident">form</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Form</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The headers to set in the request, if any.</span>
-    <span class="kw">pub</span> <span class="ident">headers</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The route of the request.</span>
-    <span class="kw">pub</span> <span class="ident">route</span>: <span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Whether to use the client&#39;s authorization token in the request.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Request</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">body</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">form</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Form</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">headers</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">method</span>: <span class="ident">Method</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">path</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">ratelimit_path</span>: <span class="ident">Path</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">use_authorization_token</span>: <span class="ident">bool</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">Request</span> {
     <span class="doccomment">/// Create a new request builder.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
@@ -291,11 +407,11 @@
     <span class="doccomment">///     &quot;content&quot;: &quot;test&quot;</span>
     <span class="doccomment">/// }&quot;#.to_vec();</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// let request = Request::builder(Route::CreateMessage {</span>
+    <span class="doccomment">/// let request = Request::builder(&amp;Route::CreateMessage {</span>
     <span class="doccomment">///     channel_id: 1,</span>
     <span class="doccomment">/// }).body(body).build();</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">builder</span>(<span class="ident">route</span>: <span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RequestBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">builder</span>(<span class="ident">route</span>: <span class="kw-2">&amp;</span><span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RequestBuilder</span> {
         <span class="ident">RequestBuilder::new</span>(<span class="ident">route</span>)
     }
 
@@ -312,21 +428,53 @@
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// use twilight_http::{request::Request, routing::Route};</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// let request = Request::from_route(Route::GetMessage {</span>
+    <span class="doccomment">/// let request = Request::from_route(&amp;Route::GetMessage {</span>
     <span class="doccomment">///     channel_id: 1,</span>
     <span class="doccomment">///     message_id: 2,</span>
     <span class="doccomment">/// });</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`builder`]: Self::builder</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">from_route</span>(<span class="ident">route</span>: <span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_route</span>(<span class="ident">route</span>: <span class="kw-2">&amp;</span><span class="ident">Route</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">body</span>: <span class="prelude-val">None</span>,
             <span class="ident">form</span>: <span class="prelude-val">None</span>,
             <span class="ident">headers</span>: <span class="prelude-val">None</span>,
-            <span class="ident">route</span>,
+            <span class="ident">method</span>: <span class="ident">route</span>.<span class="ident">method</span>(),
+            <span class="ident">path</span>: <span class="ident">route</span>.<span class="ident">display</span>().<span class="ident">to_string</span>(),
+            <span class="ident">ratelimit_path</span>: <span class="ident">route</span>.<span class="ident">path</span>(),
             <span class="ident">use_authorization_token</span>: <span class="bool-val">true</span>,
         }
+    }
+
+    <span class="doccomment">/// Body of the request, if any.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">body</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">body</span>.<span class="ident">as_deref</span>()
+    }
+
+    <span class="doccomment">/// Multipart form of the request, if any.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">form</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Form</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">form</span>.<span class="ident">as_ref</span>()
+    }
+
+    <span class="doccomment">/// Headers to set in the request, if any.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">headers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">HeaderMap</span><span class="op">&lt;</span><span class="ident">HeaderValue</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">headers</span>.<span class="ident">as_ref</span>()
+    }
+
+    <span class="doccomment">/// Method when sending the request.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Method</span> {
+        <span class="self">self</span>.<span class="ident">method</span>
+    }
+
+    <span class="doccomment">/// String path of the full URL.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>
+    }
+
+    <span class="doccomment">/// Path used for ratelimiting.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">ratelimit_path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Path</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">ratelimit_path</span>
     }
 
     <span class="doccomment">/// Whether to use the client&#39;s authorization token in the request.</span>
@@ -341,7 +489,7 @@
     <span class="kw">use</span> <span class="ident">static_assertions::assert_impl_all</span>;
     <span class="kw">use</span> <span class="ident">std::fmt::Debug</span>;
 
-    <span class="macro">assert_impl_all!</span>(<span class="ident">RequestBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>: <span class="ident">Debug</span>, <span class="ident">Send</span>, <span class="ident">Sync</span>);
+    <span class="macro">assert_impl_all!</span>(<span class="ident">RequestBuilder</span>: <span class="ident">Debug</span>, <span class="ident">Send</span>, <span class="ident">Sync</span>);
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="twilight_http" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>

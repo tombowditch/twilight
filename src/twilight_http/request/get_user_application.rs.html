@@ -36,7 +36,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`Response`]: crate::response::Response</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">CurrentApplicationInfo</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::from_route</span>(<span class="ident">Route::GetCurrentUserApplicationInfo</span>);
+        <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::from_route</span>(<span class="kw-2">&amp;</span><span class="ident">Route::GetCurrentUserApplicationInfo</span>);
 
         <span class="self">self</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">request</span>)
     }

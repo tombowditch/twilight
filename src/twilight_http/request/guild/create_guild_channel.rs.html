@@ -283,6 +283,7 @@
 <span id="283">283</span>
 <span id="284">284</span>
 <span id="285">285</span>
+<span id="286">286</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -333,6 +334,7 @@
 }
 
 <span class="doccomment">/// Type of [`CreateGuildChannelError`] that occurred.</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::pub_enum_variant_names</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CreateGuildChannelErrorType</span> {
@@ -540,7 +542,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`Response`]: crate::response::Response</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">GuildChannel</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::CreateChannel</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="kw-2">&amp;</span><span class="ident">Route::CreateChannel</span> {
             <span class="ident">guild_id</span>: <span class="self">self</span>.<span class="ident">guild_id</span>.<span class="number">0</span>,
         });
 

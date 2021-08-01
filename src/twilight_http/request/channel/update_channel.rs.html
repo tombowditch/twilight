@@ -306,6 +306,7 @@
 <span id="306">306</span>
 <span id="307">307</span>
 <span id="308">308</span>
+<span id="309">309</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -365,6 +366,7 @@
 
 <span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">UpdateChannelError</span> {}
 
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::pub_enum_variant_names</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">non_exhaustive</span>]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">UpdateChannelErrorType</span> {
@@ -584,8 +586,8 @@
         <span class="self">self</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">HttpError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="ident">Route::UpdateChannel</span> {
+    <span class="kw">fn</span> <span class="ident">request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Request</span>, <span class="ident">HttpError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">Request::builder</span>(<span class="kw-2">&amp;</span><span class="ident">Route::UpdateChannel</span> {
             <span class="ident">channel_id</span>: <span class="self">self</span>.<span class="ident">channel_id</span>.<span class="number">0</span>,
         })
         .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>;
