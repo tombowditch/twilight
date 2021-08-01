@@ -2329,6 +2329,18 @@
 <span id="2329">2329</span>
 <span id="2330">2330</span>
 <span id="2331">2331</span>
+<span id="2332">2332</span>
+<span id="2333">2333</span>
+<span id="2334">2334</span>
+<span id="2335">2335</span>
+<span id="2336">2336</span>
+<span id="2337">2337</span>
+<span id="2338">2338</span>
+<span id="2339">2339</span>
+<span id="2340">2340</span>
+<span id="2341">2341</span>
+<span id="2342">2342</span>
+<span id="2343">2343</span>
 </pre><pre class="rust">
 <span class="kw">mod</span> <span class="ident">builder</span>;
 
@@ -2357,7 +2369,7 @@
         <span class="ident">prelude</span>::<span class="kw-2">*</span>,
         <span class="ident">GetUserApplicationInfo</span>, <span class="ident">Method</span>, <span class="ident">Request</span>,
     },
-    <span class="ident">response::ResponseFuture</span>,
+    <span class="ident">response</span>::{<span class="ident">future::InvalidToken</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">API_VERSION</span>,
 };
 <span class="kw">use</span> <span class="ident">hyper</span>::{
@@ -2398,6 +2410,13 @@
     <span class="ident">default_headers</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HeaderMap</span><span class="op">&gt;</span>,
     <span class="ident">proxy</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">ratelimiter</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ratelimiter</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Whether to short-circuit when a 401 has been encountered with the client</span>
+    <span class="doccomment">/// authorization.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This relates to [`token_invalid`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`token_invalid`]: Self::token_invalid</span>
+    <span class="ident">remember_invalid_token</span>: <span class="ident">bool</span>,
     <span class="ident">timeout</span>: <span class="ident">Duration</span>,
     <span class="ident">token_invalid</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">AtomicBool</span><span class="op">&gt;</span>,
     <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
@@ -4520,7 +4539,7 @@
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
     <span class="kw">fn</span> <span class="ident">try_request</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">request</span>: <span class="ident">Request</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ResponseFuture</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">token_invalid</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">remember_invalid_token</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">token_invalid</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span> {
                 <span class="ident">kind</span>: <span class="ident">ErrorType::Unauthorized</span>,
                 <span class="ident">source</span>: <span class="prelude-val">None</span>,
@@ -4637,7 +4656,12 @@
         };
 
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">http</span>.<span class="ident">request</span>(<span class="ident">req</span>);
-        <span class="kw">let</span> <span class="ident">token_invalid</span> <span class="op">=</span> <span class="ident">Arc::clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">token_invalid</span>);
+
+        <span class="kw">let</span> <span class="ident">invalid_token</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">remember_invalid_token</span> {
+            <span class="ident">InvalidToken::Remember</span>(<span class="ident">Arc::clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">token_invalid</span>))
+        } <span class="kw">else</span> {
+            <span class="ident">InvalidToken::Forget</span>
+        };
 
         <span class="comment">// Clippy suggests bad code; an `Option::map_or_else` won&#39;t work here</span>
         <span class="comment">// due to move semantics in both cases.</span>
@@ -4647,14 +4671,14 @@
 
             <span class="prelude-val">Ok</span>(<span class="ident">ResponseFuture::ratelimit</span>(
                 <span class="prelude-val">None</span>,
-                <span class="ident">token_invalid</span>,
+                <span class="ident">invalid_token</span>,
                 <span class="ident">rx</span>,
                 <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">timeout</span>,
                 <span class="ident">inner</span>,
             ))
         } <span class="kw">else</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">ResponseFuture::new</span>(
-                <span class="ident">token_invalid</span>,
+                <span class="ident">invalid_token</span>,
                 <span class="ident">time::timeout</span>(<span class="self">self</span>.<span class="ident">state</span>.<span class="ident">timeout</span>, <span class="ident">inner</span>),
                 <span class="prelude-val">None</span>,
             ))

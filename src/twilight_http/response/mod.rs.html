@@ -802,6 +802,7 @@
 <span id="802">802</span>
 <span id="803">803</span>
 <span id="804">804</span>
+<span id="805">805</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Response utility type and related types.</span>
 <span class="doccomment">//!</span>
@@ -851,7 +852,8 @@
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">marker</span>;
 
-<span class="kw">mod</span> <span class="ident">future</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">future</span>;
+
 <span class="kw">mod</span> <span class="ident">status_code</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{<span class="ident">future::ResponseFuture</span>, <span class="ident">status_code::StatusCode</span>};
