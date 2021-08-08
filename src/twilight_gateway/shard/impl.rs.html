@@ -773,7 +773,7 @@
     <span class="ident">raw_message::Message</span>,
     <span class="ident">stage::Stage</span>,
 };
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::Intents</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Intents</span>;
 <span class="kw">use</span> <span class="ident">futures_util::stream::StreamExt</span>;
 <span class="kw">use</span> <span class="ident">once_cell::sync::OnceCell</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -1171,7 +1171,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`start`]: Self::start</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">token</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">intents</span>: <span class="ident">Intents</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="ident">Events</span>) {
-        <span class="self">Self</span><span class="ident">::builder</span>(<span class="ident">token</span>, <span class="ident">intents</span>).<span class="ident">build</span>()
+        <span class="ident"><span class="self">Self</span>::builder</span>(<span class="ident">token</span>, <span class="ident">intents</span>).<span class="ident">build</span>()
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_with_config</span>(<span class="ident">config</span>: <span class="ident">Config</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="ident">Events</span>) {

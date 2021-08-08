@@ -877,7 +877,7 @@
 </pre><pre class="rust">
 <span class="doccomment">//! Create embeds.</span>
 
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::image_source::ImageSource</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::image_source::ImageSource</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">convert::TryFrom</span>,
     <span class="ident">error::Error</span>,
@@ -1194,7 +1194,7 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
     <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;should be used as part of something like a message&quot;</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Embed</span>, <span class="ident">EmbedError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fields</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::EMBED_FIELD_LIMIT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fields</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::EMBED_FIELD_LIMIT</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                 <span class="ident">kind</span>: <span class="ident">EmbedErrorType::TooManyFields</span> {
                     <span class="ident">fields</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fields</span>,
@@ -1209,7 +1209,7 @@
                 });
             }
 
-            <span class="kw">if</span> <span class="ident">color</span> <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::COLOR_MAXIMUM</span> {
+            <span class="kw">if</span> <span class="ident">color</span> <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::COLOR_MAXIMUM</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                     <span class="ident">kind</span>: <span class="ident">EmbedErrorType::ColorNotRgb</span> { <span class="ident">color</span> },
                 });
@@ -1226,7 +1226,7 @@
                     });
                 }
 
-                <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::AUTHOR_NAME_LENGTH_LIMIT</span> {
+                <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::AUTHOR_NAME_LENGTH_LIMIT</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                         <span class="ident">kind</span>: <span class="ident">EmbedErrorType::AuthorNameTooLong</span> { <span class="ident">name</span> },
                     });
@@ -1246,7 +1246,7 @@
                 });
             }
 
-            <span class="kw">if</span> <span class="ident">description</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::DESCRIPTION_LENGTH_LIMIT</span> {
+            <span class="kw">if</span> <span class="ident">description</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::DESCRIPTION_LENGTH_LIMIT</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                     <span class="ident">kind</span>: <span class="ident">EmbedErrorType::DescriptionTooLong</span> { <span class="ident">description</span> },
                 });
@@ -1263,7 +1263,7 @@
                 });
             }
 
-            <span class="kw">if</span> <span class="ident">footer</span>.<span class="ident">text</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::FOOTER_TEXT_LENGTH_LIMIT</span> {
+            <span class="kw">if</span> <span class="ident">footer</span>.<span class="ident">text</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FOOTER_TEXT_LENGTH_LIMIT</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                     <span class="ident">kind</span>: <span class="ident">EmbedErrorType::FooterTextTooLong</span> { <span class="ident">text</span>: <span class="ident">footer</span>.<span class="ident">text</span> },
                 });
@@ -1287,7 +1287,7 @@
                     });
                 }
 
-                <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">name</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::FIELD_NAME_LENGTH_LIMIT</span> {
+                <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">name</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FIELD_NAME_LENGTH_LIMIT</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                         <span class="ident">kind</span>: <span class="ident">EmbedErrorType::FieldNameTooLong</span> {
                             <span class="ident">name</span>: <span class="ident">field</span>.<span class="ident">name</span>,
@@ -1305,7 +1305,7 @@
                     });
                 }
 
-                <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">value</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::FIELD_VALUE_LENGTH_LIMIT</span> {
+                <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">value</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::FIELD_VALUE_LENGTH_LIMIT</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                         <span class="ident">kind</span>: <span class="ident">EmbedErrorType::FieldValueTooLong</span> {
                             <span class="ident">name</span>: <span class="ident">field</span>.<span class="ident">name</span>,
@@ -1326,7 +1326,7 @@
                 });
             }
 
-            <span class="kw">if</span> <span class="ident">title</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::TITLE_LENGTH_LIMIT</span> {
+            <span class="kw">if</span> <span class="ident">title</span>.<span class="ident">chars</span>().<span class="ident">count</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::TITLE_LENGTH_LIMIT</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                     <span class="ident">kind</span>: <span class="ident">EmbedErrorType::TitleTooLong</span> { <span class="ident">title</span> },
                 });
@@ -1336,7 +1336,7 @@
             <span class="self">self</span>.<span class="number">0</span>.<span class="ident">title</span>.<span class="ident">replace</span>(<span class="ident">title</span>);
         }
 
-        <span class="kw">if</span> <span class="ident">total</span> <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::EMBED_LENGTH_LIMIT</span> {
+        <span class="kw">if</span> <span class="ident">total</span> <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::EMBED_LENGTH_LIMIT</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">EmbedError</span> {
                 <span class="ident">kind</span>: <span class="ident">EmbedErrorType::TotalContentTooLarge</span> { <span class="ident">length</span>: <span class="ident">total</span> },
             });
@@ -1611,7 +1611,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// All embeds have a &quot;rich&quot; type.</span>
     <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::new</span>()
+        <span class="ident"><span class="self">Self</span>::new</span>()
     }
 }
 
@@ -1621,7 +1621,7 @@
     <span class="doccomment">/// Convert an embed builder into an embed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is equivalent to calling [`EmbedBuilder::build`].</span>
-    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">builder</span>: <span class="ident">EmbedBuilder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="self">Self</span><span class="ident">::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_from</span>(<span class="ident">builder</span>: <span class="ident">EmbedBuilder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
         <span class="ident">builder</span>.<span class="ident">build</span>()
     }
 }

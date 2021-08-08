@@ -249,7 +249,7 @@
     <span class="ident">profile::UserProfile</span>,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::id::UserId</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::id::UserId</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">discriminator</span> {
@@ -268,11 +268,11 @@
             <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;string or integer discriminator&quot;</span>)
         }
 
-        <span class="kw">fn</span> <span class="ident">visit_u64</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">visit_u64</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
             <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">&quot;{:04}&quot;</span>, <span class="ident">value</span>))
         }
 
-        <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">value</span>.<span class="ident">to_owned</span>())
         }
     }

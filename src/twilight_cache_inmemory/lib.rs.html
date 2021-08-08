@@ -859,9 +859,9 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;permission-calculator&quot;</span>)))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::permission::InMemoryCachePermissions</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::permission::InMemoryCachePermissions</span>;
 
-<span class="kw">use</span> <span class="self">self</span><span class="ident">::model</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident"><span class="self">self</span>::model</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">dashmap</span>::{<span class="ident">mapref::entry::Entry</span>, <span class="ident">DashMap</span>, <span class="ident">DashSet</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::{<span class="ident">BTreeSet</span>, <span class="ident">HashSet</span>, <span class="ident">VecDeque</span>},
@@ -1002,7 +1002,7 @@
     <span class="doccomment">/// let cache = InMemoryCache::builder().message_cache_size(50).build();</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::default</span>()
+        <span class="ident"><span class="self">Self</span>::default</span>()
     }
 
     <span class="doccomment">/// Create a new builder to configure and construct an in-memory cache.</span>

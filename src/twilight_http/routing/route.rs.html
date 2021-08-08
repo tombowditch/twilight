@@ -1257,7 +1257,7 @@
 <span id="1257">1257</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">path::Path</span>, <span class="ident">route_display::RouteDisplay</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::request</span>::{<span class="ident">channel::reaction::RequestReactionType</span>, <span class="ident">Method</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::request</span>::{<span class="ident">channel::reaction::RequestReactionType</span>, <span class="ident">Method</span>};
 <span class="kw">use</span> <span class="ident">twilight_model::id::RoleId</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>)]</span>
@@ -2134,133 +2134,133 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Method</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::DeleteBan</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteChannel</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteEmoji</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteGlobalCommand</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteGuild</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteGuildCommand</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteGuildIntegration</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteInteractionOriginal</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteInvite</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteMessageReactions</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteMessageSpecificReaction</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeletePermissionOverwrite</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReactionCurrentUser</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReaction</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteRole</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteStageInstance</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteTemplate</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteWebhookMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteWebhook</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::LeaveGuild</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::RemoveMember</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::RemoveMemberRole</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UnpinMessage</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Delete</span>,
-            <span class="self">Self</span><span class="ident">::GetAuditLogs</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetBan</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetBans</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGatewayBot</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetChannel</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetChannelInvites</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetChannelWebhooks</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetChannels</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetCommandPermissions</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetCurrentUserApplicationInfo</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetCurrentUser</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetEmoji</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetEmojis</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGateway</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGlobalCommands</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuild</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildCommandPermissions</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildCommands</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildIntegrations</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildInvites</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildMembers</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildPreview</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildPruneCount</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildRoles</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildVanityUrl</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildVoiceRegions</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildWelcomeScreen</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildWebhooks</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildWidget</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuilds</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInteractionOriginal</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInvite</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInviteWithExpiration</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetMember</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetMessages</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetPins</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetReactionUsers</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetStageInstance</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetTemplate</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetTemplates</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetUserConnections</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetUserPrivateChannels</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetUser</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetVoiceRegions</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetWebhook</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetWebhookMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SearchGuildMembers</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Get</span>,
-            <span class="self">Self</span><span class="ident">::UpdateChannel</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateCurrentUser</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateCurrentUserVoiceState</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateEmoji</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGlobalCommand</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuild</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildChannels</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildCommand</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildWidget</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildIntegration</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildWelcomeScreen</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateInteractionOriginal</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateMember</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateNickname</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateRole</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateRolePositions</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateStageInstance</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateTemplate</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateUserVoiceState</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateWebhookMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateWebhook</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Patch</span>,
-            <span class="self">Self</span><span class="ident">::CreateChannel</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateGlobalCommand</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateGuildCommand</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateEmoji</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateGuild</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateGuildFromTemplate</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateGuildIntegration</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateGuildPrune</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateInvite</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreatePrivateChannel</span>
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateRole</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateStageInstance</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateTemplate</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateTypingTrigger</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateWebhook</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CrosspostMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteMessages</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::ExecuteWebhook</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::FollowNewsChannel</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::InteractionCallback</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SyncGuildIntegration</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Post</span>,
-            <span class="self">Self</span><span class="ident">::AddGuildMember</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::AddMemberRole</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateBan</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateReaction</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::PinMessage</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SetCommandPermissions</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SetGlobalCommands</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SetGuildCommands</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SyncTemplate</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateCommandPermissions</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdatePermissionOverwrite</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Put</span>,
+            <span class="ident"><span class="self">Self</span>::DeleteBan</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteChannel</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteEmoji</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteGlobalCommand</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteGuild</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteGuildCommand</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteGuildIntegration</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteInteractionOriginal</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteInvite</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteMessageReactions</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteMessageSpecificReaction</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeletePermissionOverwrite</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteReactionCurrentUser</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteReaction</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteRole</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteStageInstance</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteTemplate</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteWebhookMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteWebhook</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::LeaveGuild</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::RemoveMember</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::RemoveMemberRole</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UnpinMessage</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Delete</span>,
+            <span class="ident"><span class="self">Self</span>::GetAuditLogs</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetBan</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetBans</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGatewayBot</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetChannel</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetChannelInvites</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetChannelWebhooks</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetChannels</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetCommandPermissions</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetCurrentUserApplicationInfo</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetCurrentUser</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetEmoji</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetEmojis</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGateway</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGlobalCommands</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuild</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommandPermissions</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommands</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildIntegrations</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildInvites</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildMembers</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildPreview</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildPruneCount</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildRoles</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildVanityUrl</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildVoiceRegions</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildWelcomeScreen</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildWebhooks</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildWidget</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuilds</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetInteractionOriginal</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetInvite</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetInviteWithExpiration</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetMember</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetMessages</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetPins</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetReactionUsers</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetStageInstance</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetTemplate</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetTemplates</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetUserConnections</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetUserPrivateChannels</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetUser</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetVoiceRegions</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetWebhook</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetWebhookMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SearchGuildMembers</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Get</span>,
+            <span class="ident"><span class="self">Self</span>::UpdateChannel</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateCurrentUser</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateCurrentUserVoiceState</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateEmoji</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGlobalCommand</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuild</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildChannels</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildCommand</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildWidget</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildIntegration</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildWelcomeScreen</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateInteractionOriginal</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateMember</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateNickname</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateRole</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateRolePositions</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateStageInstance</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateTemplate</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateUserVoiceState</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateWebhookMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateWebhook</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Patch</span>,
+            <span class="ident"><span class="self">Self</span>::CreateChannel</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateGlobalCommand</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateGuildCommand</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateEmoji</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateGuild</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateGuildFromTemplate</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateGuildIntegration</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateGuildPrune</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateInvite</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreatePrivateChannel</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateRole</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateStageInstance</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateTemplate</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateTypingTrigger</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateWebhook</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CrosspostMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteMessages</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::ExecuteWebhook</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::FollowNewsChannel</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::InteractionCallback</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SyncGuildIntegration</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Post</span>,
+            <span class="ident"><span class="self">Self</span>::AddGuildMember</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::AddMemberRole</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateBan</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateReaction</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::PinMessage</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SetCommandPermissions</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SetGlobalCommands</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SetGuildCommands</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SyncTemplate</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateCommandPermissions</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdatePermissionOverwrite</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Method::Put</span>,
         }
     }
 
@@ -2296,185 +2296,185 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Path</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::AddGuildMember</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetMember</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::RemoveMember</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateMember</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembersId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::AddMemberRole</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::RemoveMemberRole</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::AddGuildMember</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetMember</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::RemoveMember</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateMember</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembersId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::AddMemberRole</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::RemoveMemberRole</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdMembersIdRolesId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateBan</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteBan</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateBan</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteBan</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdBansUserId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateChannel</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdChannels</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::CreateEmoji</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetEmojis</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateChannel</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdChannels</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::CreateEmoji</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetEmojis</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdEmojis</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateGlobalCommand</span> { <span class="ident">application_id</span> }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGlobalCommands</span> { <span class="ident">application_id</span> }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SetGlobalCommands</span> { <span class="ident">application_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateGlobalCommand</span> { <span class="ident">application_id</span> }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGlobalCommands</span> { <span class="ident">application_id</span> }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SetGlobalCommands</span> { <span class="ident">application_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ApplicationCommand</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateGuild</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::CreateGuildFromTemplate</span> { .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetTemplate</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateGuild</span> <span class="op">|</span> <span class="ident"><span class="self">Self</span>::CreateGuildFromTemplate</span> { .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetTemplate</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::Guilds</span>
             }
-            <span class="self">Self</span><span class="ident">::CreateGuildCommand</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteGuildCommand</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildCommandPermissions</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildCommands</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SetCommandPermissions</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SetGuildCommands</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildCommand</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateGuildCommand</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteGuildCommand</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommandPermissions</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommands</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SetCommandPermissions</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SetGuildCommands</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildCommand</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ApplicationGuildCommand</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateGuildIntegration</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdIntegrationsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::CreateGuildPrune</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildPruneCount</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateGuildIntegration</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdIntegrationsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::CreateGuildPrune</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildPruneCount</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdPrune</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateInvite</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetChannelInvites</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateInvite</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetChannelInvites</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdInvites</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateMessage</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetMessages</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateMessage</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetMessages</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessages</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreatePrivateChannel</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetUserPrivateChannels</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdChannels</span>,
-            <span class="self">Self</span><span class="ident">::CreateReaction</span> { <span class="ident">channel_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReactionCurrentUser</span> { <span class="ident">channel_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteReaction</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreatePrivateChannel</span> <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetUserPrivateChannels</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdChannels</span>,
+            <span class="ident"><span class="self">Self</span>::CreateReaction</span> { <span class="ident">channel_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteReactionCurrentUser</span> { <span class="ident">channel_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteReaction</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessagesIdReactionsUserIdType</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateRole</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetGuildRoles</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateRole</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildRoles</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdRoles</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateStageInstance</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteStageInstance</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetStageInstance</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateStageInstance</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::StageInstances</span>,
-            <span class="self">Self</span><span class="ident">::CreateTemplate</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetTemplates</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateStageInstance</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteStageInstance</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetStageInstance</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateStageInstance</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::StageInstances</span>,
+            <span class="ident"><span class="self">Self</span>::CreateTemplate</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetTemplates</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdTemplates</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CreateTypingTrigger</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdTyping</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
-            <span class="self">Self</span><span class="ident">::CreateWebhook</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetChannelWebhooks</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CreateTypingTrigger</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdTyping</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
+            <span class="ident"><span class="self">Self</span>::CreateWebhook</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetChannelWebhooks</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdWebhooks</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::CrosspostMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::CrosspostMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessagesIdCrosspost</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteChannel</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsId</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
-            <span class="self">Self</span><span class="ident">::DeleteEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdEmojisId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::DeleteGlobalCommand</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGlobalCommand</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteChannel</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsId</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
+            <span class="ident"><span class="self">Self</span>::DeleteEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdEmojisId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::DeleteGlobalCommand</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGlobalCommand</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ApplicationCommandId</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteGuild</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::DeleteGuildIntegration</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildIntegration</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteGuild</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::DeleteGuildIntegration</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildIntegration</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdIntegrationsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateInteractionOriginal</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateInteractionOriginal</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::WebhooksIdTokenMessagesId</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteInvite</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInvite</span> { .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetInviteWithExpiration</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::InvitesCode</span>,
-            <span class="self">Self</span><span class="ident">::DeleteMessageReactions</span> { <span class="ident">channel_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::DeleteMessageSpecificReaction</span> { <span class="ident">channel_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetReactionUsers</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteInvite</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetInvite</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetInviteWithExpiration</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::InvitesCode</span>,
+            <span class="ident"><span class="self">Self</span>::DeleteMessageReactions</span> { <span class="ident">channel_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteMessageSpecificReaction</span> { <span class="ident">channel_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetReactionUsers</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessagesIdReactions</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteMessage</span> { <span class="ident">message_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteMessage</span> { <span class="ident">message_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessagesId</span>(<span class="ident">Method::Delete</span>, <span class="kw-2">*</span><span class="ident">message_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteMessages</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdMessagesBulkDelete</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
-            <span class="self">Self</span><span class="ident">::DeletePermissionOverwrite</span> { <span class="ident">channel_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdatePermissionOverwrite</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteMessages</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdMessagesBulkDelete</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
+            <span class="ident"><span class="self">Self</span>::DeletePermissionOverwrite</span> { <span class="ident">channel_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdatePermissionOverwrite</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdPermissionsOverwriteId</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteRole</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateRole</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateRolePositions</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdRolesId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::DeleteTemplate</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::SyncTemplate</span> { <span class="ident">guild_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateTemplate</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Path::GuildsIdTemplatesCode</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)),
-            <span class="self">Self</span><span class="ident">::DeleteWebhookMessage</span> { <span class="ident">webhook_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetWebhookMessage</span> { <span class="ident">webhook_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateWebhookMessage</span> { <span class="ident">webhook_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteRole</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateRole</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateRolePositions</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdRolesId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::DeleteTemplate</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SyncTemplate</span> { <span class="ident">guild_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateTemplate</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Path::GuildsIdTemplatesCode</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)),
+            <span class="ident"><span class="self">Self</span>::DeleteWebhookMessage</span> { <span class="ident">webhook_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetWebhookMessage</span> { <span class="ident">webhook_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateWebhookMessage</span> { <span class="ident">webhook_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::WebhooksIdTokenMessagesId</span>(<span class="kw-2">*</span><span class="ident">webhook_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::DeleteWebhook</span> { <span class="ident">webhook_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::ExecuteWebhook</span> { <span class="ident">webhook_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetWebhook</span> { <span class="ident">webhook_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateWebhook</span> { <span class="ident">webhook_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Path::WebhooksId</span>(<span class="kw-2">*</span><span class="ident">webhook_id</span>)),
-            <span class="self">Self</span><span class="ident">::FollowNewsChannel</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdFollowers</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
-            <span class="self">Self</span><span class="ident">::GetAuditLogs</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdAuditLogs</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetBan</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdBansId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetBans</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdBans</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGatewayBot</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GatewayBot</span>,
-            <span class="self">Self</span><span class="ident">::GetChannel</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateChannel</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::DeleteWebhook</span> { <span class="ident">webhook_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::ExecuteWebhook</span> { <span class="ident">webhook_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetWebhook</span> { <span class="ident">webhook_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateWebhook</span> { <span class="ident">webhook_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">Path::WebhooksId</span>(<span class="kw-2">*</span><span class="ident">webhook_id</span>)),
+            <span class="ident"><span class="self">Self</span>::FollowNewsChannel</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdFollowers</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetAuditLogs</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdAuditLogs</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetBan</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdBansId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetBans</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdBans</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGatewayBot</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GatewayBot</span>,
+            <span class="ident"><span class="self">Self</span>::GetChannel</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateChannel</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsId</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetChannels</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildChannels</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetChannels</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildChannels</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdChannels</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetCommandPermissions</span> { <span class="ident">application_id</span>, .. }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateCommandPermissions</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetCommandPermissions</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateCommandPermissions</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ApplicationGuildCommandId</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetCurrentUserApplicationInfo</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::OauthApplicationsMe</span>,
-            <span class="self">Self</span><span class="ident">::GetCurrentUser</span> <span class="op">|</span> <span class="self">Self</span><span class="ident">::GetUser</span> { .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateCurrentUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersId</span>,
-            <span class="self">Self</span><span class="ident">::GetEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetCurrentUserApplicationInfo</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::OauthApplicationsMe</span>,
+            <span class="ident"><span class="self">Self</span>::GetCurrentUser</span> <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetUser</span> { .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateCurrentUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersId</span>,
+            <span class="ident"><span class="self">Self</span>::GetEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdEmojisId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetGateway</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::Gateway</span>,
-            <span class="self">Self</span><span class="ident">::GetGuild</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuild</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetGateway</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::Gateway</span>,
+            <span class="ident"><span class="self">Self</span>::GetGuild</span> { <span class="ident">guild_id</span>, .. } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuild</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetGuildWidget</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildWidget</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetGuildWidget</span> { <span class="ident">guild_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildWidget</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdWidget</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetGuildIntegrations</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdIntegrations</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuildInvites</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdInvites</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuildMembers</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembers</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuildPreview</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdPreview</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuildVanityUrl</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdVanityUrl</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuildVoiceRegions</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdRegions</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuildWelcomeScreen</span> { <span class="ident">guild_id</span> }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateGuildWelcomeScreen</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdWelcomeScreen</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuildWebhooks</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdWebhooks</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::GetGuilds</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdGuilds</span>,
-            <span class="self">Self</span><span class="ident">::GetMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetGuildIntegrations</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdIntegrations</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuildInvites</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdInvites</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuildMembers</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembers</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuildPreview</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdPreview</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuildVanityUrl</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdVanityUrl</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuildVoiceRegions</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdRegions</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuildWelcomeScreen</span> { <span class="ident">guild_id</span> }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGuildWelcomeScreen</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdWelcomeScreen</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuildWebhooks</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdWebhooks</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::GetGuilds</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdGuilds</span>,
+            <span class="ident"><span class="self">Self</span>::GetMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessagesId</span>(<span class="ident">Method::Get</span>, <span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetPins</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="self">Self</span><span class="ident">::PinMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetPins</span> { <span class="ident">channel_id</span> } <span class="op">|</span> <span class="ident"><span class="self">Self</span>::PinMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdPins</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::GetUserConnections</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdConnections</span>,
-            <span class="self">Self</span><span class="ident">::GetVoiceRegions</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::VoiceRegions</span>,
-            <span class="self">Self</span><span class="ident">::InteractionCallback</span> { <span class="ident">interaction_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::GetUserConnections</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdConnections</span>,
+            <span class="ident"><span class="self">Self</span>::GetVoiceRegions</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::VoiceRegions</span>,
+            <span class="ident"><span class="self">Self</span>::InteractionCallback</span> { <span class="ident">interaction_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::InteractionCallback</span>(<span class="kw-2">*</span><span class="ident">interaction_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::LeaveGuild</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdGuildsId</span>,
-            <span class="self">Self</span><span class="ident">::SearchGuildMembers</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembersSearch</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::SyncGuildIntegration</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::LeaveGuild</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::UsersIdGuildsId</span>,
+            <span class="ident"><span class="self">Self</span>::SearchGuildMembers</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembersSearch</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::SyncGuildIntegration</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::GuildsIdIntegrationsIdSync</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::UnpinMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdPinsMessageId</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
-            <span class="self">Self</span><span class="ident">::UpdateCurrentUserVoiceState</span> { <span class="ident">guild_id</span> }
-            <span class="op">|</span> <span class="self">Self</span><span class="ident">::UpdateUserVoiceState</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdVoiceStates</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
-            <span class="self">Self</span><span class="ident">::UpdateMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::UnpinMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsIdPinsMessageId</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
+            <span class="ident"><span class="self">Self</span>::UpdateCurrentUserVoiceState</span> { <span class="ident">guild_id</span> }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateUserVoiceState</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdVoiceStates</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::UpdateMessage</span> { <span class="ident">channel_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ChannelsIdMessagesId</span>(<span class="ident">Method::Patch</span>, <span class="kw-2">*</span><span class="ident">channel_id</span>)
             }
-            <span class="self">Self</span><span class="ident">::UpdateNickname</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembersMeNick</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
+            <span class="ident"><span class="self">Self</span>::UpdateNickname</span> { <span class="ident">guild_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdMembersMeNick</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
         }
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Route</span>;
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::request::Method</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Route</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::request::Method</span>;
 
     <span class="doccomment">/// Test a route for each method.</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>

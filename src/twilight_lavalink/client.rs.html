@@ -534,7 +534,7 @@
     <span class="doccomment">/// [`add`]: Self::add</span>
     <span class="doccomment">/// [`new_with_resume`]: Self::new_with_resume</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">user_id</span>: <span class="ident">UserId</span>, <span class="ident">shard_count</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::_new_with_resume</span>(<span class="ident">user_id</span>, <span class="ident">shard_count</span>, <span class="prelude-val">None</span>)
+        <span class="ident"><span class="self">Self</span>::_new_with_resume</span>(<span class="ident">user_id</span>, <span class="ident">shard_count</span>, <span class="prelude-val">None</span>)
     }
 
     <span class="doccomment">/// Like [`new`], but allows you to specify resume capability (if any).</span>
@@ -549,7 +549,7 @@
         <span class="ident">shard_count</span>: <span class="ident">u64</span>,
         <span class="ident">resume</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Resume</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::_new_with_resume</span>(<span class="ident">user_id</span>, <span class="ident">shard_count</span>, <span class="ident">resume</span>.<span class="ident">into</span>())
+        <span class="ident"><span class="self">Self</span>::_new_with_resume</span>(<span class="ident">user_id</span>, <span class="ident">shard_count</span>, <span class="ident">resume</span>.<span class="ident">into</span>())
     }
 
     <span class="kw">fn</span> <span class="ident">_new_with_resume</span>(<span class="ident">user_id</span>: <span class="ident">UserId</span>, <span class="ident">shard_count</span>: <span class="ident">u64</span>, <span class="ident">resume</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Resume</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {

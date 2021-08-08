@@ -477,8 +477,8 @@
 <span class="kw">impl</span> <span class="ident">Interaction</span> {
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">guild_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GuildId</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Ping</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-            <span class="self">Self</span><span class="ident">::ApplicationCommand</span>(<span class="ident">inner</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">inner</span>.<span class="ident">guild_id</span>,
+            <span class="ident"><span class="self">Self</span>::Ping</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident"><span class="self">Self</span>::ApplicationCommand</span>(<span class="ident">inner</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">inner</span>.<span class="ident">guild_id</span>,
         }
     }
 }
@@ -513,7 +513,7 @@
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">V::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">V::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">application_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ApplicationId</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">channel_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChannelId</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CommandData</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
@@ -633,7 +633,7 @@
             <span class="ident">InteractionType::Ping</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">tracing::trace!</span>(<span class="string">&quot;handling ping&quot;</span>);
 
-                <span class="self">Self</span><span class="ident">::Value::Ping</span>(<span class="ident">Box::new</span>(<span class="ident">Ping</span> {
+                <span class="ident"><span class="self">Self</span>::Value::Ping</span>(<span class="ident">Box::new</span>(<span class="ident">Ping</span> {
                     <span class="ident">application_id</span>,
                     <span class="ident">id</span>,
                     <span class="ident">kind</span>,
@@ -650,7 +650,7 @@
 
                 <span class="macro">tracing::trace!</span>(<span class="op">%</span><span class="ident">channel_id</span>, <span class="string">&quot;handling application command&quot;</span>);
 
-                <span class="self">Self</span><span class="ident">::Value::ApplicationCommand</span>(<span class="ident">Box::new</span>(<span class="ident">ApplicationCommand</span> {
+                <span class="ident"><span class="self">Self</span>::Value::ApplicationCommand</span>(<span class="ident">Box::new</span>(<span class="ident">ApplicationCommand</span> {
                     <span class="ident">application_id</span>,
                     <span class="ident">channel_id</span>,
                     <span class="ident">data</span>,

@@ -856,7 +856,7 @@
     <span class="ident">webhook</span>::{<span class="ident">Webhook</span>, <span class="ident">WebhookType</span>},
 };
 
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Deserializer</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="ident">DeError</span>, <span class="ident">IgnoredAny</span>, <span class="ident">MapAccess</span>, <span class="ident">Visitor</span>},
     <span class="ident">Deserialize</span>, <span class="ident">Serialize</span>,
@@ -893,18 +893,18 @@
     <span class="doccomment">/// Return the ID of the inner channel.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelId</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">group</span>.<span class="ident">id</span>,
-            <span class="self">Self</span><span class="ident">::Guild</span>(<span class="ident">guild_channel</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">guild_channel</span>.<span class="ident">id</span>(),
-            <span class="self">Self</span><span class="ident">::Private</span>(<span class="ident">private</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">private</span>.<span class="ident">id</span>,
+            <span class="ident"><span class="self">Self</span>::Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">group</span>.<span class="ident">id</span>,
+            <span class="ident"><span class="self">Self</span>::Guild</span>(<span class="ident">guild_channel</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">guild_channel</span>.<span class="ident">id</span>(),
+            <span class="ident"><span class="self">Self</span>::Private</span>(<span class="ident">private</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">private</span>.<span class="ident">id</span>,
         }
     }
 
     <span class="doccomment">/// Type of the channel.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelType</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Group</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
-            <span class="self">Self</span><span class="ident">::Guild</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>(),
-            <span class="self">Self</span><span class="ident">::Private</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="ident"><span class="self">Self</span>::Group</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="ident"><span class="self">Self</span>::Guild</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>(),
+            <span class="ident"><span class="self">Self</span>::Private</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
         }
     }
 
@@ -915,9 +915,9 @@
     <span class="doccomment">/// variant doesn&#39;t have a name.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">group</span>.<span class="ident">name</span>.<span class="ident">as_deref</span>(),
-            <span class="self">Self</span><span class="ident">::Guild</span>(<span class="ident">guild_channel</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">guild_channel</span>.<span class="ident">name</span>()),
-            <span class="self">Self</span><span class="ident">::Private</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident"><span class="self">Self</span>::Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">group</span>.<span class="ident">name</span>.<span class="ident">as_deref</span>(),
+            <span class="ident"><span class="self">Self</span>::Guild</span>(<span class="ident">guild_channel</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">guild_channel</span>.<span class="ident">name</span>()),
+            <span class="ident"><span class="self">Self</span>::Private</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -935,39 +935,39 @@
     <span class="doccomment">/// Return the guild ID of the inner guild channel.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">guild_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GuildId</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Category</span>(<span class="ident">category</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">category</span>.<span class="ident">guild_id</span>,
-            <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">text</span>.<span class="ident">guild_id</span>,
-            <span class="self">Self</span><span class="ident">::Voice</span>(<span class="ident">voice</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">voice</span>.<span class="ident">guild_id</span>,
-            <span class="self">Self</span><span class="ident">::Stage</span>(<span class="ident">stage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stage</span>.<span class="ident">guild_id</span>,
+            <span class="ident"><span class="self">Self</span>::Category</span>(<span class="ident">category</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">category</span>.<span class="ident">guild_id</span>,
+            <span class="ident"><span class="self">Self</span>::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">text</span>.<span class="ident">guild_id</span>,
+            <span class="ident"><span class="self">Self</span>::Voice</span>(<span class="ident">voice</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">voice</span>.<span class="ident">guild_id</span>,
+            <span class="ident"><span class="self">Self</span>::Stage</span>(<span class="ident">stage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stage</span>.<span class="ident">guild_id</span>,
         }
     }
 
     <span class="doccomment">/// Return the ID of the inner guild channel.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelId</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Category</span>(<span class="ident">category</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">category</span>.<span class="ident">id</span>,
-            <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">text</span>.<span class="ident">id</span>,
-            <span class="self">Self</span><span class="ident">::Voice</span>(<span class="ident">voice</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">voice</span>.<span class="ident">id</span>,
-            <span class="self">Self</span><span class="ident">::Stage</span>(<span class="ident">stage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stage</span>.<span class="ident">id</span>,
+            <span class="ident"><span class="self">Self</span>::Category</span>(<span class="ident">category</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">category</span>.<span class="ident">id</span>,
+            <span class="ident"><span class="self">Self</span>::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">text</span>.<span class="ident">id</span>,
+            <span class="ident"><span class="self">Self</span>::Voice</span>(<span class="ident">voice</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">voice</span>.<span class="ident">id</span>,
+            <span class="ident"><span class="self">Self</span>::Stage</span>(<span class="ident">stage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stage</span>.<span class="ident">id</span>,
         }
     }
 
     <span class="doccomment">/// Type of the guild channel.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ChannelType</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Category</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
-            <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
-            <span class="self">Self</span><span class="ident">::Stage</span>(<span class="ident">c</span>) <span class="op">|</span> <span class="self">Self</span><span class="ident">::Voice</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="ident"><span class="self">Self</span>::Category</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="ident"><span class="self">Self</span>::Text</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
+            <span class="ident"><span class="self">Self</span>::Stage</span>(<span class="ident">c</span>) <span class="op">|</span> <span class="ident"><span class="self">Self</span>::Voice</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">kind</span>,
         }
     }
 
     <span class="doccomment">/// Return an immutable reference to the name of the inner guild channel.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Category</span>(<span class="ident">category</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">category</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
-            <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">text</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
-            <span class="self">Self</span><span class="ident">::Voice</span>(<span class="ident">voice</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">voice</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
-            <span class="self">Self</span><span class="ident">::Stage</span>(<span class="ident">stage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stage</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
+            <span class="ident"><span class="self">Self</span>::Category</span>(<span class="ident">category</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">category</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
+            <span class="ident"><span class="self">Self</span>::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">text</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
+            <span class="ident"><span class="self">Self</span>::Voice</span>(<span class="ident">voice</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">voice</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
+            <span class="ident"><span class="self">Self</span>::Stage</span>(<span class="ident">stage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stage</span>.<span class="ident">name</span>.<span class="ident">as_ref</span>(),
         }
     }
 }
@@ -1003,7 +1003,7 @@
     }
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">V::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">V::Error</span><span class="op">&gt;</span> {
         <span class="kw">const</span> <span class="ident">VARIANTS</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[
             <span class="string">&quot;GuildCategory&quot;</span>,
             <span class="string">&quot;GuildNews&quot;</span>,

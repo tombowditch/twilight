@@ -1055,7 +1055,7 @@
         <span class="self">Self</span>(<span class="ident">RoleFields</span> {
             <span class="ident">color</span>: <span class="prelude-val">None</span>,
             <span class="ident">hoist</span>: <span class="prelude-val">None</span>,
-            <span class="ident">id</span>: <span class="self">Self</span><span class="ident">::ROLE_ID</span>,
+            <span class="ident">id</span>: <span class="ident"><span class="self">Self</span>::ROLE_ID</span>,
             <span class="ident">mentionable</span>: <span class="prelude-val">None</span>,
             <span class="ident">name</span>,
             <span class="ident">permissions</span>: <span class="prelude-val">None</span>,
@@ -1078,7 +1078,7 @@
     <span class="doccomment">/// Returns a [`RoleFieldsErrorType::ColorNotRgb`] error type if the color</span>
     <span class="doccomment">/// is not valid RGB.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">color</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">color</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">RoleFieldsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">color</span> <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::COLOR_MAXIMUM</span> {
+        <span class="kw">if</span> <span class="ident">color</span> <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::COLOR_MAXIMUM</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RoleFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">RoleFieldsErrorType::ColorNotRgb</span> { <span class="ident">color</span> },
             });
@@ -1103,7 +1103,7 @@
     <span class="doccomment">/// Returns a [`RoleFieldsErrorType::IdInvalid`] error type if the ID is set</span>
     <span class="doccomment">/// to 1.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">RoleId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">RoleFieldsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span><span class="ident">::ROLE_ID</span> {
+        <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident"><span class="self">Self</span>::ROLE_ID</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RoleFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">RoleFieldsErrorType::IdInvalid</span>,
             });
@@ -1263,13 +1263,13 @@
     <span class="doccomment">/// Returns a [`TextFieldsErrorType::NameTooLong`] error type if the name is</span>
     <span class="doccomment">/// too long.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="self">Self</span><span class="ident">::MIN_NAME_LENGTH</span> {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident"><span class="self">Self</span>::MIN_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TextFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">TextFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> },
             });
         }
 
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MAX_NAME_LENGTH</span> {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MAX_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TextFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">TextFieldsErrorType::NameTooLong</span> { <span class="ident">name</span> },
             });
@@ -1314,7 +1314,7 @@
     <span class="doccomment">/// Returns a [`TextFieldsErrorType::RateLimitInvalid`] error type if the</span>
     <span class="doccomment">/// rate limit is invalid.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rate_limit_per_user</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">limit</span> <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MAX_RATE_LIMIT</span> {
+        <span class="kw">if</span> <span class="ident">limit</span> <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MAX_RATE_LIMIT</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TextFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">TextFieldsErrorType::RateLimitInvalid</span> { <span class="ident">limit</span> },
             });
@@ -1332,7 +1332,7 @@
     <span class="doccomment">/// Returns a [`TextFieldsErrorType::TopicTooLong`] error type if the topic</span>
     <span class="doccomment">/// is too long.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">topic</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">topic</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">TextFieldsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">topic</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MAX_TOPIC_LENGTH</span> {
+        <span class="kw">if</span> <span class="ident">topic</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MAX_TOPIC_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TextFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">TextFieldsErrorType::TopicTooLong</span> { <span class="ident">topic</span> },
             });
@@ -1436,13 +1436,13 @@
     <span class="doccomment">/// Returns a [`VoiceFieldsErrorType::NameTooLong`] error type if the name</span>
     <span class="doccomment">/// is too long.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">VoiceFieldsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="self">Self</span><span class="ident">::MIN_NAME_LENGTH</span> {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident"><span class="self">Self</span>::MIN_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">VoiceFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">VoiceFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> },
             });
         }
 
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MAX_NAME_LENGTH</span> {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MAX_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">VoiceFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">VoiceFieldsErrorType::NameTooLong</span> { <span class="ident">name</span> },
             });
@@ -1587,13 +1587,13 @@
     <span class="doccomment">/// Returns a [`CategoryFieldsErrorType::NameTooLong`] error type if the</span>
     <span class="doccomment">/// name is too long.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CategoryFieldsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="self">Self</span><span class="ident">::MIN_NAME_LENGTH</span> {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident"><span class="self">Self</span>::MIN_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CategoryFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">CategoryFieldsErrorType::NameTooShort</span> { <span class="ident">name</span> },
             });
         }
 
-        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::MAX_NAME_LENGTH</span> {
+        <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MAX_NAME_LENGTH</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CategoryFieldsError</span> {
                 <span class="ident">kind</span>: <span class="ident">CategoryFieldsErrorType::NameTooLong</span> { <span class="ident">name</span> },
             });

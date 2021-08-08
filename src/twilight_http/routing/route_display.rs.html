@@ -961,7 +961,7 @@
 <span id="961">961</span>
 <span id="962">962</span>
 </pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::route::Route</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::route::Route</span>;
 <span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">utf8_percent_encode</span>, <span class="ident">NON_ALPHANUMERIC</span>};
 <span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>};
 
@@ -1891,7 +1891,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::{<span class="kw">super</span><span class="ident">::Route</span>, <span class="ident">RouteDisplay</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident"><span class="kw">super</span>::Route</span>, <span class="ident">RouteDisplay</span>};
     <span class="kw">use</span> <span class="ident">static_assertions::assert_impl_all</span>;
     <span class="kw">use</span> <span class="ident">std</span>::{
         <span class="ident">fmt</span>::{<span class="ident">Debug</span>, <span class="ident">Display</span>},

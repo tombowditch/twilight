@@ -432,26 +432,26 @@
 <span class="kw">impl</span> <span class="ident">ActivityButton</span> {
     <span class="doccomment">/// Whether the variant is a link button.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">is_link</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span><span class="ident">::Link</span>(<span class="kw">_</span>))
+        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident"><span class="self">Self</span>::Link</span>(<span class="kw">_</span>))
     }
 
     <span class="doccomment">/// Whether the variant is a text button.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">is_text</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span><span class="ident">::Text</span>(<span class="kw">_</span>))
+        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident"><span class="self">Self</span>::Text</span>(<span class="kw">_</span>))
     }
 
     <span class="doccomment">/// Retrieve an immutable reference to the label.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">label</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Link</span>(<span class="ident">link</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">link</span>.<span class="ident">label</span>,
-            <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">text</span>.<span class="ident">label</span>,
+            <span class="ident"><span class="self">Self</span>::Link</span>(<span class="ident">link</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">link</span>.<span class="ident">label</span>,
+            <span class="ident"><span class="self">Self</span>::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">text</span>.<span class="ident">label</span>,
         }
     }
 
     <span class="doccomment">/// Retrieve an immutable reference to the URL if this is a link activity</span>
     <span class="doccomment">/// button.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">url</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="self">Self</span><span class="ident">::Link</span>(<span class="ident">link</span>) <span class="op">=</span> <span class="self">self</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident"><span class="self">Self</span>::Link</span>(<span class="ident">link</span>) <span class="op">=</span> <span class="self">self</span> {
             <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">link</span>.<span class="ident">url</span>)
         } <span class="kw">else</span> {
             <span class="prelude-val">None</span>
@@ -475,17 +475,17 @@
         <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;activity button struct or string&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_string</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_string</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">ActivityButton::Text</span>(<span class="ident">ActivityButtonText</span> { <span class="ident">label</span>: <span class="ident">v</span> }))
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">ActivityButton::Text</span>(<span class="ident">ActivityButtonText</span> {
             <span class="ident">label</span>: <span class="ident">v</span>.<span class="ident">to_owned</span>(),
         }))
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">A::Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">A</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">A::Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">label</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">url</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 
@@ -552,7 +552,7 @@
 <span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">ActivityButton</span> {
     <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Serializer</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S::Ok</span>, <span class="ident">S::Error</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span><span class="ident">::Link</span>(<span class="ident">link</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="self">Self</span>::Link</span>(<span class="ident">link</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">serializer</span>.<span class="ident">serialize_struct</span>(<span class="string">&quot;ActivityButton&quot;</span>, <span class="number">2</span>)<span class="question-mark">?</span>;
 
                 <span class="ident">state</span>.<span class="ident">serialize_field</span>(<span class="string">&quot;label&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">link</span>.<span class="ident">label</span>)<span class="question-mark">?</span>;
@@ -560,7 +560,7 @@
 
                 <span class="ident">state</span>.<span class="ident">end</span>()
             }
-            <span class="self">Self</span><span class="ident">::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_str</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>.<span class="ident">label</span>),
+            <span class="ident"><span class="self">Self</span>::Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serializer</span>.<span class="ident">serialize_str</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>.<span class="ident">label</span>),
         }
     }
 }
@@ -612,11 +612,11 @@
         <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;activity button string&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_string</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_string</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">ActivityButtonText</span> { <span class="ident">label</span>: <span class="ident">v</span> })
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">DeError</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">E</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">ActivityButtonText</span> {
             <span class="ident">label</span>: <span class="ident">v</span>.<span class="ident">to_owned</span>(),
         })

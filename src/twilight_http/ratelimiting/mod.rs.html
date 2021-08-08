@@ -145,8 +145,8 @@
     <span class="ident">headers::RatelimitHeaders</span>,
 };
 
-<span class="kw">use</span> <span class="self">self</span><span class="ident">::bucket</span>::{<span class="ident">Bucket</span>, <span class="ident">BucketQueueTask</span>, <span class="ident">TimeRemaining</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::routing::Path</span>;
+<span class="kw">use</span> <span class="ident"><span class="self">self</span>::bucket</span>::{<span class="ident">Bucket</span>, <span class="ident">BucketQueueTask</span>, <span class="ident">TimeRemaining</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::routing::Path</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections::hash_map</span>::{<span class="ident">Entry</span>, <span class="ident">HashMap</span>},
     <span class="ident">sync</span>::{
@@ -193,7 +193,7 @@
     <span class="doccomment">/// Most users won&#39;t need to use this directly. If you&#39;re creating your own</span>
     <span class="doccomment">/// HTTP proxy then this is good to use for your own ratelimiting.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::default</span>()
+        <span class="ident"><span class="self">Self</span>::default</span>()
     }
 
     <span class="attribute">#[<span class="ident">deprecated</span>(<span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.5.0&quot;</span>, <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;use `ticket` instead, which is not async&quot;</span>)]</span>

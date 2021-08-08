@@ -77,7 +77,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_insert</span>() {
-        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::insert</span>(
+        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::insert</span>(
             <span class="ident">Permissions::KICK_MEMBERS</span>,
             <span class="ident">Permissions::BAN_MEMBERS</span> <span class="op">|</span> <span class="ident">Permissions::CONNECT</span>,
         );
@@ -89,14 +89,14 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_insert_duplicate</span>() {
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">Permissions::BAN_MEMBERS</span> <span class="op">|</span> <span class="ident">Permissions::KICK_MEMBERS</span>;
-        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::insert</span>(<span class="ident">expected</span>, <span class="ident">Permissions::KICK_MEMBERS</span>);
+        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::insert</span>(<span class="ident">expected</span>, <span class="ident">Permissions::KICK_MEMBERS</span>);
 
         <span class="macro">assert_eq!</span>(<span class="ident">actual</span>, <span class="ident">expected</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_remove</span>() {
-        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::remove</span>(
+        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::remove</span>(
             <span class="ident">Permissions::BAN_MEMBERS</span> <span class="op">|</span> <span class="ident">Permissions::KICK_MEMBERS</span>,
             <span class="ident">Permissions::BAN_MEMBERS</span>,
         );
@@ -106,7 +106,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_remove_nonexistent</span>() {
-        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="kw">super</span><span class="ident">::remove</span>(<span class="ident">Permissions::KICK_MEMBERS</span>, <span class="ident">Permissions::BAN_MEMBERS</span>);
+        <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::remove</span>(<span class="ident">Permissions::KICK_MEMBERS</span>, <span class="ident">Permissions::BAN_MEMBERS</span>);
 
         <span class="macro">assert_eq!</span>(<span class="ident">actual</span>, <span class="ident">Permissions::KICK_MEMBERS</span>);
     }

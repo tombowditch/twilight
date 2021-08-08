@@ -164,7 +164,7 @@
             .<span class="ident">insert</span>(<span class="ident">role</span>.<span class="ident">id</span>);
 
         <span class="comment">// Insert the role into the all roles map</span>
-        <span class="kw">crate</span><span class="ident">::upsert_guild_item</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">roles</span>, <span class="ident">guild_id</span>, <span class="ident">role</span>.<span class="ident">id</span>, <span class="ident">role</span>);
+        <span class="ident"><span class="kw">crate</span>::upsert_guild_item</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">roles</span>, <span class="ident">guild_id</span>, <span class="ident">role</span>.<span class="ident">id</span>, <span class="ident">role</span>);
     }
 
     <span class="kw">fn</span> <span class="ident">delete_role</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">role_id</span>: <span class="ident">RoleId</span>) {
@@ -209,7 +209,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::test</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::test</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_insert_role_on_event</span>() {

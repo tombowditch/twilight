@@ -266,7 +266,7 @@
 <span id="266">266</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
-    <span class="kw">super</span><span class="ident">::json</span>,
+    <span class="ident"><span class="kw">super</span>::json</span>,
     <span class="ident">session</span>::{<span class="ident">SessionSendError</span>, <span class="ident">SessionSendErrorType</span>},
 };
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -525,7 +525,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Latency</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Latency</span>;
     <span class="kw">use</span> <span class="ident">static_assertions::assert_impl_all</span>;
     <span class="kw">use</span> <span class="ident">std::fmt::Debug</span>;
 

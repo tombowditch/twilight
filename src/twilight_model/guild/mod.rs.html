@@ -1033,8 +1033,8 @@
     <span class="ident">verification_level::VerificationLevel</span>, <span class="ident">widget::GuildWidget</span>,
 };
 
-<span class="kw">use</span> <span class="self">self</span><span class="ident">::member::MemberListDeserializer</span>;
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::gateway::presence::PresenceListDeserializer</span>;
+<span class="kw">use</span> <span class="ident"><span class="self">self</span>::member::MemberListDeserializer</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::gateway::presence::PresenceListDeserializer</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">channel</span>::{<span class="ident">GuildChannel</span>, <span class="ident">StageInstance</span>},
     <span class="ident">gateway::presence::Presence</span>,
@@ -1176,7 +1176,7 @@
             }
 
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
-            <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Value</span>, <span class="ident">V::Error</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">visit_map</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">MapAccess</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">map</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Value</span>, <span class="ident">V::Error</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">afk_channel_id</span> <span class="op">=</span> <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">afk_timeout</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>;

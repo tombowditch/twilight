@@ -298,7 +298,7 @@
 <span id="298">298</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">headers::RatelimitHeaders</span>, <span class="ident">GlobalLockPair</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::routing::Path</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::routing::Path</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections::HashMap</span>,
     <span class="ident">sync</span>::{
@@ -488,7 +488,7 @@
 
             <span class="comment">// TODO: Find a better way of handling nested types.</span>
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::unnested_or_patterns</span>)]</span>
-            <span class="kw">match</span> <span class="ident">timeout</span>(<span class="self">Self</span><span class="ident">::WAIT</span>, <span class="ident">rx</span>).<span class="kw">await</span> {
+            <span class="kw">match</span> <span class="ident">timeout</span>(<span class="ident"><span class="self">Self</span>::WAIT</span>, <span class="ident">rx</span>).<span class="kw">await</span> {
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">headers</span>))) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">handle_headers</span>(<span class="kw-2">&amp;</span><span class="ident">headers</span>).<span class="kw">await</span>,
                 <span class="comment">// - None was sent through the channel (request aborted)</span>
                 <span class="comment">// - channel was closed</span>
@@ -554,7 +554,7 @@
 
         <span class="self">self</span>.<span class="ident">wait_if_needed</span>().<span class="kw">await</span>;
 
-        <span class="self">self</span>.<span class="ident">bucket</span>.<span class="ident">queue</span>.<span class="ident">pop</span>(<span class="self">Self</span><span class="ident">::WAIT</span>).<span class="kw">await</span>
+        <span class="self">self</span>.<span class="ident">bucket</span>.<span class="ident">queue</span>.<span class="ident">pop</span>(<span class="ident"><span class="self">Self</span>::WAIT</span>).<span class="kw">await</span>
     }
 
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">wait_if_needed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {

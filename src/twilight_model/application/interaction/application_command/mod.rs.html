@@ -49,12 +49,12 @@
 </pre><pre class="rust">
 <span class="kw">mod</span> <span class="ident">data</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span><span class="ident">::data</span>::{
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::data</span>::{
     <span class="ident">CommandData</span>, <span class="ident">CommandDataOption</span>, <span class="ident">CommandInteractionDataResolved</span>, <span class="ident">InteractionChannel</span>,
     <span class="ident">InteractionMember</span>,
 };
 
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::InteractionType</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::InteractionType</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">guild::PartialMember</span>,
     <span class="ident">id</span>::{<span class="ident">ApplicationId</span>, <span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">InteractionId</span>},

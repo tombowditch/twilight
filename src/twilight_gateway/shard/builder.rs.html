@@ -405,7 +405,7 @@
 <span id="405">405</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::Config</span>, <span class="ident">Events</span>, <span class="ident">Shard</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::EventTypeFlags</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::EventTypeFlags</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">error::Error</span>,
     <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
@@ -571,7 +571,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Refer to each method to learn their default values.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">token</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">intents</span>: <span class="ident">Intents</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::_new</span>(<span class="ident">token</span>.<span class="ident">into</span>(), <span class="ident">intents</span>)
+        <span class="ident"><span class="self">Self</span>::_new</span>(<span class="ident">token</span>.<span class="ident">into</span>(), <span class="ident">intents</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">_new</span>(<span class="kw-2">mut</span> <span class="ident">token</span>: <span class="ident">String</span>, <span class="ident">intents</span>: <span class="ident">Intents</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
@@ -781,7 +781,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span>(<span class="ident">T</span>, <span class="ident">Intents</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ShardBuilder</span> {
     <span class="kw">fn</span> <span class="ident">from</span>((<span class="ident">token</span>, <span class="ident">intents</span>): (<span class="ident">T</span>, <span class="ident">Intents</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span><span class="ident">::new</span>(<span class="ident">token</span>, <span class="ident">intents</span>)
+        <span class="ident"><span class="self">Self</span>::new</span>(<span class="ident">token</span>, <span class="ident">intents</span>)
     }
 }
 
@@ -790,7 +790,7 @@
     <span class="kw">use</span> <span class="kw">super</span>::{
         <span class="ident">LargeThresholdError</span>, <span class="ident">LargeThresholdErrorType</span>, <span class="ident">ShardBuilder</span>, <span class="ident">ShardIdError</span>, <span class="ident">ShardIdErrorType</span>,
     };
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::Intents</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Intents</span>;
     <span class="kw">use</span> <span class="ident">static_assertions</span>::{<span class="ident">assert_fields</span>, <span class="ident">assert_impl_all</span>};
     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">error::Error</span>, <span class="ident">fmt::Debug</span>};
 

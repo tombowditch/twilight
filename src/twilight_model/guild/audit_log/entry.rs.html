@@ -125,7 +125,7 @@
 <span id="125">125</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">AuditLogChange</span>, <span class="ident">AuditLogEventType</span>, <span class="ident">AuditLogOptionalEntryInfo</span>};
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::id</span>::{<span class="ident">AuditLogEntryId</span>, <span class="ident">GenericId</span>, <span class="ident">UserId</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::id</span>::{<span class="ident">AuditLogEntryId</span>, <span class="ident">GenericId</span>, <span class="ident">UserId</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="doccomment">/// Entry in an [`AuditLog`] possibly containing a number of detailed changes.</span>
@@ -161,7 +161,7 @@
         <span class="kw">super</span>::{<span class="ident">AuditLogChange</span>, <span class="ident">AuditLogEventType</span>},
         <span class="ident">AuditLogEntry</span>,
     };
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::id</span>::{<span class="ident">AuditLogEntryId</span>, <span class="ident">GenericId</span>, <span class="ident">UserId</span>};
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::id</span>::{<span class="ident">AuditLogEntryId</span>, <span class="ident">GenericId</span>, <span class="ident">UserId</span>};
     <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
     <span class="kw">use</span> <span class="ident">serde_test::Token</span>;
     <span class="kw">use</span> <span class="ident">static_assertions</span>::{<span class="ident">assert_fields</span>, <span class="ident">assert_impl_all</span>};

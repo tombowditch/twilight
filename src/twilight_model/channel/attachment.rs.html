@@ -72,7 +72,7 @@
 <span id="72">72</span>
 <span id="73">73</span>
 </pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::id::AttachmentId</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::id::AttachmentId</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
@@ -94,8 +94,8 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Attachment</span>;
-    <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::id::AttachmentId</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Attachment</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::id::AttachmentId</span>;
     <span class="kw">use</span> <span class="ident">serde_test::Token</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

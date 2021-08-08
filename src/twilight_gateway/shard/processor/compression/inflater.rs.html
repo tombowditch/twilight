@@ -388,7 +388,7 @@
 
     <span class="doccomment">/// Reset the state of the inflater back to its default state.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">let</span> <span class="ident">_old_inflater</span> <span class="op">=</span> <span class="ident">mem::replace</span>(<span class="self">self</span>, <span class="self">Self</span><span class="ident">::new</span>(<span class="self">self</span>.<span class="ident">shard</span>));
+        <span class="kw">let</span> <span class="ident">_old_inflater</span> <span class="op">=</span> <span class="ident">mem::replace</span>(<span class="self">self</span>, <span class="ident"><span class="self">Self</span>::new</span>(<span class="self">self</span>.<span class="ident">shard</span>));
     }
 
     <span class="doccomment">/// Log metrics about the inflater.</span>
@@ -440,7 +440,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span><span class="ident">::Inflater</span>;
+    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Inflater</span>;
     <span class="kw">use</span> <span class="ident">std::error::Error</span>;
 
     <span class="kw">const</span> <span class="ident">MESSAGE</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[
