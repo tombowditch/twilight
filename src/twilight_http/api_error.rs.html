@@ -914,6 +914,36 @@
 <span id="914">914</span>
 <span id="915">915</span>
 <span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">DeError</span>, <span class="ident">Visitor</span>},
@@ -981,6 +1011,10 @@
     <span class="ident">UnknownRedistributable</span>,
     <span class="doccomment">/// Unknown gift code</span>
     <span class="ident">UnknownGiftCode</span>,
+    <span class="doccomment">/// Unknown stream</span>
+    <span class="ident">UnknownStream</span>,
+    <span class="doccomment">/// Unknown premium server subscribe cooldown</span>
+    <span class="ident">UnknownPremiumServerSubscribeCooldown</span>,
     <span class="doccomment">/// Unknown guild template</span>
     <span class="ident">UnknownGuildTemplate</span>,
     <span class="doccomment">/// Unknown discoverable server category</span>
@@ -999,6 +1033,10 @@
     <span class="ident">UnknownGuildMemberVerificationForm</span>,
     <span class="doccomment">/// Unknown Guild Welcome Screen</span>
     <span class="ident">UnknownGuildWelcomeScreen</span>,
+    <span class="doccomment">/// Unknown guild scheduled event</span>
+    <span class="ident">UnknownGuildScheduledEvent</span>,
+    <span class="doccomment">/// Unknown guild scheduled event user</span>
+    <span class="ident">UnknownGuildScheduledEventUser</span>,
     <span class="doccomment">/// Bots cannot use this endpoint</span>
     <span class="ident">BotsCannotUseEndpoint</span>,
     <span class="doccomment">/// Only bots can use this endpoint</span>
@@ -1138,6 +1176,10 @@
     <span class="ident">CommunityGuildRequired</span>,
     <span class="doccomment">/// Invalid sticker sent</span>
     <span class="ident">InvalidStickerSent</span>,
+    <span class="doccomment">/// This server is not available in your location</span>
+    <span class="ident">ServerNotAvailableLocation</span>,
+    <span class="doccomment">/// This server needs monetization enabled in order to perform this action</span>
+    <span class="ident">ServerNeedsMonetiazation</span>,
     <span class="doccomment">/// Two factor is required for this operation.</span>
     <span class="ident">TwoFactorRequired</span>,
     <span class="doccomment">/// No users with DiscordTag exist</span>
@@ -1186,6 +1228,8 @@
             <span class="ident"><span class="self">Self</span>::UnknownStoreDirectoryLayout</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10033</span>,
             <span class="ident"><span class="self">Self</span>::UnknownRedistributable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10036</span>,
             <span class="ident"><span class="self">Self</span>::UnknownGiftCode</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10038</span>,
+            <span class="ident"><span class="self">Self</span>::UnknownStream</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10049</span>,
+            <span class="ident"><span class="self">Self</span>::UnknownPremiumServerSubscribeCooldown</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10050</span>,
             <span class="ident"><span class="self">Self</span>::UnknownGuildTemplate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10057</span>,
             <span class="ident"><span class="self">Self</span>::UnknownDiscoverableServerCategory</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10059</span>,
             <span class="ident"><span class="self">Self</span>::UnknownSticker</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10060</span>,
@@ -1195,6 +1239,8 @@
             <span class="ident"><span class="self">Self</span>::UnknownStageInstance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10067</span>,
             <span class="ident"><span class="self">Self</span>::UnknownGuildMemberVerificationForm</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10068</span>,
             <span class="ident"><span class="self">Self</span>::UnknownGuildWelcomeScreen</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10069</span>,
+            <span class="ident"><span class="self">Self</span>::UnknownGuildScheduledEvent</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10070</span>,
+            <span class="ident"><span class="self">Self</span>::UnknownGuildScheduledEventUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">10071</span>,
             <span class="ident"><span class="self">Self</span>::BotsCannotUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20001</span>,
             <span class="ident"><span class="self">Self</span>::OnlyBotsCanUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20002</span>,
             <span class="ident"><span class="self">Self</span>::ExplicitContentSendingBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20009</span>,
@@ -1264,6 +1310,8 @@
             <span class="ident"><span class="self">Self</span>::PaymentRequiredForGift</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">50070</span>,
             <span class="ident"><span class="self">Self</span>::CommunityGuildRequired</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">50074</span>,
             <span class="ident"><span class="self">Self</span>::InvalidStickerSent</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">50081</span>,
+            <span class="ident"><span class="self">Self</span>::ServerNotAvailableLocation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">50095</span>,
+            <span class="ident"><span class="self">Self</span>::ServerNeedsMonetiazation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">50097</span>,
             <span class="ident"><span class="self">Self</span>::TwoFactorRequired</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">60003</span>,
             <span class="ident"><span class="self">Self</span>::NoSuchUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">80004</span>,
             <span class="ident"><span class="self">Self</span>::ReactionBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">90001</span>,
@@ -1306,6 +1354,8 @@
             <span class="number">10033</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownStoreDirectoryLayout</span>,
             <span class="number">10036</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownRedistributable</span>,
             <span class="number">10038</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownGiftCode</span>,
+            <span class="number">10049</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownStream</span>,
+            <span class="number">10050</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownPremiumServerSubscribeCooldown</span>,
             <span class="number">10057</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownGuildTemplate</span>,
             <span class="number">10059</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownDiscoverableServerCategory</span>,
             <span class="number">10060</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownSticker</span>,
@@ -1315,6 +1365,8 @@
             <span class="number">10067</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownStageInstance</span>,
             <span class="number">10068</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownGuildMemberVerificationForm</span>,
             <span class="number">10069</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownGuildWelcomeScreen</span>,
+            <span class="number">10070</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownGuildScheduledEvent</span>,
+            <span class="number">10071</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnknownGuildScheduledEventUser</span>,
             <span class="number">20001</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::BotsCannotUseEndpoint</span>,
             <span class="number">20002</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::OnlyBotsCanUseEndpoint</span>,
             <span class="number">20022</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::AnnouncementRateLimitReached</span>,
@@ -1383,6 +1435,8 @@
             <span class="number">50054</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::CannotSelfRedeemGift</span>,
             <span class="number">50070</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::PaymentRequiredForGift</span>,
             <span class="number">50074</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::CommunityGuildRequired</span>,
+            <span class="number">50095</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ServerNotAvailableLocation</span>,
+            <span class="number">50097</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ServerNeedsMonetiazation</span>,
             <span class="number">50081</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::InvalidStickerSent</span>,
             <span class="number">60003</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::TwoFactorRequired</span>,
             <span class="number">80004</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::NoSuchUser</span>,
@@ -1426,6 +1480,8 @@
             <span class="ident"><span class="self">Self</span>::UnknownStoreDirectoryLayout</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown store directory layout&quot;</span>),
             <span class="ident"><span class="self">Self</span>::UnknownRedistributable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown redistributable&quot;</span>),
             <span class="ident"><span class="self">Self</span>::UnknownGiftCode</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown gift code&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::UnknownStream</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown stream&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::UnknownPremiumServerSubscribeCooldown</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown premium server subscribe cooldown&quot;</span>),
             <span class="ident"><span class="self">Self</span>::UnknownGuildTemplate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown guild template&quot;</span>),
             <span class="ident"><span class="self">Self</span>::UnknownDiscoverableServerCategory</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown discoverable server category&quot;</span>),
             <span class="ident"><span class="self">Self</span>::UnknownSticker</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown sticker&quot;</span>),
@@ -1435,6 +1491,8 @@
             <span class="ident"><span class="self">Self</span>::UnknownStageInstance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown Stage Instance&quot;</span>),
             <span class="ident"><span class="self">Self</span>::UnknownGuildMemberVerificationForm</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown Guild Member Verification Form&quot;</span>),
             <span class="ident"><span class="self">Self</span>::UnknownGuildWelcomeScreen</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown Guild Welcome Screen&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::UnknownGuildScheduledEvent</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown Guild Scheduled Event&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::UnknownGuildScheduledEventUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unknown Guild Scheduled Event User&quot;</span>),
             <span class="ident"><span class="self">Self</span>::BotsCannotUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Bots cannot use this endpoint&quot;</span>),
             <span class="ident"><span class="self">Self</span>::OnlyBotsCanUseEndpoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Only bots can use this endpoint&quot;</span>),
             <span class="ident"><span class="self">Self</span>::ExplicitContentSendingBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Explicit content cannot be sent to the desired recipient(s)&quot;</span>),
@@ -1504,6 +1562,8 @@
             <span class="ident"><span class="self">Self</span>::PaymentRequiredForGift</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Payment source required to redeem gift&quot;</span>),
             <span class="ident"><span class="self">Self</span>::CommunityGuildRequired</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Cannot delete a channel required for Community guilds&quot;</span>),
             <span class="ident"><span class="self">Self</span>::InvalidStickerSent</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Invalid sticker sent&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::ServerNotAvailableLocation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;This server is not available in your location&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::ServerNeedsMonetiazation</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;This server needs monetization enabled in order to perform this action&quot;</span>),
             <span class="ident"><span class="self">Self</span>::TwoFactorRequired</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Two factor is required for this operation&quot;</span>),
             <span class="ident"><span class="self">Self</span>::NoSuchUser</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;No users with DiscordTag exist&quot;</span>),
             <span class="ident"><span class="self">Self</span>::ReactionBlocked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Reaction was blocked&quot;</span>),
