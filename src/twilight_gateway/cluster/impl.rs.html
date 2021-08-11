@@ -629,30 +629,6 @@
 <span id="629">629</span>
 <span id="630">630</span>
 <span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
-<span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-<span id="648">648</span>
-<span id="649">649</span>
-<span id="650">650</span>
-<span id="651">651</span>
-<span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">builder::ClusterBuilder</span>, <span class="ident">config::Config</span>, <span class="ident">event::Events</span>, <span class="ident">scheme::ShardScheme</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -879,8 +855,6 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">ClusterRef</span> {
     <span class="ident">config</span>: <span class="ident">Config</span>,
-    <span class="ident">shard_from</span>: <span class="ident">u64</span>,
-    <span class="ident">shard_to</span>: <span class="ident">u64</span>,
     <span class="ident">shards</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">Shard</span><span class="op">&gt;</span>,
 }
 
@@ -995,12 +969,7 @@
         <span class="kw">let</span> <span class="ident">select_all</span> <span class="op">=</span> <span class="ident">SelectAll::from_iter</span>(<span class="ident">streams</span>);
 
         <span class="prelude-val">Ok</span>((
-            <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">ClusterRef</span> {
-                <span class="ident">config</span>,
-                <span class="ident">shard_from</span>: <span class="ident">scheme</span>.<span class="ident">from</span>().<span class="ident">expect</span>(<span class="string">&quot;shard scheme is not auto&quot;</span>),
-                <span class="ident">shard_to</span>: <span class="ident">scheme</span>.<span class="ident">to</span>().<span class="ident">expect</span>(<span class="string">&quot;shard scheme is not auto&quot;</span>),
-                <span class="ident">shards</span>,
-            })),
+            <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">ClusterRef</span> { <span class="ident">config</span>, <span class="ident">shards</span> })),
             <span class="ident">Events::new</span>(<span class="ident">select_all</span>),
         ))
     }
@@ -1105,10 +1074,7 @@
     <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">up</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="ident">future::join_all</span>(
-            (<span class="self">self</span>.<span class="number">0</span>.<span class="ident">shard_from</span>..<span class="op">=</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">shard_to</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">id</span><span class="op">|</span> <span class="ident"><span class="self">Self</span>::start</span>(<span class="ident">Arc::clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>), <span class="ident">id</span>)),
-        )
-        .<span class="kw">await</span>;
+        <span class="ident">future::join_all</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">shards</span>.<span class="ident">values</span>().<span class="ident">map</span>(<span class="ident">Shard::start</span>)).<span class="kw">await</span>;
     }
 
     <span class="doccomment">/// Bring down the cluster, stopping all of the shards that it&#39;s managing.</span>
@@ -1273,20 +1239,6 @@
                 <span class="ident">kind</span>: <span class="ident">ClusterSendErrorType::Sending</span>,
                 <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
             })
-    }
-
-    <span class="doccomment">/// Queue a request to start a shard by ID and starts it once the queue</span>
-    <span class="doccomment">/// accepts the request.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Accepts weak references to the queue and map of shards, because by the</span>
-    <span class="doccomment">/// time the future is polled the cluster may have already dropped, bringing</span>
-    <span class="doccomment">/// down the queue and shards with it.</span>
-    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start</span>(<span class="ident">cluster</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ClusterRef</span><span class="op">&gt;</span>, <span class="ident">shard_id</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Shard</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">shard</span> <span class="op">=</span> <span class="ident">cluster</span>.<span class="ident">shards</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">shard_id</span>)<span class="question-mark">?</span>.<span class="ident">clone</span>();
-
-        <span class="ident">shard</span>.<span class="ident">start</span>().<span class="kw">await</span>.<span class="ident">ok</span>()<span class="question-mark">?</span>;
-
-        <span class="prelude-val">Some</span>(<span class="ident">shard</span>)
     }
 }
 
