@@ -659,6 +659,17 @@
 <span id="659">659</span>
 <span id="660">660</span>
 <span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::util::is_false</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{
@@ -913,30 +924,18 @@
                     <span class="ident">required</span>,
                 })
             }
-            <span class="ident">CommandOptionType::String</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">choices</span> <span class="op">=</span> <span class="ident">choices</span>
-                    .<span class="ident">flatten</span>()
-                    .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">DeError::missing_field</span>(<span class="string">&quot;choices&quot;</span>))<span class="question-mark">?</span>;
-
-                <span class="ident">CommandOption::String</span>(<span class="ident">ChoiceCommandOptionData</span> {
-                    <span class="ident">choices</span>,
-                    <span class="ident">description</span>,
-                    <span class="ident">name</span>,
-                    <span class="ident">required</span>,
-                })
-            }
-            <span class="ident">CommandOptionType::Integer</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">choices</span> <span class="op">=</span> <span class="ident">choices</span>
-                    .<span class="ident">flatten</span>()
-                    .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">DeError::missing_field</span>(<span class="string">&quot;choices&quot;</span>))<span class="question-mark">?</span>;
-
-                <span class="ident">CommandOption::Integer</span>(<span class="ident">ChoiceCommandOptionData</span> {
-                    <span class="ident">choices</span>,
-                    <span class="ident">description</span>,
-                    <span class="ident">name</span>,
-                    <span class="ident">required</span>,
-                })
-            }
+            <span class="ident">CommandOptionType::String</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">CommandOption::String</span>(<span class="ident">ChoiceCommandOptionData</span> {
+                <span class="ident">choices</span>: <span class="ident">choices</span>.<span class="ident">flatten</span>().<span class="ident">unwrap_or_default</span>(),
+                <span class="ident">description</span>,
+                <span class="ident">name</span>,
+                <span class="ident">required</span>,
+            }),
+            <span class="ident">CommandOptionType::Integer</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">CommandOption::Integer</span>(<span class="ident">ChoiceCommandOptionData</span> {
+                <span class="ident">choices</span>: <span class="ident">choices</span>.<span class="ident">flatten</span>().<span class="ident">unwrap_or_default</span>(),
+                <span class="ident">description</span>,
+                <span class="ident">name</span>,
+                <span class="ident">required</span>,
+            }),
             <span class="ident">CommandOptionType::Boolean</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">CommandOption::Boolean</span>(<span class="ident">BaseCommandOptionData</span> {
                 <span class="ident">description</span>,
                 <span class="ident">name</span>,
@@ -1018,6 +1017,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// When completing this option, the user is prompted with a selector of all</span>
     <span class="doccomment">/// available choices.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If no choices are available, the user must input a value manually.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">choices</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">CommandOptionChoice</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Description of the option. It must be 100 characters or less.</span>
@@ -1100,6 +1101,12 @@
                     <span class="ident">description</span>: <span class="string">&quot;sub command desc&quot;</span>.<span class="ident">into</span>(),
                     <span class="ident">name</span>: <span class="string">&quot;sub command name&quot;</span>.<span class="ident">into</span>(),
                     <span class="ident">options</span>: <span class="macro">vec!</span>[
+                        <span class="ident">CommandOption::String</span>(<span class="ident">ChoiceCommandOptionData</span> {
+                            <span class="ident">choices</span>: <span class="ident">Vec::new</span>(),
+                            <span class="ident">description</span>: <span class="string">&quot;string manual desc&quot;</span>.<span class="ident">into</span>(),
+                            <span class="ident">name</span>: <span class="string">&quot;string_manual&quot;</span>.<span class="ident">into</span>(),
+                            <span class="ident">required</span>: <span class="bool-val">false</span>,
+                        }),
                         <span class="ident">CommandOption::String</span>(<span class="ident">ChoiceCommandOptionData</span> {
                             <span class="ident">choices</span>: <span class="macro">vec!</span>[<span class="ident">CommandOptionChoice::String</span> {
                                 <span class="ident">name</span>: <span class="string">&quot;choicea&quot;</span>.<span class="ident">into</span>(),
@@ -1201,7 +1208,22 @@
                 <span class="ident">Token::Str</span>(<span class="string">&quot;sub command name&quot;</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;options&quot;</span>),
                 <span class="ident">Token::Some</span>,
-                <span class="ident">Token::Seq</span> { <span class="ident">len</span>: <span class="prelude-val">Some</span>(<span class="number">7</span>) },
+                <span class="ident">Token::Seq</span> { <span class="ident">len</span>: <span class="prelude-val">Some</span>(<span class="number">8</span>) },
+                <span class="ident">Token::Struct</span> {
+                    <span class="ident">name</span>: <span class="string">&quot;CommandOptionEnvelope&quot;</span>,
+                    <span class="ident">len</span>: <span class="number">4</span>,
+                },
+                <span class="ident">Token::Str</span>(<span class="string">&quot;choices&quot;</span>),
+                <span class="ident">Token::Some</span>,
+                <span class="ident">Token::Seq</span> { <span class="ident">len</span>: <span class="prelude-val">Some</span>(<span class="number">0</span>) },
+                <span class="ident">Token::SeqEnd</span>,
+                <span class="ident">Token::Str</span>(<span class="string">&quot;description&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;string manual desc&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;name&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;string_manual&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;type&quot;</span>),
+                <span class="ident">Token::U8</span>(<span class="number">3</span>),
+                <span class="ident">Token::StructEnd</span>,
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;CommandOptionEnvelope&quot;</span>,
                     <span class="ident">len</span>: <span class="number">4</span>,
