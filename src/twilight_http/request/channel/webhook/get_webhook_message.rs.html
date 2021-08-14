@@ -45,6 +45,7 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
+<span id="48">48</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">client::Client</span>, <span class="ident">request::Request</span>, <span class="ident">response::ResponseFuture</span>, <span class="ident">routing::Route</span>};
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
@@ -56,6 +57,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`WebhookId`]: twilight_model::id::WebhookId</span>
 <span class="doccomment">/// [`MessageId`]: twilight_model::id::MessageId</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetWebhookMessage</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">http</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Client</span>,
     <span class="ident">message_id</span>: <span class="ident">MessageId</span>,

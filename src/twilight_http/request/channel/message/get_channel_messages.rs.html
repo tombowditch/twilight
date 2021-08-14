@@ -185,6 +185,7 @@
 <span id="185">185</span>
 <span id="186">186</span>
 <span id="187">187</span>
+<span id="188">188</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::GetChannelMessagesConfigured</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -290,6 +291,7 @@
 <span class="doccomment">/// [`before`]: Self::before</span>
 <span class="doccomment">/// [`GetChannelMessagesConfigured`]: super::GetChannelMessagesConfigured</span>
 <span class="doccomment">/// [`limit`]: Self::limit</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetChannelMessages</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
     <span class="ident">fields</span>: <span class="ident">GetChannelMessagesFields</span>,

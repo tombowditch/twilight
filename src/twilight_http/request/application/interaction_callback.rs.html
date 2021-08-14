@@ -53,6 +53,7 @@
 <span id="53">53</span>
 <span id="54">54</span>
 <span id="55">55</span>
+<span id="56">56</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -64,6 +65,7 @@
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{<span class="ident">application::callback::InteractionResponse</span>, <span class="ident">id::InteractionId</span>};
 
 <span class="doccomment">/// Respond to an interaction, by ID and token.</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InteractionCallback</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">interaction_id</span>: <span class="ident">InteractionId</span>,
     <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,

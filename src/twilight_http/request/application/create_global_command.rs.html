@@ -125,6 +125,7 @@
 <span id="125">125</span>
 <span id="126">126</span>
 <span id="127">127</span>
+<span id="128">128</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">CommandBorrowed</span>, <span class="ident">InteractionError</span>, <span class="ident">InteractionErrorType</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -147,6 +148,7 @@
 <span class="doccomment">/// command. See [the discord docs] for more information.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/slash-commands#create-global-application-command</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateGlobalCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">application_id</span>: <span class="ident">ApplicationId</span>,
     <span class="ident">default_permission</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,

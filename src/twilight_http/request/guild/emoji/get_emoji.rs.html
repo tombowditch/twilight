@@ -51,6 +51,7 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
+<span id="54">54</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">client::Client</span>, <span class="ident">request::Request</span>, <span class="ident">response::ResponseFuture</span>, <span class="ident">routing::Route</span>};
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
@@ -78,6 +79,7 @@
 <span class="doccomment">/// client.emoji(guild_id, emoji_id).exec().await?;</span>
 <span class="doccomment">/// # Ok(()) }</span>
 <span class="doccomment">/// ```</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetEmoji</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">emoji_id</span>: <span class="ident">EmojiId</span>,
     <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,

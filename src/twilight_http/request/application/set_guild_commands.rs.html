@@ -55,6 +55,7 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
+<span id="58">58</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -72,6 +73,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// This method is idempotent: it can be used on every start, without being</span>
 <span class="doccomment">/// ratelimited if there aren&#39;t changes to the commands.</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SetGuildCommands</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">commands</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Command</span>],
     <span class="ident">application_id</span>: <span class="ident">ApplicationId</span>,

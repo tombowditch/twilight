@@ -39,6 +39,7 @@
 <span id="39">39</span>
 <span id="40">40</span>
 <span id="41">41</span>
+<span id="42">42</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -49,6 +50,7 @@
 <span class="kw">use</span> <span class="ident">twilight_model::id</span>::{<span class="ident">ApplicationId</span>, <span class="ident">CommandId</span>, <span class="ident">GuildId</span>};
 
 <span class="doccomment">/// Delete a command in a guild, by ID.</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeleteGuildCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">application_id</span>: <span class="ident">ApplicationId</span>,
     <span class="ident">command_id</span>: <span class="ident">CommandId</span>,

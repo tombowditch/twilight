@@ -51,6 +51,7 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
+<span id="54">54</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::execute_webhook::ExecuteWebhook</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::response::ResponseFuture</span>;
@@ -86,6 +87,7 @@
 <span class="doccomment">/// [`content`]: Self::content</span>
 <span class="doccomment">/// [`embeds`]: Self::embeds</span>
 <span class="doccomment">/// [`file`]: Self::file</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecuteWebhookAndWait</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">inner</span>: <span class="ident">ExecuteWebhook</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 }
