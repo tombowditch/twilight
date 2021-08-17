@@ -803,6 +803,7 @@
 <span id="803">803</span>
 <span id="804">804</span>
 <span id="805">805</span>
+<span id="806">806</span>
 </pre><pre class="rust">
 <span class="doccomment">//! Response utility type and related types.</span>
 <span class="doccomment">//!</span>
@@ -870,7 +871,7 @@
     <span class="ident">error::Error</span>,
     <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
     <span class="ident">future::Future</span>,
-    <span class="ident">iter</span>::{<span class="self">self</span>, <span class="ident">FusedIterator</span>},
+    <span class="ident">iter::FusedIterator</span>,
     <span class="ident">marker::PhantomData</span>,
     <span class="ident">pin::Pin</span>,
     <span class="ident">task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>},
@@ -1048,9 +1049,10 @@
 
             <span class="comment">// Create a buffer filled with zeroes so we can copy the aggregate</span>
             <span class="comment">// body into it.</span>
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">iter::repeat</span>(<span class="number">0</span>)
-                .<span class="ident">take</span>(<span class="ident">aggregate</span>.<span class="ident">remaining</span>())
-                .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+            <span class="comment">//</span>
+            <span class="comment">// Using `vec!` is the fastest way to do this, despite it being a</span>
+            <span class="comment">// macro and having unsafe internals.</span>
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="ident">aggregate</span>.<span class="ident">remaining</span>()];
             <span class="ident">aggregate</span>.<span class="ident">copy_to_slice</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
             <span class="prelude-val">Ok</span>(<span class="ident">buf</span>)

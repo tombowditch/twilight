@@ -762,6 +762,8 @@
 <span id="762">762</span>
 <span id="763">763</span>
 <span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="ident">builder::ShardBuilder</span>,
@@ -1226,9 +1228,11 @@
     <span class="doccomment">/// [`shutdown_resumable`]: Self::shutdown_resumable</span>
     <span class="doccomment">/// [`shutdown`]: Self::shutdown</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ShardStartError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">url</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">u</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">config</span>.<span class="ident">gateway_url</span>.<span class="ident">clone</span>() {
-            <span class="ident">u</span>.<span class="ident">into_string</span>()
+        <span class="kw">let</span> <span class="ident">url</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">u</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">config</span>.<span class="ident">gateway_url</span> {
+            <span class="ident">u</span>.<span class="ident">to_string</span>()
         } <span class="kw">else</span> {
+            <span class="comment">// By making an authenticated gateway information retrieval request</span>
+            <span class="comment">// we&#39;re also validating the configured token.</span>
             <span class="self">self</span>.<span class="number">0</span>
                 .<span class="ident">config</span>
                 .<span class="ident">http_client</span>()

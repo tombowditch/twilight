@@ -1023,6 +1023,12 @@
 <span id="1023">1023</span>
 <span id="1024">1024</span>
 <span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span>::{
     <span class="kw">super</span>::{
@@ -1326,6 +1332,15 @@
         <span class="kw">let</span> <span class="ident">properties</span> <span class="op">=</span> <span class="ident">IdentifyProperties::new</span>(<span class="string">&quot;twilight.rs&quot;</span>, <span class="string">&quot;twilight.rs&quot;</span>, <span class="ident">OS</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>);
 
         <span class="ident">url</span>.<span class="ident">push_str</span>(<span class="string">&quot;?v=8&quot;</span>);
+
+        <span class="comment">// Discord&#39;s documentation states:</span>
+        <span class="comment">//</span>
+        <span class="comment">// &quot;Generally, it is a good idea to explicitly pass the gateway version</span>
+        <span class="comment">// and encoding&quot;.</span>
+        <span class="comment">//</span>
+        <span class="comment">// &lt;https://discord.com/developers/docs/topics/gateway#connecting-gateway-url-query-string-params&gt;</span>
+        <span class="ident">url</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;encoding=json&quot;</span>);
+
         <span class="ident">compression::add_url_feature</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">url</span>);
 
         <span class="ident">emitter</span>.<span class="ident">event</span>(<span class="ident">Event::ShardConnecting</span>(<span class="ident">Connecting</span> {
@@ -1372,29 +1387,26 @@
 
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">loop</span> {
-            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_payload</span>().<span class="kw">await</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
-                    <span class="macro">tracing::warn!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">source</span>);
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_payload</span>().<span class="kw">await</span> {
+                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
+                <span class="macro">tracing::warn!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">source</span>);
 
-                    <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
+                <span class="self">self</span>.<span class="ident">emit_disconnected</span>(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
 
-                    <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">fatal</span>() {
-                        <span class="kw">break</span>;
-                    }
-
-                    <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">reconnectable</span>() {
-                        <span class="self">self</span>.<span class="ident">reconnect</span>().<span class="kw">await</span>;
-                    }
-
-                    <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">resumable</span>() {
-                        <span class="self">self</span>.<span class="ident">resume</span>().<span class="kw">await</span>;
-                    }
-
-                    <span class="kw">continue</span>;
+                <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">fatal</span>() {
+                    <span class="kw">break</span>;
                 }
-            };
+
+                <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">reconnectable</span>() {
+                    <span class="self">self</span>.<span class="ident">reconnect</span>().<span class="kw">await</span>;
+                }
+
+                <span class="kw">if</span> <span class="ident">source</span>.<span class="ident">resumable</span>() {
+                    <span class="self">self</span>.<span class="ident">resume</span>().<span class="kw">await</span>;
+                }
+
+                <span class="kw">continue</span>;
+            }
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">process</span>().<span class="kw">await</span> {
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
