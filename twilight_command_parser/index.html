@@ -9,8 +9,7 @@ command and prefix and provides the command arguments to you.</p>
 <p>A simple parser for a bot with one prefix (<code>&quot;!&quot;</code>) and two commands: <code>&quot;echo&quot;</code>
 and <code>&quot;ping&quot;</code>:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">twilight_command_parser</span>::{<span class="ident">Command</span>, <span class="ident">CommandParserConfig</span>, <span class="ident">Parser</span>};
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">twilight_command_parser</span>::{<span class="ident">Command</span>, <span class="ident">CommandParserConfig</span>, <span class="ident">Parser</span>};
 
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">CommandParserConfig::new</span>();
 
@@ -36,7 +35,7 @@ and <code>&quot;ping&quot;</code>:</p>
     <span class="comment">// Ignore all other commands.</span>
     <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {},
     <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">println!</span>(<span class="string">&quot;Message didn&#39;t match a prefix and command&quot;</span>),
-}</pre></div>
+}</code></pre></div>
 </div></details><h2 id="reexports" class="section-header"><a href="#reexports">Re-exports</a></h2>
 <div class="item-table"><div class="item-left import-item"><code>pub use self::config::<a class="struct" href="config/struct.CommandParserConfig.html" title="struct twilight_command_parser::config::CommandParserConfig">CommandParserConfig</a>;</code></div><div class="item-right docblock-short"></div></div><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
 <div class="item-table"><div class="item-left module-item"><a class="mod" href="config/index.html" title="twilight_command_parser::config mod">config</a></div><div class="item-right docblock-short"><p>Configuration for a <a href="struct.Parser.html"><code>Parser</code></a>.</p>

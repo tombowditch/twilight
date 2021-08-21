@@ -11,8 +11,7 @@ an <a href="struct.Response.html#method.headers">iterator of the response header
 the response body via <a href="struct.Response.html#method.model"><code>Response::model</code></a> and print the user’s
 name:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">std::env</span>;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">std::env</span>;
 <span class="kw">use</span> <span class="ident">twilight_http::Client</span>;
 
 <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">Client::new</span>(<span class="ident">env::var</span>(<span class="string">&quot;DISCORD_TOKEN&quot;</span>)<span class="question-mark">?</span>);
@@ -28,7 +27,7 @@ name:</p>
 <span class="comment">// `twilight_model::user::User`.</span>
 <span class="kw">let</span> <span class="ident">user</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">model</span>().<span class="kw">await</span><span class="question-mark">?</span>;
 
-<span class="macro">println!</span>(<span class="string">&quot;user&#39;s name: {}:{}&quot;</span>, <span class="ident">user</span>.<span class="ident">name</span>, <span class="ident">user</span>.<span class="ident">discriminator</span>);</pre></div>
+<span class="macro">println!</span>(<span class="string">&quot;user&#39;s name: {}:{}&quot;</span>, <span class="ident">user</span>.<span class="ident">name</span>, <span class="ident">user</span>.<span class="ident">discriminator</span>);</code></pre></div>
 </div></details><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
 <div class="item-table"><div class="item-left module-item"><a class="mod" href="marker/index.html" title="twilight_http::response::marker mod">marker</a></div><div class="item-right docblock-short"><p>Markers denoting the type of response body.</p>
 </div></div><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>

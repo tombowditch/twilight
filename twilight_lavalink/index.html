@@ -20,8 +20,8 @@ default.</p>
 <p>The <code>native</code> feature enables <a href="https://crates.io/crates/async-tungstenite"><code>async-tungstenite</code></a>’s <code>tokio-native-tls</code>
 feature.</p>
 <p>To enable <code>native</code>, do something like this in your <code>Cargo.toml</code>:</p>
-<div class="example-wrap"><pre class="language-toml">[dependencies]
-twilight-lavalink = { default-features = false, features = [&quot;native&quot;], version = &quot;0.2&quot; }</pre></div><h4 id="rustls" class="section-header"><a href="#rustls"><code>rustls</code></a></h4>
+<div class="example-wrap"><pre class="language-toml"><code>[dependencies]
+twilight-lavalink = { default-features = false, features = [&quot;native&quot;], version = &quot;0.2&quot; }</code></pre></div><h4 id="rustls" class="section-header"><a href="#rustls"><code>rustls</code></a></h4>
 <p>The <code>rustls</code> feature enables <a href="https://crates.io/crates/async-tungstenite"><code>async-tungstenite</code></a>’s <code>tokio-rustls</code> feature, which
 use <a href="https://crates.io/crates/rustls"><code>rustls</code></a> as the TLS backend.</p>
 <p>This is enabled by default.</p>
@@ -29,8 +29,7 @@ use <a href="https://crates.io/crates/rustls"><code>rustls</code></a> as the TLS
 <p>Create a <a href="client/struct.Lavalink.html">client</a>, add a <a href="node/struct.Node.html">node</a>, and give events to the client to <a href="client/struct.Lavalink.html#method.process">process</a>
 events:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">futures_util::stream::StreamExt</span>;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">futures_util::stream::StreamExt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">convert::TryInto</span>,
     <span class="ident">env</span>,
@@ -69,7 +68,7 @@ events:</p>
     }
 
     <span class="prelude-val">Ok</span>(())
-}</pre></div>
+}</code></pre></div>
 </div></details><h2 id="reexports" class="section-header"><a href="#reexports">Re-exports</a></h2>
 <div class="item-table"><div class="item-left import-item"><code>pub use self::client::<a class="struct" href="client/struct.Lavalink.html" title="struct twilight_lavalink::client::Lavalink">Lavalink</a>;</code></div><div class="item-right docblock-short"></div><div class="item-left import-item"><code>pub use self::node::<a class="struct" href="node/struct.Node.html" title="struct twilight_lavalink::node::Node">Node</a>;</code></div><div class="item-right docblock-short"></div><div class="item-left import-item"><code>pub use self::player::<a class="struct" href="player/struct.PlayerManager.html" title="struct twilight_lavalink::player::PlayerManager">PlayerManager</a>;</code></div><div class="item-right docblock-short"></div></div><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
 <div class="item-table"><div class="item-left module-item"><a class="mod" href="client/index.html" title="twilight_lavalink::client mod">client</a></div><div class="item-right docblock-short"><p>Client to manage nodes and players.</p>

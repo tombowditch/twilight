@@ -12,10 +12,10 @@ functionality. Please use the individual crates listed below instead!</p>
 <p>Twilight supports a MSRV of Rust 1.49+.</p>
 <p>We recommend that most users start out with these crates added to your
 <code>Cargo.toml</code>’s <code>[dependencies]</code> section:</p>
-<div class="example-wrap"><pre class="language-toml">twilight-cache-inmemory = &quot;0.4&quot;
+<div class="example-wrap"><pre class="language-toml"><code>twilight-cache-inmemory = &quot;0.4&quot;
 twilight-gateway = &quot;0.4&quot;
 twilight-http = &quot;0.4&quot;
-twilight-model = &quot;0.4&quot;</pre></div>
+twilight-model = &quot;0.4&quot;</code></pre></div>
 <p>If you need any other functionality that Twilight provides, you can just add
 that dependency in.</p>
 <h2 id="core-crates" class="section-header"><a href="#core-crates">Core Crates</a></h2>
@@ -82,8 +82,7 @@ channel.</li>
 identify calls. Developers should prefer to use the re-exports of these
 crates through the gateway.</p>
 <h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">env</span>, <span class="ident">error::Error</span>};
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">env</span>, <span class="ident">error::Error</span>};
 <span class="kw">use</span> <span class="ident">futures::stream::StreamExt</span>;
 <span class="kw">use</span> <span class="ident">twilight_cache_inmemory</span>::{<span class="ident">InMemoryCache</span>, <span class="ident">ResourceType</span>};
 <span class="kw">use</span> <span class="ident">twilight_gateway</span>::{<span class="ident">cluster</span>::{<span class="ident">Cluster</span>, <span class="ident">ShardScheme</span>}, <span class="ident">Event</span>};
@@ -152,14 +151,13 @@ crates through the gateway.</p>
     }
 
     <span class="prelude-val">Ok</span>(())
-}</pre></div>
+}</code></pre></div>
 <h2 id="note-about-tracing" class="section-header"><a href="#note-about-tracing">Note about tracing</a></h2>
 <p>When using the <code>tracing</code> crate you won’t, by default, see logs from any
 libraries that use the <code>log</code> crate. You can add that back by using the
 <a href="https://github.com/tokio-rs/tracing/tree/master/tracing-log"><code>tracing-log</code></a> crate and initializing it like this:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="ident">tracing_log::LogTracer::init</span>()<span class="question-mark">?</span>;</pre></div>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="ident">tracing_log::LogTracer::init</span>()<span class="question-mark">?</span>;</code></pre></div>
 <h2 id="license" class="section-header"><a href="#license">License</a></h2>
 <p>All first-party crates are licensed under <a href="https://github.com/twilight-rs/twilight/blob/main/LICENSE.md">ISC</a></p>
 </div></details></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="twilight" data-search-index-js="../search-index.js" data-search-js="../search.js"></div>

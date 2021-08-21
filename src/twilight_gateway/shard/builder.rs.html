@@ -403,8 +403,7 @@
 <span id="403">403</span>
 <span id="404">404</span>
 <span id="405">405</span>
-</pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::Config</span>, <span class="ident">Events</span>, <span class="ident">Shard</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::Config</span>, <span class="ident">Events</span>, <span class="ident">Shard</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::EventTypeFlags</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">error::Error</span>,
@@ -809,7 +808,7 @@
     <span class="macro">assert_fields!</span>(<span class="ident">ShardIdErrorType::IdTooLarge</span>: <span class="ident">id</span>, <span class="ident">total</span>);
     <span class="macro">assert_impl_all!</span>(<span class="ident">ShardIdError</span>: <span class="ident">Error</span>, <span class="ident">Send</span>, <span class="ident">Sync</span>);
 }
-</pre></div>
+</code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="twilight_gateway" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
     <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
 </body></html>

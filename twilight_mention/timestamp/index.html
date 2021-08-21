@@ -6,19 +6,17 @@ the <a href="struct.Timestamp.html" title="Timestamp"><code>Timestamp</code></a>
 <p>Format a <a href="struct.Timestamp.html" title="Timestamp"><code>Timestamp</code></a> into a valid Discord Markdown markdown via its
 implementation of <a href="../fmt/trait.Mention.html"><code>Mention</code></a>:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">twilight_mention</span>::{<span class="ident">timestamp::Timestamp</span>, <span class="ident">Mention</span>};
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">twilight_mention</span>::{<span class="ident">timestamp::Timestamp</span>, <span class="ident">Mention</span>};
 
 <span class="kw">let</span> <span class="ident">timestamp</span> <span class="op">=</span> <span class="ident">Timestamp::new</span>(<span class="number">1624047064</span>, <span class="prelude-val">None</span>);
 
-<span class="macro">println!</span>(<span class="string">&quot;This action was performed at {}&quot;</span>, <span class="ident">timestamp</span>.<span class="ident">mention</span>());</pre></div>
+<span class="macro">println!</span>(<span class="string">&quot;This action was performed at {}&quot;</span>, <span class="ident">timestamp</span>.<span class="ident">mention</span>());</code></pre></div>
 <p><a href="enum.TimestampStyle.html" title="TimestampStyle"><code>TimestampStyle</code></a> implements <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html"><code>Display</code></a>, which allows you to easily print
 the display modifier of a style:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">use</span> <span class="ident">twilight_mention::timestamp::TimestampStyle</span>;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">twilight_mention::timestamp::TimestampStyle</span>;
 
-<span class="macro">println!</span>(<span class="string">&quot;The modifier is &#39;{}&#39;&quot;</span>, <span class="ident">TimestampStyle::RelativeTime</span>);</pre></div>
+<span class="macro">println!</span>(<span class="string">&quot;The modifier is &#39;{}&#39;&quot;</span>, <span class="ident">TimestampStyle::RelativeTime</span>);</code></pre></div>
 </div></details><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
 <div class="item-table"><div class="item-left module-item"><a class="struct" href="struct.Timestamp.html" title="twilight_mention::timestamp::Timestamp struct">Timestamp</a></div><div class="item-right docblock-short"><p>Timestamp representing a time to be formatted based on a client’s current
 local timezone and locale.</p>

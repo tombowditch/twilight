@@ -119,12 +119,17 @@
 <span id="119">119</span>
 <span id="120">120</span>
 <span id="121">121</span>
-</pre><pre class="rust">
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">api_error::ApiError</span>, <span class="ident">json::JsonError</span>, <span class="ident">response::StatusCode</span>};
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">api_error::ApiError</span>, <span class="ident">json::JsonError</span>, <span class="ident">response::StatusCode</span>};
 <span class="kw">use</span> <span class="ident">hyper</span>::{<span class="ident">Body</span>, <span class="ident">Response</span>};
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">StdError</span>,
     <span class="ident">fmt</span>::{<span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
+    <span class="ident">str</span>,
 };
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -175,7 +180,11 @@
             <span class="ident">ErrorType::Parsing</span> { <span class="ident">body</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Response body couldn&#39;t be deserialized: &quot;</span>)<span class="question-mark">?</span>;
 
-                <span class="ident">Debug::fmt</span>(<span class="ident">body</span>, <span class="ident">f</span>)
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">body</span>) <span class="op">=</span> <span class="ident">str::from_utf8</span>(<span class="ident">body</span>) {
+                    <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="ident">body</span>)
+                } <span class="kw">else</span> {
+                    <span class="ident">Debug::fmt</span>(<span class="ident">body</span>, <span class="ident">f</span>)
+                }
             }
             <span class="ident">ErrorType::RequestCanceled</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Request was canceled either before or while being sent&quot;</span>)
@@ -241,7 +250,7 @@
     <span class="doccomment">/// or is revoked. Recreate the client to configure a new token.</span>
     <span class="ident">Unauthorized</span>,
 }
-</pre></div>
+</code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="twilight_http" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
 </body></html>
