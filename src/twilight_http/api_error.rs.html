@@ -944,6 +944,16 @@
 <span id="944">944</span>
 <span id="945">945</span>
 <span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">DeError</span>, <span class="ident">Visitor</span>},
     <span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>,
@@ -1090,6 +1100,8 @@
     <span class="ident">MaximumGuildBansFetchesReached</span>,
     <span class="doccomment">/// Maximum number of stickers reached</span>
     <span class="ident">MaximumStickersReached</span>,
+    <span class="doccomment">/// Maximum number of prune requests has been reached. Try again later</span>
+    <span class="ident">MaximumPruneRequestsReached</span>,
     <span class="doccomment">/// Unauthorized. Provide a valid token and try again</span>
     <span class="ident">Unauthorized</span>,
     <span class="doccomment">/// You need to verify your account in order to perform this action</span>
@@ -1267,6 +1279,7 @@
             <span class="ident"><span class="self">Self</span>::MaximumNonGuildBansReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30035</span>,
             <span class="ident"><span class="self">Self</span>::MaximumGuildBansFetchesReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30037</span>,
             <span class="ident"><span class="self">Self</span>::MaximumStickersReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30039</span>,
+            <span class="ident"><span class="self">Self</span>::MaximumPruneRequestsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">30040</span>,
             <span class="ident"><span class="self">Self</span>::Unauthorized</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">40001</span>,
             <span class="ident"><span class="self">Self</span>::AccountNeedsVerification</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">40002</span>,
             <span class="ident"><span class="self">Self</span>::OpeningDirectMessageRateLimitReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">40003</span>,
@@ -1393,6 +1406,7 @@
             <span class="number">30035</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MaximumNonGuildBansReached</span>,
             <span class="number">30037</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MaximumGuildBansFetchesReached</span>,
             <span class="number">30039</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MaximumStickersReached</span>,
+            <span class="number">30040</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::MaximumPruneRequestsReached</span>,
             <span class="number">40001</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::Unauthorized</span>,
             <span class="number">40002</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::AccountNeedsVerification</span>,
             <span class="number">40003</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::OpeningDirectMessageRateLimitReached</span>,
@@ -1519,6 +1533,7 @@
             <span class="ident"><span class="self">Self</span>::MaximumNonGuildBansReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of bans for non-guild members have been exceeded&quot;</span>),
             <span class="ident"><span class="self">Self</span>::MaximumGuildBansFetchesReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of bans fetches has been reached&quot;</span>),
             <span class="ident"><span class="self">Self</span>::MaximumStickersReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of stickers reached&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::MaximumPruneRequestsReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Maximum number of prune requests has been reached. Try again later&quot;</span>),
             <span class="ident"><span class="self">Self</span>::Unauthorized</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Unauthorized. Provide a valid token and try again&quot;</span>),
             <span class="ident"><span class="self">Self</span>::AccountNeedsVerification</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;You need to verify your account in order to perform this action&quot;</span>),
             <span class="ident"><span class="self">Self</span>::OpeningDirectMessageRateLimitReached</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;You are opening direct messages too fast&quot;</span>),
@@ -1887,6 +1902,11 @@
             <span class="ident">code</span>: <span class="ident">ErrorCode::MaximumStickersReached</span>,
             <span class="ident">display</span>: <span class="string">&quot;Maximum number of stickers reached&quot;</span>,
             <span class="ident">num</span>: <span class="number">30039</span>,
+        });
+        <span class="ident">assert_error_code</span>(<span class="ident">AssertErrorCode</span> {
+            <span class="ident">code</span>: <span class="ident">ErrorCode::MaximumPruneRequestsReached</span>,
+            <span class="ident">display</span>: <span class="string">&quot;Maximum number of prune requests has been reached. Try again later&quot;</span>,
+            <span class="ident">num</span>: <span class="number">30040</span>,
         });
     }
 }
