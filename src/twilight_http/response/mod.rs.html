@@ -804,6 +804,42 @@
 <span id="804">804</span>
 <span id="805">805</span>
 <span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Response utility type and related types.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The heart of the response module is the [`Response`] itself: it&#39;s a wrapper</span>
@@ -1134,6 +1170,24 @@
     <span class="doccomment">/// Consume the response, chunking the body and then deserializing it into</span>
     <span class="doccomment">/// a list of something.</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// This is an alias for [`models`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns a [`DeserializeBodyErrorType::Chunking`] error type if the</span>
+    <span class="doccomment">/// response body could not be entirely read.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns a [`DeserializeBodyErrorType::Deserializing`] error type if the</span>
+    <span class="doccomment">/// response body could not be deserialized into a list of something.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`models`]: Self::models</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">model</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ModelFuture</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">models</span>()
+    }
+
+    <span class="doccomment">/// Consume the response, chunking the body and then deserializing it into</span>
+    <span class="doccomment">/// a list of something.</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// # Errors</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns a [`DeserializeBodyErrorType::Chunking`] error type if the</span>
@@ -1165,6 +1219,24 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Response</span><span class="op">&lt;</span><span class="ident">MemberListBody</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Consume the response, chunking the body and then deserializing it into</span>
+    <span class="doccomment">/// a list of members.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is an alias for [`models`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns a [`DeserializeBodyErrorType::Chunking`] error type if the</span>
+    <span class="doccomment">/// response body could not be entirely read.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns a [`DeserializeBodyErrorType::Deserializing`] error type if the</span>
+    <span class="doccomment">/// response body could not be deserialized into a list of something.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`models`]: Self::models</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">model</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MemberListFuture</span> {
+        <span class="self">self</span>.<span class="ident">models</span>()
+    }
+
     <span class="doccomment">/// Consume the response, chunking the body and then deserializing it into</span>
     <span class="doccomment">/// a list of members.</span>
     <span class="doccomment">///</span>
