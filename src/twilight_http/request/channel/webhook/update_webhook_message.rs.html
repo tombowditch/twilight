@@ -425,12 +425,86 @@
 <span id="425">425</span>
 <span id="426">426</span>
 <span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Update a message created by a webhook via execution.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
     <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Form</span>, <span class="ident">NullableField</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{
+        <span class="self">self</span>,
+        <span class="ident">validate_inner</span>::{<span class="self">self</span>, <span class="ident">ComponentValidationError</span>, <span class="ident">ComponentValidationErrorType</span>},
+        <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Form</span>, <span class="ident">NullableField</span>, <span class="ident">Request</span>,
+    },
     <span class="ident">response</span>::{<span class="ident">marker::EmptyBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
@@ -440,6 +514,7 @@
     <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
 };
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
+    <span class="ident">application::component::Component</span>,
     <span class="ident">channel</span>::{<span class="ident">embed::Embed</span>, <span class="ident">message::AllowedMentions</span>, <span class="ident">Attachment</span>},
     <span class="ident">id</span>::{<span class="ident">MessageId</span>, <span class="ident">WebhookId</span>},
 };
@@ -479,6 +554,16 @@
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">UpdateWebhookMessageError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtResult</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span> {
+            <span class="ident">UpdateWebhookMessageErrorType::ComponentCount</span> { <span class="ident">count</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Display::fmt</span>(<span class="ident">count</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; components were provided, but only &quot;</span>)<span class="question-mark">?</span>;
+                <span class="ident">Display::fmt</span>(<span class="kw-2">&amp;</span><span class="ident">ComponentValidationError::COMPONENT_COUNT</span>, <span class="ident">f</span>)<span class="question-mark">?</span>;
+
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot; root components are allowed&quot;</span>)
+            }
+            <span class="ident">UpdateWebhookMessageErrorType::ComponentInvalid</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;a provided component is invalid&quot;</span>)
+            }
             <span class="ident">UpdateWebhookMessageErrorType::ContentInvalid</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;message content is invalid&quot;</span>)
             }
@@ -514,6 +599,16 @@
         <span class="doccomment">/// invalid embed.</span>
         <span class="ident">index</span>: <span class="ident">usize</span>,
     },
+    <span class="doccomment">/// An invalid message component was provided.</span>
+    <span class="ident">ComponentInvalid</span> {
+        <span class="doccomment">/// Additional details about the validation failure type.</span>
+        <span class="ident">kind</span>: <span class="ident">ComponentValidationErrorType</span>,
+    },
+    <span class="doccomment">/// Too many message components were provided.</span>
+    <span class="ident">ComponentCount</span> {
+        <span class="doccomment">/// Number of components that were provided.</span>
+        <span class="ident">count</span>: <span class="ident">usize</span>,
+    },
     <span class="doccomment">/// Too many embeds were provided.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// A webhook can have up to 10 embeds.</span>
@@ -526,6 +621,8 @@
     <span class="ident">allowed_mentions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AllowedMentions</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;request::slice_is_empty&quot;</span>)]</span>
     <span class="ident">attachments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Attachment</span>],
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="ident">components</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Component</span>]<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NullableField</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
@@ -592,6 +689,7 @@
             <span class="ident">fields</span>: <span class="ident">UpdateWebhookMessageFields</span> {
                 <span class="ident">allowed_mentions</span>: <span class="prelude-val">None</span>,
                 <span class="ident">attachments</span>: <span class="kw-2">&amp;</span>[],
+                <span class="ident">components</span>: <span class="prelude-val">None</span>,
                 <span class="ident">content</span>: <span class="prelude-val">None</span>,
                 <span class="ident">embeds</span>: <span class="prelude-val">None</span>,
                 <span class="ident">payload_json</span>: <span class="prelude-val">None</span>,
@@ -622,6 +720,47 @@
         <span class="self">self</span>
     }
 
+    <span class="doccomment">/// Add multiple [`Component`]s to a message.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Calling this method multiple times will clear previous calls.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Pass `None` to clear existing components.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`UpdateWebhookMessageErrorType::ComponentCount`] error</span>
+    <span class="doccomment">/// type if too many components are provided.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`UpdateWebhookMessageErrorType::ComponentInvalid`] error</span>
+    <span class="doccomment">/// type if one of the provided components is invalid.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">components</span>(
+        <span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="ident">components</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Component</span>]<span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateWebhookMessageError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">components</span>) <span class="op">=</span> <span class="ident">components</span>.<span class="ident">as_ref</span>() {
+            <span class="ident">validate_inner::components</span>(<span class="ident">components</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> {
+                <span class="kw">let</span> (<span class="ident">kind</span>, <span class="ident">inner_source</span>) <span class="op">=</span> <span class="ident">source</span>.<span class="ident">into_parts</span>();
+
+                <span class="kw">match</span> <span class="ident">kind</span> {
+                    <span class="ident">ComponentValidationErrorType::ComponentCount</span> { <span class="ident">count</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">UpdateWebhookMessageError</span> {
+                            <span class="ident">kind</span>: <span class="ident">UpdateWebhookMessageErrorType::ComponentCount</span> { <span class="ident">count</span> },
+                            <span class="ident">source</span>: <span class="ident">inner_source</span>,
+                        }
+                    }
+                    <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">UpdateWebhookMessageError</span> {
+                        <span class="ident">kind</span>: <span class="ident">UpdateWebhookMessageErrorType::ComponentInvalid</span> { <span class="ident">kind</span>: <span class="ident">other</span> },
+                        <span class="ident">source</span>: <span class="ident">inner_source</span>,
+                    },
+                }
+            })<span class="question-mark">?</span>;
+        }
+
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">components</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">NullableField</span>(<span class="ident">components</span>));
+
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
     <span class="doccomment">/// Set the content of the message.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Pass `None` if you want to remove the message content.</span>
@@ -637,7 +776,7 @@
     <span class="doccomment">/// the content length is too long.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">content</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">content</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateWebhookMessageError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">content_ref</span>) <span class="op">=</span> <span class="ident">content</span> {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::content_limit</span>(<span class="ident">content_ref</span>) {
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::content_limit</span>(<span class="ident">content_ref</span>) {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UpdateWebhookMessageError</span> {
                     <span class="ident">kind</span>: <span class="ident">UpdateWebhookMessageErrorType::ContentInvalid</span>,
                     <span class="ident">source</span>: <span class="prelude-val">None</span>,
@@ -710,7 +849,7 @@
             }
 
             <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">embed</span>) <span class="kw">in</span> <span class="ident">embeds_present</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span> <span class="ident">validate::embed</span>(<span class="ident">embed</span>) {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">source</span>) <span class="op">=</span> <span class="ident">validate_inner::embed</span>(<span class="ident">embed</span>) {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UpdateWebhookMessageError</span> {
                         <span class="ident">kind</span>: <span class="ident">UpdateWebhookMessageErrorType::EmbedTooLarge</span> { <span class="ident">index</span>: <span class="ident">idx</span> },
                         <span class="ident">source</span>: <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">source</span>)),
@@ -834,6 +973,7 @@
         <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="ident">UpdateWebhookMessageFields</span> {
             <span class="ident">allowed_mentions</span>: <span class="prelude-val">None</span>,
             <span class="ident">attachments</span>: <span class="kw-2">&amp;</span>[],
+            <span class="ident">components</span>: <span class="prelude-val">None</span>,
             <span class="ident">content</span>: <span class="prelude-val">Some</span>(<span class="ident">NullableField</span>(<span class="prelude-val">Some</span>(<span class="string">&quot;test&quot;</span>))),
             <span class="ident">embeds</span>: <span class="prelude-val">None</span>,
             <span class="ident">payload_json</span>: <span class="prelude-val">None</span>,

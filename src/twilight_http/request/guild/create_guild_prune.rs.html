@@ -165,7 +165,7 @@
 <span id="165">165</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate_inner</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
     <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
@@ -286,7 +286,7 @@
     <span class="doccomment">/// Returns a [`CreateGuildPruneErrorType::DaysInvalid`] error type if the</span>
     <span class="doccomment">/// number of days is 0.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">days</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">days</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateGuildPruneError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::guild_prune_days</span>(<span class="ident">days</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::guild_prune_days</span>(<span class="ident">days</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateGuildPruneError</span> {
                 <span class="ident">kind</span>: <span class="ident">CreateGuildPruneErrorType::DaysInvalid</span>,
             });

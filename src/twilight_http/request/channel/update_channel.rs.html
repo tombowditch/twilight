@@ -311,7 +311,7 @@
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
     <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">NullableField</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate_inner</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">NullableField</span>, <span class="ident">Request</span>},
     <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
@@ -459,7 +459,7 @@
     <span class="doccomment">/// Returns an [`UpdateChannelErrorType::NameInvalid`] error type if the name</span>
     <span class="doccomment">/// length is too short or too long.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UpdateChannelError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::channel_name</span>(<span class="ident">name</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::channel_name</span>(<span class="ident">name</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UpdateChannelError</span> {
                 <span class="ident">kind</span>: <span class="ident">UpdateChannelErrorType::NameInvalid</span>,
             });

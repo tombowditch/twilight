@@ -287,7 +287,7 @@
 <span id="287">287</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate_inner</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
     <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
@@ -404,7 +404,7 @@
         <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
         <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateGuildChannelError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::channel_name</span>(<span class="ident">name</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::channel_name</span>(<span class="ident">name</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateGuildChannelError</span> {
                 <span class="ident">kind</span>: <span class="ident">CreateGuildChannelErrorType::NameInvalid</span>,
             });

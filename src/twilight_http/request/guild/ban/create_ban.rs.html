@@ -154,7 +154,7 @@
 <span id="154">154</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate_inner</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
     <span class="ident">response</span>::{<span class="ident">marker::EmptyBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
@@ -271,7 +271,7 @@
     <span class="doccomment">/// Returns a [`CreateBanErrorType::DeleteMessageDaysInvalid`] error type if</span>
     <span class="doccomment">/// the number of days is greater than 7.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">delete_message_days</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">days</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateBanError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::ban_delete_message_days</span>(<span class="ident">days</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::ban_delete_message_days</span>(<span class="ident">days</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBanError</span> {
                 <span class="ident">kind</span>: <span class="ident">CreateBanErrorType::DeleteMessageDaysInvalid</span>,
             });

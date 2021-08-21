@@ -199,6 +199,7 @@
 <span id="199">199</span>
 <span id="200">200</span>
 <span id="201">201</span>
+<span id="202">202</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">config::ResourceType</span>, <span class="ident">model::CachedMessage</span>, <span class="ident">InMemoryCache</span>, <span class="ident">UpdateCache</span>};
 <span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident">twilight_model::gateway::payload</span>::{
@@ -352,6 +353,7 @@
                 <span class="ident">verified</span>: <span class="prelude-val">None</span>,
             },
             <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>(<span class="number">2</span>),
+            <span class="ident">components</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">content</span>: <span class="string">&quot;ping&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">edited_timestamp</span>: <span class="prelude-val">None</span>,
             <span class="ident">embeds</span>: <span class="ident">Vec::new</span>(),

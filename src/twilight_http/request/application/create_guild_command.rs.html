@@ -135,7 +135,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
     <span class="ident">error::Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>, <span class="ident">RequestBuilder</span>},
+    <span class="ident">request</span>::{<span class="ident">validate_inner</span>, <span class="ident">Request</span>, <span class="ident">RequestBuilder</span>},
     <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
@@ -171,13 +171,13 @@
         <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="ident">description</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::command_name</span>(<span class="ident">name</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::command_name</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">InteractionError</span> {
                 <span class="ident">kind</span>: <span class="ident">InteractionErrorType::CommandNameValidationFailed</span>,
             });
         }
 
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::command_description</span>(<span class="ident">description</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::command_description</span>(<span class="kw-2">&amp;</span><span class="ident">description</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">InteractionError</span> {
                 <span class="ident">kind</span>: <span class="ident">InteractionErrorType::CommandDescriptionValidationFailed</span>,
             });

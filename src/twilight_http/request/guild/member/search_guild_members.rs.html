@@ -154,7 +154,7 @@
 <span id="154">154</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate_inner</span>, <span class="ident">Request</span>},
     <span class="ident">response</span>::{<span class="ident">marker::MemberListBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
@@ -279,7 +279,7 @@
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">SearchGuildMembersError</span><span class="op">&gt;</span> {
         <span class="comment">// Using get_guild_members_limit here as the limits are the same</span>
         <span class="comment">// and this endpoint is not officially documented yet.</span>
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::search_guild_members_limit</span>(<span class="ident">limit</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::search_guild_members_limit</span>(<span class="ident">limit</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SearchGuildMembersError</span> {
                 <span class="ident">kind</span>: <span class="ident">SearchGuildMembersErrorType::LimitInvalid</span> { <span class="ident">limit</span> },
             });

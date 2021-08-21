@@ -145,7 +145,7 @@
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::RequestReactionType</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate_inner</span>, <span class="ident">Request</span>},
     <span class="ident">response</span>::{<span class="ident">marker::ListBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
@@ -214,7 +214,7 @@
 <span class="doccomment">/// Get a list of users that reacted to a message with an `emoji`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This endpoint is limited to 100 users maximum, so if a message has more than 100 reactions,</span>
-<span class="doccomment">/// requests must be chained until all reactions are retireved.</span>
+<span class="doccomment">/// requests must be chained until all reactions are retrieved.</span>
 <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;requests must be configured and executed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetReactions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">channel_id</span>: <span class="ident">ChannelId</span>,
@@ -260,7 +260,7 @@
     <span class="doccomment">/// Returns a [`GetReactionsErrorType::LimitInvalid`] error type if the</span>
     <span class="doccomment">/// amount is greater than 100.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">GetReactionsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::get_reactions_limit</span>(<span class="ident">limit</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::get_reactions_limit</span>(<span class="ident">limit</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">GetReactionsError</span> {
                 <span class="ident">kind</span>: <span class="ident">GetReactionsErrorType::LimitInvalid</span> { <span class="ident">limit</span> },
             });

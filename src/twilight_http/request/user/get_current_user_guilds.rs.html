@@ -160,7 +160,7 @@
 <span id="160">160</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">request</span>::{<span class="ident">validate</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="ident">validate_inner</span>, <span class="ident">Request</span>},
     <span class="ident">response</span>::{<span class="ident">marker::ListBody</span>, <span class="ident">ResponseFuture</span>},
     <span class="ident">routing::Route</span>,
 };
@@ -294,7 +294,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [the discord docs]: https://discordapp.com/developers/docs/resources/user#get-current-user-guilds-query-string-params</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">GetCurrentUserGuildsError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::get_current_user_guilds_limit</span>(<span class="ident">limit</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::get_current_user_guilds_limit</span>(<span class="ident">limit</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">GetCurrentUserGuildsError</span> {
                 <span class="ident">kind</span>: <span class="ident">GetCurrentUserGuildsErrorType::LimitInvalid</span>,
             });

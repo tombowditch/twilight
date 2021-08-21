@@ -215,7 +215,7 @@
     <span class="ident">error::Error</span>,
     <span class="ident">request</span>::{
         <span class="ident">application</span>::{<span class="ident">InteractionError</span>, <span class="ident">InteractionErrorType</span>},
-        <span class="ident">validate</span>, <span class="ident">Request</span>, <span class="ident">RequestBuilder</span>,
+        <span class="ident">validate_inner</span>, <span class="ident">Request</span>, <span class="ident">RequestBuilder</span>,
     },
     <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
@@ -274,7 +274,7 @@
                 <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">sorted_id</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">permission_id</span> {
                     <span class="kw-2">*</span><span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
 
-                    <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::guild_command_permissions</span>(<span class="kw-2">*</span><span class="ident">count</span>) {
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::guild_command_permissions</span>(<span class="kw-2">*</span><span class="ident">count</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">InteractionError</span> {
                             <span class="ident">kind</span>: <span class="ident">InteractionErrorType::TooManyCommandPermissions</span>,
                         });

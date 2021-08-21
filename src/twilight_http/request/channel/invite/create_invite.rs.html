@@ -321,7 +321,7 @@
 <span id="321">321</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
-    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
+    <span class="ident">request</span>::{<span class="self">self</span>, <span class="ident">validate_inner</span>, <span class="ident">AuditLogReason</span>, <span class="ident">AuditLogReasonError</span>, <span class="ident">Request</span>},
     <span class="ident">response::ResponseFuture</span>,
     <span class="ident">routing::Route</span>,
 };
@@ -480,7 +480,7 @@
     <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">max_age</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">max_age</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateInviteError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::invite_max_age</span>(<span class="ident">max_age</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::invite_max_age</span>(<span class="ident">max_age</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateInviteError</span> {
                 <span class="ident">kind</span>: <span class="ident">CreateInviteErrorType::MaxAgeTooOld</span>,
             });
@@ -518,7 +518,7 @@
     <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">max_uses</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">max_uses</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateInviteError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate::invite_max_uses</span>(<span class="ident">max_uses</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">validate_inner::invite_max_uses</span>(<span class="ident">max_uses</span>) {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateInviteError</span> {
                 <span class="ident">kind</span>: <span class="ident">CreateInviteErrorType::MaxUsesTooLarge</span>,
             });
