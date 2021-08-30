@@ -764,6 +764,33 @@
 <span id="764">764</span>
 <span id="765">765</span>
 <span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
 </pre><pre class="rust"><code><span class="doccomment">//! # twilight-cache-inmemory</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [![discord badge][]][discord link] [![github badge][]][github link] [![license badge][]][license link] ![rust badge]</span>
@@ -1177,6 +1204,16 @@
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">guild_emojis</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">guild_id</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">clone</span>())
     }
 
+    <span class="doccomment">/// Gets the set of integrations in a guild.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This requires the [`GUILD_INTEGRATIONS`] intent. The</span>
+    <span class="doccomment">/// [`ResourceType::INTEGRATION`] resource type must be enabled.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`GUILD_INTEGRATIONS`]: twilight_model::gateway::Intents::GUILD_INTEGRATIONS</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">guild_integrations</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">guild_id</span>: <span class="ident">GuildId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">IntegrationId</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">guild_integrations</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">guild_id</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">clone</span>())
+    }
+
     <span class="doccomment">/// Gets the set of members in a guild.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This list may be incomplete if not all members have been cached.</span>
@@ -1222,6 +1259,23 @@
             .<span class="ident">guild_stage_instances</span>
             .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">guild_id</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">value</span>().<span class="ident">clone</span>())
+    }
+
+    <span class="doccomment">/// Gets an integration by guild ID and integration ID.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is an O(1) operation. This requires the [`GUILD_INTEGRATIONS`]</span>
+    <span class="doccomment">/// intent. The [`ResourceType::INTEGRATION`] resource type must be enabled.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`GUILD_INTEGRATIONS`]: twilight_model::gateway::Intents::GUILD_INTEGRATIONS</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">integration</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
+        <span class="ident">integration_id</span>: <span class="ident">IntegrationId</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">GuildIntegration</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="number">0</span>
+            .<span class="ident">integrations</span>
+            .<span class="ident">get</span>(<span class="kw-2">&amp;</span>(<span class="ident">guild_id</span>, <span class="ident">integration_id</span>))
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">r</span><span class="op">|</span> <span class="ident">r</span>.<span class="ident">data</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// Gets a member by guild ID and user ID.</span>
