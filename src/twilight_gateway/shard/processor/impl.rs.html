@@ -1984,7 +1984,7 @@
     <span class="doccomment">/// connection.</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">resume</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
-        <span class="macro">tracing::info!</span>(<span class="string">&quot;resuming shard {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">shard</span>());
+        <span class="macro">tracing::debug!</span>(<span class="string">&quot;resuming shard {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">shard</span>());
 
         <span class="self">self</span>.<span class="ident">session</span>.<span class="ident">set_stage</span>(<span class="ident">Stage::Resuming</span>);
         <span class="self">self</span>.<span class="ident">session</span>.<span class="ident">stop_heartbeater</span>();
