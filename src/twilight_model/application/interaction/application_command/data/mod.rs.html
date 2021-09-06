@@ -85,7 +85,7 @@
 <span class="doccomment">/// Refer to [the discord docs] for more information.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`ApplicationCommand`]: crate::application::interaction::Interaction::ApplicationCommand</span>
-<span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/slash-commands#interaction-applicationcommandinteractiondata</span>
+<span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#interaction-applicationcommandinteractiondata</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandData</span> {
     <span class="doccomment">/// ID of the command.</span>
@@ -106,7 +106,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Refer to [the discord docs] for more information.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/slash-commands#interaction-applicationcommandinteractiondataoption</span>
+<span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#interaction-applicationcommandinteractiondataoption</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
 <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">untagged</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CommandDataOption</span> {

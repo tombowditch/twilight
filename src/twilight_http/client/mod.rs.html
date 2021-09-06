@@ -2341,6 +2341,115 @@
 <span id="2341">2341</span>
 <span id="2342">2342</span>
 <span id="2343">2343</span>
+<span id="2344">2344</span>
+<span id="2345">2345</span>
+<span id="2346">2346</span>
+<span id="2347">2347</span>
+<span id="2348">2348</span>
+<span id="2349">2349</span>
+<span id="2350">2350</span>
+<span id="2351">2351</span>
+<span id="2352">2352</span>
+<span id="2353">2353</span>
+<span id="2354">2354</span>
+<span id="2355">2355</span>
+<span id="2356">2356</span>
+<span id="2357">2357</span>
+<span id="2358">2358</span>
+<span id="2359">2359</span>
+<span id="2360">2360</span>
+<span id="2361">2361</span>
+<span id="2362">2362</span>
+<span id="2363">2363</span>
+<span id="2364">2364</span>
+<span id="2365">2365</span>
+<span id="2366">2366</span>
+<span id="2367">2367</span>
+<span id="2368">2368</span>
+<span id="2369">2369</span>
+<span id="2370">2370</span>
+<span id="2371">2371</span>
+<span id="2372">2372</span>
+<span id="2373">2373</span>
+<span id="2374">2374</span>
+<span id="2375">2375</span>
+<span id="2376">2376</span>
+<span id="2377">2377</span>
+<span id="2378">2378</span>
+<span id="2379">2379</span>
+<span id="2380">2380</span>
+<span id="2381">2381</span>
+<span id="2382">2382</span>
+<span id="2383">2383</span>
+<span id="2384">2384</span>
+<span id="2385">2385</span>
+<span id="2386">2386</span>
+<span id="2387">2387</span>
+<span id="2388">2388</span>
+<span id="2389">2389</span>
+<span id="2390">2390</span>
+<span id="2391">2391</span>
+<span id="2392">2392</span>
+<span id="2393">2393</span>
+<span id="2394">2394</span>
+<span id="2395">2395</span>
+<span id="2396">2396</span>
+<span id="2397">2397</span>
+<span id="2398">2398</span>
+<span id="2399">2399</span>
+<span id="2400">2400</span>
+<span id="2401">2401</span>
+<span id="2402">2402</span>
+<span id="2403">2403</span>
+<span id="2404">2404</span>
+<span id="2405">2405</span>
+<span id="2406">2406</span>
+<span id="2407">2407</span>
+<span id="2408">2408</span>
+<span id="2409">2409</span>
+<span id="2410">2410</span>
+<span id="2411">2411</span>
+<span id="2412">2412</span>
+<span id="2413">2413</span>
+<span id="2414">2414</span>
+<span id="2415">2415</span>
+<span id="2416">2416</span>
+<span id="2417">2417</span>
+<span id="2418">2418</span>
+<span id="2419">2419</span>
+<span id="2420">2420</span>
+<span id="2421">2421</span>
+<span id="2422">2422</span>
+<span id="2423">2423</span>
+<span id="2424">2424</span>
+<span id="2425">2425</span>
+<span id="2426">2426</span>
+<span id="2427">2427</span>
+<span id="2428">2428</span>
+<span id="2429">2429</span>
+<span id="2430">2430</span>
+<span id="2431">2431</span>
+<span id="2432">2432</span>
+<span id="2433">2433</span>
+<span id="2434">2434</span>
+<span id="2435">2435</span>
+<span id="2436">2436</span>
+<span id="2437">2437</span>
+<span id="2438">2438</span>
+<span id="2439">2439</span>
+<span id="2440">2440</span>
+<span id="2441">2441</span>
+<span id="2442">2442</span>
+<span id="2443">2443</span>
+<span id="2444">2444</span>
+<span id="2445">2445</span>
+<span id="2446">2446</span>
+<span id="2447">2447</span>
+<span id="2448">2448</span>
+<span id="2449">2449</span>
+<span id="2450">2450</span>
+<span id="2451">2451</span>
+<span id="2452">2452</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">builder</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::builder::ClientBuilder</span>;
@@ -2350,12 +2459,20 @@
     <span class="ident">ratelimiting::Ratelimiter</span>,
     <span class="ident">request</span>::{
         <span class="ident">application</span>::{
-            <span class="ident">CreateFollowupMessage</span>, <span class="ident">CreateGlobalCommand</span>, <span class="ident">CreateGuildCommand</span>, <span class="ident">DeleteFollowupMessage</span>,
-            <span class="ident">DeleteGlobalCommand</span>, <span class="ident">DeleteGuildCommand</span>, <span class="ident">DeleteOriginalResponse</span>, <span class="ident">GetCommandPermissions</span>,
-            <span class="ident">GetGlobalCommands</span>, <span class="ident">GetGuildCommandPermissions</span>, <span class="ident">GetGuildCommands</span>, <span class="ident">GetOriginalResponse</span>,
-            <span class="ident">InteractionCallback</span>, <span class="ident">InteractionError</span>, <span class="ident">InteractionErrorType</span>, <span class="ident">SetCommandPermissions</span>,
-            <span class="ident">SetGlobalCommands</span>, <span class="ident">SetGuildCommands</span>, <span class="ident">UpdateCommandPermissions</span>, <span class="ident">UpdateFollowupMessage</span>,
-            <span class="ident">UpdateGlobalCommand</span>, <span class="ident">UpdateGuildCommand</span>, <span class="ident">UpdateOriginalResponse</span>,
+            <span class="ident">command</span>::{
+                <span class="ident">create_global_command::CreateGlobalChatInputCommand</span>,
+                <span class="ident">create_guild_command::CreateGuildChatInputCommand</span>, <span class="ident">CreateGlobalCommand</span>,
+                <span class="ident">CreateGuildCommand</span>, <span class="ident">DeleteGlobalCommand</span>, <span class="ident">DeleteGuildCommand</span>, <span class="ident">GetCommandPermissions</span>,
+                <span class="ident">GetGlobalCommand</span>, <span class="ident">GetGlobalCommands</span>, <span class="ident">GetGuildCommand</span>, <span class="ident">GetGuildCommandPermissions</span>,
+                <span class="ident">GetGuildCommands</span>, <span class="ident">SetCommandPermissions</span>, <span class="ident">SetGlobalCommands</span>, <span class="ident">SetGuildCommands</span>,
+                <span class="ident">UpdateCommandPermissions</span>, <span class="ident">UpdateGlobalCommand</span>, <span class="ident">UpdateGuildCommand</span>,
+            },
+            <span class="ident">interaction</span>::{
+                <span class="ident">CreateFollowupMessage</span>, <span class="ident">DeleteFollowupMessage</span>, <span class="ident">DeleteOriginalResponse</span>,
+                <span class="ident">GetOriginalResponse</span>, <span class="ident">InteractionCallback</span>, <span class="ident">UpdateFollowupMessage</span>,
+                <span class="ident">UpdateOriginalResponse</span>,
+            },
+            <span class="ident">InteractionError</span>, <span class="ident">InteractionErrorType</span>,
         },
         <span class="ident">channel</span>::{
             <span class="ident">reaction::delete_reaction::TargetUser</span>,
@@ -4181,10 +4298,9 @@
         ))
     }
 
-    <span class="doccomment">/// Create a new command in a guild.</span>
+    <span class="doccomment">/// Create a new chat input command in a guild.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The name must be between 3 and 32 characters in length, and the</span>
-    <span class="doccomment">/// description must be between 1 and 100 characters in length. Creating a</span>
+    <span class="doccomment">/// The name must be between 1 and 32 characters in length. Creating a</span>
     <span class="doccomment">/// guild command with the same name as an already-existing guild command in</span>
     <span class="doccomment">/// the same guild will overwrite the old command. See [the discord docs]</span>
     <span class="doccomment">/// for more information.</span>
@@ -4196,24 +4312,77 @@
     <span class="doccomment">/// [`Client::set_application_id`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns an [`InteractionErrorType::CommandNameValidationFailed`]</span>
-    <span class="doccomment">/// error type if the command name is not between 3 and 32 characters.</span>
+    <span class="doccomment">/// error type if the command name is not between 1 and 32 characters.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an [`InteractionErrorType::CommandDescriptionValidationFailed`]</span>
-    <span class="doccomment">/// error type if the command description is not between 1 and</span>
-    <span class="doccomment">/// 100 characters.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/slash-commands#create-guild-application-command</span>
+    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#create-guild-application-command</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(
+        <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;use `new_create_guild_command`, which does not require a description&quot;</span>,
+        <span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.6.4&quot;</span>
+    )]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_guild_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
         <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
         <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
         <span class="ident">description</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CreateGuildChatInputCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
+            <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
+        })<span class="question-mark">?</span>;
+
+        <span class="ident">CreateGuildCommand::new</span>(<span class="self">self</span>, <span class="ident">application_id</span>, <span class="ident">guild_id</span>, <span class="ident">name</span>)<span class="question-mark">?</span>.<span class="ident">chat_input</span>(<span class="ident">description</span>)
+    }
+
+    <span class="doccomment">/// Create a new command in a guild.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The name must be between 1 and 32 characters in length. Creating a</span>
+    <span class="doccomment">/// guild command with the same name as an already-existing guild command in</span>
+    <span class="doccomment">/// the same guild will overwrite the old command. See [the discord docs]</span>
+    <span class="doccomment">/// for more information.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::ApplicationIdNotPresent`]</span>
+    <span class="doccomment">/// error type if an application ID has not been configured via</span>
+    <span class="doccomment">/// [`Client::set_application_id`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::CommandNameValidationFailed`]</span>
+    <span class="doccomment">/// error type if the command name is not between 1 and 32 characters.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#create-guild-application-command</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_create_guild_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
+        <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
+        <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CreateGuildCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
             <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
         })<span class="question-mark">?</span>;
 
-        <span class="ident">CreateGuildCommand::new</span>(<span class="self">self</span>, <span class="ident">application_id</span>, <span class="ident">guild_id</span>, <span class="ident">name</span>, <span class="ident">description</span>)
+        <span class="ident">CreateGuildCommand::new</span>(<span class="self">self</span>, <span class="ident">application_id</span>, <span class="ident">guild_id</span>, <span class="ident">name</span>)
+    }
+
+    <span class="doccomment">/// Fetch a guild command for your application.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::ApplicationIdNotPresent`]</span>
+    <span class="doccomment">/// error type if an application ID has not been configured via</span>
+    <span class="doccomment">/// [`Client::set_application_id`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_guild_command</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
+        <span class="ident">command_id</span>: <span class="ident">CommandId</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">GetGuildCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
+            <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
+        })<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">GetGuildCommand::new</span>(
+            <span class="self">self</span>,
+            <span class="ident">application_id</span>,
+            <span class="ident">guild_id</span>,
+            <span class="ident">command_id</span>,
+        ))
     }
 
     <span class="doccomment">/// Fetch all commands for a guild, by ID.</span>
@@ -4245,7 +4414,7 @@
     <span class="doccomment">/// error type if an application ID has not been configured via</span>
     <span class="doccomment">/// [`Client::set_application_id`].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/slash-commands#edit-guild-application-command</span>
+    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#edit-guild-application-command</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_guild_command</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">guild_id</span>: <span class="ident">GuildId</span>,
@@ -4314,10 +4483,46 @@
         ))
     }
 
+    <span class="doccomment">/// Create a new chat input global command.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The name must be between 1 and 32 characters in length. The description</span>
+    <span class="doccomment">/// must be between 1 and 100 characters in length. Creating a command with</span>
+    <span class="doccomment">/// the same name as an already-existing global command will overwrite the</span>
+    <span class="doccomment">/// old command. See [the discord docs] for more information.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::ApplicationIdNotPresent`]</span>
+    <span class="doccomment">/// error type if an application ID has not been configured via</span>
+    <span class="doccomment">/// [`Client::set_application_id`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::CommandNameValidationFailed`]</span>
+    <span class="doccomment">/// error type if the command name is not between 1 and 32 characters.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::CommandDescriptionValidationFailed`]</span>
+    <span class="doccomment">/// error type if the command description is not between 1 and 100</span>
+    <span class="doccomment">/// characters.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#create-global-application-command</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>(
+        <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;use `new_create_global_command`, which does not require a description&quot;</span>,
+        <span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.6.4&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_global_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
+        <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
+        <span class="ident">description</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CreateGlobalChatInputCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
+            <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
+        })<span class="question-mark">?</span>;
+
+        <span class="ident">CreateGlobalCommand::new</span>(<span class="self">self</span>, <span class="ident">application_id</span>, <span class="ident">name</span>)<span class="question-mark">?</span>.<span class="ident">chat_input</span>(<span class="ident">description</span>)
+    }
+
     <span class="doccomment">/// Create a new global command.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The name must be between 3 and 32 characters in length, and the</span>
-    <span class="doccomment">/// description must be between 1 and 100 characters in length. Creating a</span>
+    <span class="doccomment">/// The name must be between 1 and 32 characters in length. Creating a</span>
     <span class="doccomment">/// command with the same name as an already-existing global command will</span>
     <span class="doccomment">/// overwrite the old command. See [the discord docs] for more information.</span>
     <span class="doccomment">///</span>
@@ -4328,23 +4533,36 @@
     <span class="doccomment">/// [`Client::set_application_id`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns an [`InteractionErrorType::CommandNameValidationFailed`]</span>
-    <span class="doccomment">/// error type if the command name is not between 3 and 32 characters.</span>
+    <span class="doccomment">/// error type if the command name is not between 1 and 32 characters.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an [`InteractionErrorType::CommandDescriptionValidationFailed`]</span>
-    <span class="doccomment">/// error type if the command description is not between 1 and</span>
-    <span class="doccomment">/// 100 characters.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/slash-commands#create-global-application-command</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_global_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#create-global-application-command</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_create_global_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
         <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-        <span class="ident">description</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CreateGlobalCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
             <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
         })<span class="question-mark">?</span>;
 
-        <span class="ident">CreateGlobalCommand::new</span>(<span class="self">self</span>, <span class="ident">application_id</span>, <span class="ident">name</span>, <span class="ident">description</span>)
+        <span class="ident">CreateGlobalCommand::new</span>(<span class="self">self</span>, <span class="ident">application_id</span>, <span class="ident">name</span>)
+    }
+
+    <span class="doccomment">/// Fetch a global command for your application.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::ApplicationIdNotPresent`]</span>
+    <span class="doccomment">/// error type if an application ID has not been configured via</span>
+    <span class="doccomment">/// [`Client::set_application_id`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_global_command</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">command_id</span>: <span class="ident">CommandId</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">GetGlobalCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
+            <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
+        })<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">GetGlobalCommand::new</span>(<span class="self">self</span>, <span class="ident">application_id</span>, <span class="ident">command_id</span>))
     }
 
     <span class="doccomment">/// Fetch all global commands for your application.</span>
@@ -4373,7 +4591,7 @@
     <span class="doccomment">/// error type if an application ID has not been configured via</span>
     <span class="doccomment">/// [`Client::set_application_id`].</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/slash-commands#edit-global-application-command</span>
+    <span class="doccomment">/// [the discord docs]: https://discord.com/developers/docs/interactions/application-commands#edit-global-application-command</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update_global_command</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">command_id</span>: <span class="ident">CommandId</span>,

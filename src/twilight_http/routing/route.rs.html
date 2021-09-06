@@ -1255,6 +1255,26 @@
 <span id="1255">1255</span>
 <span id="1256">1256</span>
 <span id="1257">1257</span>
+<span id="1258">1258</span>
+<span id="1259">1259</span>
+<span id="1260">1260</span>
+<span id="1261">1261</span>
+<span id="1262">1262</span>
+<span id="1263">1263</span>
+<span id="1264">1264</span>
+<span id="1265">1265</span>
+<span id="1266">1266</span>
+<span id="1267">1267</span>
+<span id="1268">1268</span>
+<span id="1269">1269</span>
+<span id="1270">1270</span>
+<span id="1271">1271</span>
+<span id="1272">1272</span>
+<span id="1273">1273</span>
+<span id="1274">1274</span>
+<span id="1275">1275</span>
+<span id="1276">1276</span>
+<span id="1277">1277</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">path::Path</span>, <span class="ident">route_display::RouteDisplay</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::request</span>::{<span class="ident">channel::reaction::RequestReactionType</span>, <span class="ident">Method</span>};
 <span class="kw">use</span> <span class="ident">twilight_model::id::RoleId</span>;
@@ -1621,6 +1641,13 @@
     <span class="doccomment">/// Route information to get gateway information tailored to the current</span>
     <span class="doccomment">/// user.</span>
     <span class="ident">GetGatewayBot</span>,
+    <span class="doccomment">/// Route information to get a global command for an application.</span>
+    <span class="ident">GetGlobalCommand</span> {
+        <span class="doccomment">/// ID of the owner application.</span>
+        <span class="ident">application_id</span>: <span class="ident">u64</span>,
+        <span class="doccomment">/// ID of the command.</span>
+        <span class="ident">command_id</span>: <span class="ident">u64</span>,
+    },
     <span class="ident">GetGlobalCommands</span> {
         <span class="doccomment">/// The ID of the owner application.</span>
         <span class="ident">application_id</span>: <span class="ident">u64</span>,
@@ -1632,6 +1659,15 @@
         <span class="doccomment">/// Whether to include approximate member and presence counts for the</span>
         <span class="doccomment">/// guild.</span>
         <span class="ident">with_counts</span>: <span class="ident">bool</span>,
+    },
+    <span class="doccomment">/// Route information to get a guild command.</span>
+    <span class="ident">GetGuildCommand</span> {
+        <span class="doccomment">/// ID of the owner application.</span>
+        <span class="ident">application_id</span>: <span class="ident">u64</span>,
+        <span class="doccomment">/// ID of the command.</span>
+        <span class="ident">command_id</span>: <span class="ident">u64</span>,
+        <span class="doccomment">/// ID of the guild.</span>
+        <span class="ident">guild_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to get permissions of all guild commands.</span>
     <span class="ident">GetGuildCommandPermissions</span> {
@@ -2171,8 +2207,10 @@
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetEmoji</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetEmojis</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGateway</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGlobalCommand</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGlobalCommands</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuild</span> { .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommand</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommandPermissions</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommands</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildIntegrations</span> { .. }
@@ -2319,6 +2357,7 @@
             }
             <span class="ident"><span class="self">Self</span>::CreateGuildCommand</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::DeleteGuildCommand</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommand</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommandPermissions</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuildCommands</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::SetCommandPermissions</span> { <span class="ident">application_id</span>, .. }
@@ -2362,6 +2401,7 @@
             <span class="ident"><span class="self">Self</span>::DeleteChannel</span> { <span class="ident">channel_id</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::ChannelsId</span>(<span class="kw-2">*</span><span class="ident">channel_id</span>),
             <span class="ident"><span class="self">Self</span>::DeleteEmoji</span> { <span class="ident">guild_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Path::GuildsIdEmojisId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>),
             <span class="ident"><span class="self">Self</span>::DeleteGlobalCommand</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGlobalCommand</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateGlobalCommand</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::ApplicationCommandId</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
             }

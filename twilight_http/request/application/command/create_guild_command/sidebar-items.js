@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CreateGuildChatInputCommand","Create a chat input command in a guild."],["CreateGuildCommand","Create a new command in a guild."],["CreateGuildMessageCommand","Create a message command in a guild."],["CreateGuildUserCommand","Create a user command in a guild."]]});

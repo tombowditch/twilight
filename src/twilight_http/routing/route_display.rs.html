@@ -960,6 +960,15 @@
 <span id="960">960</span>
 <span id="961">961</span>
 <span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::route::Route</span>;
 <span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">utf8_percent_encode</span>, <span class="ident">NON_ALPHANUMERIC</span>};
 <span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>};
@@ -1251,6 +1260,10 @@
                 <span class="ident">application_id</span>,
                 <span class="ident">command_id</span>,
             }
+            <span class="op">|</span> <span class="ident">Route::GetGlobalCommand</span> {
+                <span class="ident">application_id</span>,
+                <span class="ident">command_id</span>,
+            }
             <span class="op">|</span> <span class="ident">Route::UpdateGlobalCommand</span> {
                 <span class="ident">application_id</span>,
                 <span class="ident">command_id</span>,
@@ -1267,6 +1280,11 @@
                 <span class="ident">Display::fmt</span>(<span class="ident">guild_id</span>, <span class="ident">f</span>)
             }
             <span class="ident">Route::DeleteGuildCommand</span> {
+                <span class="ident">application_id</span>,
+                <span class="ident">command_id</span>,
+                <span class="ident">guild_id</span>,
+            }
+            <span class="op">|</span> <span class="ident">Route::GetGuildCommand</span> {
                 <span class="ident">application_id</span>,
                 <span class="ident">command_id</span>,
                 <span class="ident">guild_id</span>,
