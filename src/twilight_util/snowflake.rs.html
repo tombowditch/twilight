@@ -228,6 +228,11 @@
 <span id="228">228</span>
 <span id="229">229</span>
 <span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Provides the Snowflake trait for defining extractable information from a Discord Snowflake.</span>
 
 <span class="kw">use</span> <span class="ident">twilight_model::id</span>::{
@@ -249,7 +254,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// See when a user was created using [`chrono`](https://docs.rs/chrono):</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// ```</span>
     <span class="doccomment">/// use chrono::{Utc, TimeZone};</span>
     <span class="doccomment">/// use twilight_util::snowflake::Snowflake;</span>
     <span class="doccomment">/// use twilight_model::id::UserId;</span>
@@ -264,17 +269,22 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// See when a user was created using [`time`](https://docs.rs/time):</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// use time::{Duration, Format, OffsetDateTime};</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use time::{Duration, format_description::well_known::Rfc3339, OffsetDateTime};</span>
     <span class="doccomment">/// use twilight_util::snowflake::Snowflake;</span>
     <span class="doccomment">/// use twilight_model::id::UserId;</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
     <span class="doccomment">/// let id = UserId(105484726235607040);</span>
+    <span class="doccomment">/// // Convert milliseconds to seconds or nanoseconds.</span>
     <span class="doccomment">/// let dur = Duration::milliseconds(id.timestamp());</span>
-    <span class="doccomment">/// // Or use seconds, at the cost of lost precision.</span>
-    <span class="doccomment">/// let ts = OffsetDateTime::from_unix_timestamp_nanos(dur.whole_nanoseconds());</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// assert_eq!(&quot;2015-10-19T01:58:38+00:00&quot;, ts.format(Format::Rfc3339));</span>
+    <span class="doccomment">/// let ts = OffsetDateTime::from_unix_timestamp(dur.whole_seconds())?;</span>
+    <span class="doccomment">/// let ts_milli = OffsetDateTime::from_unix_timestamp_nanos(dur.whole_nanoseconds())?;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert_eq!(&quot;2015-10-19T01:58:38Z&quot;, ts.format(&amp;Rfc3339)?);</span>
+    <span class="doccomment">/// assert_eq!(&quot;2015-10-19T01:58:38.546Z&quot;, ts_milli.format(&amp;Rfc3339)?);</span>
+    <span class="doccomment">/// # Ok(()) }</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::cast_possible_wrap</span>)]</span>
     <span class="kw">fn</span> <span class="ident">timestamp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i64</span> {
