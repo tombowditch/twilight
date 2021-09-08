@@ -1029,6 +1029,16 @@
 <span id="1029">1029</span>
 <span id="1030">1030</span>
 <span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{
     <span class="kw">super</span>::{
         <span class="ident">config::Config</span>,
@@ -1298,7 +1308,6 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ShardProcessor</span> {
     <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">emitter</span>: <span class="ident">Emitter</span>,
-    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">IdentifyProperties</span>,
     <span class="kw">pub</span> <span class="ident">rx</span>: <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">Message</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">session</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Session</span><span class="op">&gt;</span>,
     <span class="ident">compression</span>: <span class="ident">Compression</span>,
@@ -1327,8 +1336,6 @@
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tracing&quot;</span>)]</span>
             <span class="macro">tracing::debug!</span>(<span class="string">&quot;shard {:?} finished queue&quot;</span>, <span class="ident">config</span>.<span class="ident">shard</span>());
         }
-
-        <span class="kw">let</span> <span class="ident">properties</span> <span class="op">=</span> <span class="ident">IdentifyProperties::new</span>(<span class="string">&quot;twilight.rs&quot;</span>, <span class="string">&quot;twilight.rs&quot;</span>, <span class="ident">OS</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>);
 
         <span class="ident">url</span>.<span class="ident">push_str</span>(<span class="string">&quot;?v=8&quot;</span>);
 
@@ -1366,7 +1373,6 @@
             <span class="ident">compression</span>: <span class="ident">Compression::new</span>(<span class="ident">shard_id</span>),
             <span class="ident">config</span>,
             <span class="ident">emitter</span>,
-            <span class="ident">properties</span>,
             <span class="ident">rx</span>,
             <span class="ident">session</span>,
             <span class="ident">url</span>: <span class="ident">url</span>.<span class="ident">into_boxed_str</span>(),
@@ -1913,11 +1919,17 @@
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">identify</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SessionSendError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">session</span>.<span class="ident">set_stage</span>(<span class="ident">Stage::Identifying</span>);
 
+        <span class="kw">let</span> <span class="ident">properties</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">config</span>
+            .<span class="ident">identify_properties</span>()
+            .<span class="ident">cloned</span>()
+            .<span class="ident">unwrap_or_else</span>(<span class="ident">default_identify_properties</span>);
+
         <span class="kw">let</span> <span class="ident">identify</span> <span class="op">=</span> <span class="ident">Identify::new</span>(<span class="ident">IdentifyInfo</span> {
             <span class="ident">compress</span>: <span class="bool-val">false</span>,
             <span class="ident">large_threshold</span>: <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">large_threshold</span>(),
             <span class="ident">intents</span>: <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">intents</span>(),
-            <span class="ident">properties</span>: <span class="self">self</span>.<span class="ident">properties</span>.<span class="ident">clone</span>(),
+            <span class="ident">properties</span>,
             <span class="ident">shard</span>: <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">shard</span>()),
             <span class="ident">presence</span>: <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">presence</span>().<span class="ident">cloned</span>(),
             <span class="ident">token</span>: <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">token</span>().<span class="ident">to_owned</span>(),
@@ -2059,6 +2071,14 @@
             <span class="ident">shard_id</span>: <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">shard</span>()[<span class="number">0</span>],
         }));
     }
+}
+
+<span class="doccomment">/// Default identify properties to use when the user has not customized it via</span>
+<span class="doccomment">/// [`ShardBuilder::identify_properties`].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`ShardBuilder::identify_properties`]: super::super::ShardBuilder::identify_properties</span>
+<span class="kw">fn</span> <span class="ident">default_identify_properties</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IdentifyProperties</span> {
+    <span class="ident">IdentifyProperties::new</span>(<span class="string">&quot;twilight.rs&quot;</span>, <span class="string">&quot;twilight.rs&quot;</span>, <span class="ident">OS</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>)
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="twilight_gateway" data-search-index-js="../../../../search-index.js" data-search-js="../../../../search.js"></div>

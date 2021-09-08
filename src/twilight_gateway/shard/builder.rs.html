@@ -403,6 +403,45 @@
 <span id="403">403</span>
 <span id="404">404</span>
 <span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">config::Config</span>, <span class="ident">Events</span>, <span class="ident">Shard</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::EventTypeFlags</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -412,7 +451,10 @@
 };
 <span class="kw">use</span> <span class="ident">twilight_gateway_queue</span>::{<span class="ident">LocalQueue</span>, <span class="ident">Queue</span>};
 <span class="kw">use</span> <span class="ident">twilight_http::Client</span> <span class="kw">as</span> <span class="ident">HttpClient</span>;
-<span class="kw">use</span> <span class="ident">twilight_model::gateway</span>::{<span class="ident">payload::update_presence::UpdatePresencePayload</span>, <span class="ident">Intents</span>};
+<span class="kw">use</span> <span class="ident">twilight_model::gateway</span>::{
+    <span class="ident">payload</span>::{<span class="ident">identify::IdentifyProperties</span>, <span class="ident">update_presence::UpdatePresencePayload</span>},
+    <span class="ident">Intents</span>,
+};
 
 <span class="doccomment">/// Large threshold configuration is invalid.</span>
 <span class="doccomment">///</span>
@@ -582,6 +624,7 @@
             <span class="ident">event_types</span>: <span class="ident">EventTypeFlags::default</span>(),
             <span class="ident">gateway_url</span>: <span class="prelude-val">None</span>,
             <span class="ident">http_client</span>: <span class="ident">HttpClient::new</span>(<span class="ident">token</span>.<span class="ident">clone</span>()),
+            <span class="ident">identify_properties</span>: <span class="prelude-val">None</span>,
             <span class="ident">intents</span>,
             <span class="ident">large_threshold</span>: <span class="number">250</span>,
             <span class="ident">presence</span>: <span class="prelude-val">None</span>,
@@ -626,6 +669,41 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::missing_const_for_fn</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">http_client</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">http_client</span>: <span class="ident">HttpClient</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">http_client</span> <span class="op">=</span> <span class="ident">http_client</span>;
+
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Set the properties to identify with.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This may be used if you want to set a different operating system, for</span>
+    <span class="doccomment">/// example.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Set the identify properties for a shard:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```no_run</span>
+    <span class="doccomment">/// # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {</span>
+    <span class="doccomment">/// use std::env::{self, consts::OS};</span>
+    <span class="doccomment">/// use twilight_gateway::{Intents, Shard};</span>
+    <span class="doccomment">/// use twilight_model::gateway::payload::identify::IdentifyProperties;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let token = env::var(&quot;DISCORD_TOKEN&quot;)?;</span>
+    <span class="doccomment">/// let properties = IdentifyProperties::new(</span>
+    <span class="doccomment">///     &quot;twilight.rs&quot;,</span>
+    <span class="doccomment">///     &quot;twilight.rs&quot;,</span>
+    <span class="doccomment">///     OS,</span>
+    <span class="doccomment">///     &quot;&quot;,</span>
+    <span class="doccomment">///     &quot;&quot;,</span>
+    <span class="doccomment">/// );</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// let builder = Shard::builder(token, Intents::empty())</span>
+    <span class="doccomment">///     .identify_properties(properties);</span>
+    <span class="doccomment">/// # Ok(()) }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::missing_const_for_fn</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">identify_properties</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">identify_properties</span>: <span class="ident">IdentifyProperties</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">identify_properties</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">identify_properties</span>);
 
         <span class="self">self</span>
     }
