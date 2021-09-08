@@ -306,9 +306,6 @@
 <span id="306">306</span>
 <span id="307">307</span>
 <span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">config::ResourceType</span>, <span class="ident">model::CachedMember</span>, <span class="ident">InMemoryCache</span>, <span class="ident">UpdateCache</span>};
 <span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
@@ -476,20 +473,17 @@
         }
 
         <span class="comment">// Avoid a deadlock by mutating the user, dropping the lock to the map,</span>
-        <span class="comment">// and then maybe conditionally removing the user later.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maybe_remove_user</span> <span class="op">=</span> <span class="bool-val">false</span>;
+        <span class="comment">// and then removing the user later if they are in no guilds.</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">remove_user</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">user_tuple</span>) <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">users</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">user</span>.<span class="ident">id</span>) {
-            <span class="ident">user_tuple</span>.<span class="number">1</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">guild_id</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">user_guilds</span>) <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">user_guilds</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">user</span>.<span class="ident">id</span>) {
+            <span class="ident">user_guilds</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">guild_id</span>);
 
-            <span class="ident">maybe_remove_user</span> <span class="op">=</span> <span class="bool-val">true</span>;
+            <span class="ident">remove_user</span> <span class="op">=</span> <span class="ident">user_guilds</span>.<span class="ident">is_empty</span>();
         }
 
-        <span class="kw">if</span> <span class="ident">maybe_remove_user</span> {
-            <span class="ident">cache</span>
-                .<span class="number">0</span>
-                .<span class="ident">users</span>
-                .<span class="ident">remove_if</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">user</span>.<span class="ident">id</span>, <span class="op">|</span><span class="kw">_</span>, <span class="ident">guild_set</span><span class="op">|</span> <span class="ident">guild_set</span>.<span class="number">1</span>.<span class="ident">is_empty</span>());
+        <span class="kw">if</span> <span class="ident">remove_user</span> {
+            <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">users</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">user</span>.<span class="ident">id</span>);
         }
     }
 }
@@ -584,18 +578,18 @@
 
         <span class="comment">// Test the guild&#39;s ID is the only one in the user&#39;s set of guilds.</span>
         {
-            <span class="kw">let</span> <span class="ident">user</span> <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">users</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>).<span class="ident">unwrap</span>();
-            <span class="macro">assert!</span>(<span class="ident">user</span>.<span class="number">1</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">GuildId</span>(<span class="number">1</span>)));
-            <span class="macro">assert_eq!</span>(<span class="number">1</span>, <span class="ident">user</span>.<span class="number">1</span>.<span class="ident">len</span>());
+            <span class="kw">let</span> <span class="ident">user_guilds</span> <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">user_guilds</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>).<span class="ident">unwrap</span>();
+            <span class="macro">assert!</span>(<span class="ident">user_guilds</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">GuildId</span>(<span class="number">1</span>)));
+            <span class="macro">assert_eq!</span>(<span class="number">1</span>, <span class="ident">user_guilds</span>.<span class="ident">len</span>());
         }
 
         <span class="comment">// Test that a second guild will cause 2 in the set.</span>
         <span class="ident">cache</span>.<span class="ident">cache_user</span>(<span class="ident">Cow::Owned</span>(<span class="ident">test::user</span>(<span class="ident">user_id</span>)), <span class="prelude-val">Some</span>(<span class="ident">GuildId</span>(<span class="number">3</span>)));
 
         {
-            <span class="kw">let</span> <span class="ident">user</span> <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">users</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>).<span class="ident">unwrap</span>();
-            <span class="macro">assert!</span>(<span class="ident">user</span>.<span class="number">1</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">GuildId</span>(<span class="number">3</span>)));
-            <span class="macro">assert_eq!</span>(<span class="number">2</span>, <span class="ident">user</span>.<span class="number">1</span>.<span class="ident">len</span>());
+            <span class="kw">let</span> <span class="ident">user_guilds</span> <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">user_guilds</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>).<span class="ident">unwrap</span>();
+            <span class="macro">assert!</span>(<span class="ident">user_guilds</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">GuildId</span>(<span class="number">3</span>)));
+            <span class="macro">assert_eq!</span>(<span class="number">2</span>, <span class="ident">user_guilds</span>.<span class="ident">len</span>());
         }
 
         <span class="comment">// Test that removing a user from a guild will cause the ID to be</span>
@@ -606,9 +600,9 @@
         });
 
         {
-            <span class="kw">let</span> <span class="ident">user</span> <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">users</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>).<span class="ident">unwrap</span>();
-            <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">user</span>.<span class="number">1</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">GuildId</span>(<span class="number">3</span>)));
-            <span class="macro">assert_eq!</span>(<span class="number">1</span>, <span class="ident">user</span>.<span class="number">1</span>.<span class="ident">len</span>());
+            <span class="kw">let</span> <span class="ident">user_guilds</span> <span class="op">=</span> <span class="ident">cache</span>.<span class="number">0</span>.<span class="ident">user_guilds</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">user_id</span>).<span class="ident">unwrap</span>();
+            <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">user_guilds</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">GuildId</span>(<span class="number">3</span>)));
+            <span class="macro">assert_eq!</span>(<span class="number">1</span>, <span class="ident">user_guilds</span>.<span class="ident">len</span>());
         }
 
         <span class="comment">// Test that removing the user from its last guild removes the user&#39;s</span>
