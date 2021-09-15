@@ -409,8 +409,6 @@
 <span id="409">409</span>
 <span id="410">410</span>
 <span id="411">411</span>
-<span id="412">412</span>
-<span id="413">413</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Client to manage nodes and players.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -487,7 +485,6 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">struct</span> <span class="ident">LavalinkRef</span> {
-    <span class="ident">guilds</span>: <span class="ident">DashMap</span><span class="op">&lt;</span><span class="ident">GuildId</span>, <span class="ident">SocketAddr</span><span class="op">&gt;</span>,
     <span class="ident">nodes</span>: <span class="ident">DashMap</span><span class="op">&lt;</span><span class="ident">SocketAddr</span>, <span class="ident">Node</span><span class="op">&gt;</span>,
     <span class="ident">players</span>: <span class="ident">PlayerManager</span>,
     <span class="ident">resume</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Resume</span><span class="op">&gt;</span>,
@@ -553,7 +550,6 @@
 
     <span class="kw">fn</span> <span class="ident">_new_with_resume</span>(<span class="ident">user_id</span>: <span class="ident">UserId</span>, <span class="ident">shard_count</span>: <span class="ident">u64</span>, <span class="ident">resume</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Resume</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="ident">Arc::new</span>(<span class="ident">LavalinkRef</span> {
-            <span class="ident">guilds</span>: <span class="ident">DashMap::new</span>(),
             <span class="ident">nodes</span>: <span class="ident">DashMap::new</span>(),
             <span class="ident">players</span>: <span class="ident">PlayerManager::new</span>(),
             <span class="ident">resume</span>,

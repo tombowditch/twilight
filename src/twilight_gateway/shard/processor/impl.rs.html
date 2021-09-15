@@ -1882,7 +1882,7 @@
     }
 
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">connect</span>(<span class="ident">url</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ShardStream</span>, <span class="ident">ConnectingError</span><span class="op">&gt;</span> {
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">disjoint_capture_migration</span>)]</span>
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">rust_2021_incompatible_closure_captures</span>)]</span>
         <span class="kw">let</span> <span class="ident">url</span> <span class="op">=</span> <span class="ident">Url::parse</span>(<span class="ident">url</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">source</span><span class="op">|</span> <span class="ident">ConnectingError</span> {
             <span class="ident">kind</span>: <span class="ident">ConnectingErrorType::ParsingUrl</span> {
                 <span class="ident">url</span>: <span class="ident">url</span>.<span class="ident">to_owned</span>(),
