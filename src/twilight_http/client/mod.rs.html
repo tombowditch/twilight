@@ -2450,6 +2450,30 @@
 <span id="2450">2450</span>
 <span id="2451">2451</span>
 <span id="2452">2452</span>
+<span id="2453">2453</span>
+<span id="2454">2454</span>
+<span id="2455">2455</span>
+<span id="2456">2456</span>
+<span id="2457">2457</span>
+<span id="2458">2458</span>
+<span id="2459">2459</span>
+<span id="2460">2460</span>
+<span id="2461">2461</span>
+<span id="2462">2462</span>
+<span id="2463">2463</span>
+<span id="2464">2464</span>
+<span id="2465">2465</span>
+<span id="2466">2466</span>
+<span id="2467">2467</span>
+<span id="2468">2468</span>
+<span id="2469">2469</span>
+<span id="2470">2470</span>
+<span id="2471">2471</span>
+<span id="2472">2472</span>
+<span id="2473">2473</span>
+<span id="2474">2474</span>
+<span id="2475">2475</span>
+<span id="2476">2476</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">builder</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::builder::ClientBuilder</span>;
@@ -2469,8 +2493,8 @@
             },
             <span class="ident">interaction</span>::{
                 <span class="ident">CreateFollowupMessage</span>, <span class="ident">DeleteFollowupMessage</span>, <span class="ident">DeleteOriginalResponse</span>,
-                <span class="ident">GetOriginalResponse</span>, <span class="ident">InteractionCallback</span>, <span class="ident">UpdateFollowupMessage</span>,
-                <span class="ident">UpdateOriginalResponse</span>,
+                <span class="ident">GetFollowupMessage</span>, <span class="ident">GetOriginalResponse</span>, <span class="ident">InteractionCallback</span>,
+                <span class="ident">UpdateFollowupMessage</span>, <span class="ident">UpdateOriginalResponse</span>,
             },
             <span class="ident">InteractionError</span>, <span class="ident">InteractionErrorType</span>,
         },
@@ -4203,6 +4227,30 @@
             <span class="self">self</span>,
             <span class="ident">application_id</span>,
             <span class="ident">interaction_token</span>,
+        ))
+    }
+
+    <span class="doccomment">/// Get a followup message of an interaction.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Errors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an [`InteractionErrorType::ApplicationIdNotPresent`]</span>
+    <span class="doccomment">/// error type if an application ID has not been configured via</span>
+    <span class="doccomment">/// [`Client::set_application_id`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">followup_message</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
+        <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
+        <span class="ident">message_id</span>: <span class="ident">MessageId</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">GetFollowupMessage</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="ident">InteractionError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">application_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">application_id</span>().<span class="ident">ok_or</span>(<span class="ident">InteractionError</span> {
+            <span class="ident">kind</span>: <span class="ident">InteractionErrorType::ApplicationIdNotPresent</span>,
+        })<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="ident">GetFollowupMessage::new</span>(
+            <span class="self">self</span>,
+            <span class="ident">application_id</span>,
+            <span class="ident">interaction_token</span>,
+            <span class="ident">message_id</span>,
         ))
     }
 

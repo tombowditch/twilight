@@ -1275,6 +1275,17 @@
 <span id="1275">1275</span>
 <span id="1276">1276</span>
 <span id="1277">1277</span>
+<span id="1278">1278</span>
+<span id="1279">1279</span>
+<span id="1280">1280</span>
+<span id="1281">1281</span>
+<span id="1282">1282</span>
+<span id="1283">1283</span>
+<span id="1284">1284</span>
+<span id="1285">1285</span>
+<span id="1286">1286</span>
+<span id="1287">1287</span>
+<span id="1288">1288</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">path::Path</span>, <span class="ident">route_display::RouteDisplay</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::request</span>::{<span class="ident">channel::reaction::RequestReactionType</span>, <span class="ident">Method</span>};
 <span class="kw">use</span> <span class="ident">twilight_model::id::RoleId</span>;
@@ -1635,6 +1646,15 @@
     <span class="ident">GetEmojis</span> {
         <span class="doccomment">/// The ID of the guild.</span>
         <span class="ident">guild_id</span>: <span class="ident">u64</span>,
+    },
+    <span class="doccomment">/// Route to get a followup message for an interaction.</span>
+    <span class="ident">GetFollowupMessage</span> {
+        <span class="doccomment">/// ID of the application.</span>
+        <span class="ident">application_id</span>: <span class="ident">u64</span>,
+        <span class="doccomment">/// Token of the interaction.</span>
+        <span class="ident">interaction_token</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
+        <span class="doccomment">/// ID of the followup message.</span>
+        <span class="ident">message_id</span>: <span class="ident">u64</span>,
     },
     <span class="doccomment">/// Route information to get basic gateway information.</span>
     <span class="ident">GetGateway</span>,
@@ -2207,6 +2227,7 @@
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetEmoji</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetEmojis</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGateway</span>
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetFollowupMessage</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGlobalCommand</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGlobalCommands</span> { .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetGuild</span> { .. }
@@ -2411,6 +2432,7 @@
                 <span class="ident">Path::GuildsIdIntegrationsId</span>(<span class="kw-2">*</span><span class="ident">guild_id</span>)
             }
             <span class="ident"><span class="self">Self</span>::DeleteInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
+            <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetFollowupMessage</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::GetInteractionOriginal</span> { <span class="ident">application_id</span>, .. }
             <span class="op">|</span> <span class="ident"><span class="self">Self</span>::UpdateInteractionOriginal</span> { <span class="ident">application_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">Path::WebhooksIdTokenMessagesId</span>(<span class="kw-2">*</span><span class="ident">application_id</span>)
