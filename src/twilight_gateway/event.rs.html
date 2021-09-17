@@ -370,6 +370,25 @@
 <span id="370">370</span>
 <span id="371">371</span>
 <span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
 <span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
 <span class="kw">use</span> <span class="ident">twilight_model::gateway::event::EventType</span>;
@@ -491,6 +510,19 @@
         <span class="kw">const</span> <span class="ident">STAGE_INSTANCE_DELETE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">58</span>;
         <span class="doccomment">/// Stage instance was updated in a stage channel.</span>
         <span class="kw">const</span> <span class="ident">STAGE_INSTANCE_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">59</span>;
+        <span class="doccomment">/// A thread has been created, relevant to the current user,</span>
+        <span class="doccomment">/// or the current user has been added to a thread.</span>
+        <span class="kw">const</span> <span class="ident">THREAD_CREATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">50</span>;
+        <span class="doccomment">/// A thread, relevant to the current user, has been deleted.</span>
+        <span class="kw">const</span> <span class="ident">THREAD_DELETE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">52</span>;
+        <span class="doccomment">/// The current user has gained access to a thread.</span>
+        <span class="kw">const</span> <span class="ident">THREAD_LIST_SYNC</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">53</span>;
+        <span class="doccomment">/// A user has been added to or removed from a thread.</span>
+        <span class="kw">const</span> <span class="ident">THREAD_MEMBERS_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">55</span>;
+        <span class="doccomment">/// The thread member object for the current user has been updated.</span>
+        <span class="kw">const</span> <span class="ident">THREAD_MEMBER_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">54</span>;
+        <span class="doccomment">/// A thread has been updated.</span>
+        <span class="kw">const</span> <span class="ident">THREAD_UPDATE</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">51</span>;
         <span class="doccomment">/// User has begun typing in a channel.</span>
         <span class="kw">const</span> <span class="ident">TYPING_START</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">39</span>;
         <span class="doccomment">/// Guild is unavailable, potentially due to an outage.</span>
@@ -684,6 +716,12 @@
             <span class="ident">EventType::StageInstanceCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::STAGE_INSTANCE_CREATE</span>,
             <span class="ident">EventType::StageInstanceDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::STAGE_INSTANCE_DELETE</span>,
             <span class="ident">EventType::StageInstanceUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::STAGE_INSTANCE_UPDATE</span>,
+            <span class="ident">EventType::ThreadCreate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::THREAD_CREATE</span>,
+            <span class="ident">EventType::ThreadDelete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::THREAD_DELETE</span>,
+            <span class="ident">EventType::ThreadListSync</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::THREAD_LIST_SYNC</span>,
+            <span class="ident">EventType::ThreadMembersUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::THREAD_MEMBERS_UPDATE</span>,
+            <span class="ident">EventType::ThreadMemberUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::THREAD_MEMBER_UPDATE</span>,
+            <span class="ident">EventType::ThreadUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::THREAD_UPDATE</span>,
             <span class="ident">EventType::TypingStart</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::TYPING_START</span>,
             <span class="ident">EventType::UnavailableGuild</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::UNAVAILABLE_GUILD</span>,
             <span class="ident">EventType::UserUpdate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventTypeFlags::USER_UPDATE</span>,

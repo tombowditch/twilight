@@ -368,6 +368,16 @@
 <span id="368">368</span>
 <span id="369">369</span>
 <span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::ExecuteWebhookAndWait</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">client::Client</span>,
@@ -387,7 +397,7 @@
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
     <span class="ident">application::component::Component</span>,
     <span class="ident">channel</span>::{<span class="ident">embed::Embed</span>, <span class="ident">message::AllowedMentions</span>},
-    <span class="ident">id::WebhookId</span>,
+    <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">WebhookId</span>},
 };
 
 <span class="doccomment">/// A webhook could not be executed.</span>
@@ -476,6 +486,8 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">payload_json</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="ident">thread_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChannelId</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">tts</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="ident">username</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
@@ -527,6 +539,7 @@
                 <span class="ident">content</span>: <span class="prelude-val">None</span>,
                 <span class="ident">embeds</span>: <span class="prelude-val">None</span>,
                 <span class="ident">payload_json</span>: <span class="prelude-val">None</span>,
+                <span class="ident">thread_id</span>: <span class="prelude-val">None</span>,
                 <span class="ident">tts</span>: <span class="prelude-val">None</span>,
                 <span class="ident">username</span>: <span class="prelude-val">None</span>,
                 <span class="ident">allowed_mentions</span>: <span class="prelude-val">None</span>,
@@ -584,7 +597,7 @@
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// The content of the webook&#39;s message.</span>
+    <span class="doccomment">/// The content of the webhook&#39;s message.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Up to 2000 UTF-16 codepoints, same as a message.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">content</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">content</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
@@ -663,6 +676,13 @@
     <span class="doccomment">/// [Discord Docs/Create Message]: https://discord.com/developers/docs/resources/channel#create-message-params</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">payload_json</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">payload_json</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">payload_json</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">payload_json</span>);
+
+        <span class="self">self</span>
+    }
+
+    <span class="doccomment">/// Execute in a thread belonging to the channel instead of the channel itself.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">thread_id</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">thread_id</span>: <span class="ident">ChannelId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">thread_id</span>.<span class="ident">replace</span>(<span class="ident">thread_id</span>);
 
         <span class="self">self</span>
     }

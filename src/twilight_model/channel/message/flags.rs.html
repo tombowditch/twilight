@@ -50,6 +50,11 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>},
@@ -69,6 +74,11 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// [`Interaction`]: crate::application::interaction::Interaction</span>
         <span class="kw">const</span> <span class="ident">EPHEMERAL</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">6</span>;
+        <span class="doccomment">/// A thread has been started from this message.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// All threads must be started from a message, but can be</span>
+        <span class="doccomment">/// orphaned if the message is later deleted.</span>
+        <span class="kw">const</span> <span class="ident">HAS_THREAD</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">5</span>;
     }
 }
 

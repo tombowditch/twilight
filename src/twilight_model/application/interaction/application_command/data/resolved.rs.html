@@ -597,8 +597,15 @@
 <span id="597">597</span>
 <span id="598">598</span>
 <span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">channel</span>::{<span class="ident">ChannelType</span>, <span class="ident">Message</span>},
+    <span class="ident">channel</span>::{<span class="ident">thread::ThreadMetadata</span>, <span class="ident">ChannelType</span>, <span class="ident">Message</span>},
     <span class="ident">guild</span>::{<span class="ident">Permissions</span>, <span class="ident">Role</span>},
     <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>},
     <span class="ident">user::User</span>,
@@ -814,7 +821,11 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">rename</span> <span class="op">=</span> <span class="string">&quot;type&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">ChannelType</span>,
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ChannelId</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">permissions</span>: <span class="ident">Permissions</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">thread_metadata</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ThreadMetadata</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
@@ -869,7 +880,9 @@
                 <span class="ident">id</span>: <span class="ident">ChannelId</span>(<span class="number">100</span>),
                 <span class="ident">kind</span>: <span class="ident">ChannelType::GuildText</span>,
                 <span class="ident">name</span>: <span class="string">&quot;channel name&quot;</span>.<span class="ident">into</span>(),
+                <span class="ident">parent_id</span>: <span class="prelude-val">None</span>,
                 <span class="ident">permissions</span>: <span class="ident">Permissions::empty</span>(),
+                <span class="ident">thread_metadata</span>: <span class="prelude-val">None</span>,
             }]),
             <span class="ident">members</span>: <span class="ident">Vec::from</span>([<span class="ident">InteractionMember</span> {
                 <span class="ident">hoisted_role</span>: <span class="prelude-val">None</span>,
@@ -934,6 +947,7 @@
                     <span class="ident">name</span>: <span class="string">&quot;sticker name&quot;</span>.<span class="ident">to_owned</span>(),
                 }],
                 <span class="ident">referenced_message</span>: <span class="prelude-val">None</span>,
+                <span class="ident">thread</span>: <span class="prelude-val">None</span>,
                 <span class="ident">timestamp</span>: <span class="string">&quot;2020-02-02T02:02:02.020000+00:00&quot;</span>.<span class="ident">to_owned</span>(),
                 <span class="ident">tts</span>: <span class="bool-val">false</span>,
                 <span class="ident">webhook_id</span>: <span class="prelude-val">None</span>,

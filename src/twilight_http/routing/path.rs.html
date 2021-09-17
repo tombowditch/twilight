@@ -369,6 +369,19 @@
 <span id="369">369</span>
 <span id="370">370</span>
 <span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::request::Method</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">convert::TryFrom</span>,
@@ -470,6 +483,8 @@
     <span class="doccomment">/// Operating on an individual channel&#39;s message&#39;s reactions while</span>
     <span class="doccomment">/// specifying the user ID and emoji type.</span>
     <span class="ident">ChannelsIdMessagesIdReactionsUserIdType</span>(<span class="ident">u64</span>),
+    <span class="doccomment">/// Operating on an individual channel&#39;s message&#39;s threads.</span>
+    <span class="ident">ChannelsIdMessagesIdThreads</span>(<span class="ident">u64</span>),
     <span class="doccomment">/// Operating on a channel&#39;s permission overwrites by ID.</span>
     <span class="ident">ChannelsIdPermissionsOverwriteId</span>(<span class="ident">u64</span>),
     <span class="doccomment">/// Operating on a channel&#39;s pins.</span>
@@ -478,6 +493,10 @@
     <span class="ident">ChannelsIdPinsMessageId</span>(<span class="ident">u64</span>),
     <span class="doccomment">/// Operating on a group DM&#39;s recipients.</span>
     <span class="ident">ChannelsIdRecipients</span>(<span class="ident">u64</span>),
+    <span class="doccomment">/// Operating on a thread&#39;s members.</span>
+    <span class="ident">ChannelsIdThreadMembers</span>(<span class="ident">u64</span>),
+    <span class="doccomment">/// Operating on a channel&#39;s threads.</span>
+    <span class="ident">ChannelsIdThreads</span>(<span class="ident">u64</span>),
     <span class="doccomment">/// Operating on a channel&#39;s typing indicator.</span>
     <span class="ident">ChannelsIdTyping</span>(<span class="ident">u64</span>),
     <span class="doccomment">/// Operating on a channel&#39;s webhooks.</span>
@@ -516,6 +535,7 @@
     <span class="ident">GuildsIdRolesId</span>(<span class="ident">u64</span>),
     <span class="ident">GuildsIdTemplates</span>(<span class="ident">u64</span>),
     <span class="ident">GuildsIdTemplatesCode</span>(<span class="ident">u64</span>),
+    <span class="ident">GuildsIdThreads</span>(<span class="ident">u64</span>),
     <span class="ident">GuildsIdVanityUrl</span>(<span class="ident">u64</span>),
     <span class="ident">GuildsIdVoiceStates</span>(<span class="ident">u64</span>),
     <span class="ident">GuildsIdWelcomeScreen</span>(<span class="ident">u64</span>),
@@ -613,12 +633,17 @@
             [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;messages&quot;</span>, <span class="kw">_</span>, <span class="string">&quot;reactions&quot;</span>, <span class="kw">_</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">ChannelsIdMessagesIdReactionsUserIdType</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>)
             }
+            [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;messages&quot;</span>, <span class="kw">_</span>, <span class="string">&quot;threads&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">ChannelsIdMessagesIdThreads</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>)
+            }
             [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;permissions&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChannelsIdPermissionsOverwriteId</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;pins&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChannelsIdPins</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;pins&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChannelsIdPinsMessageId</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;recipients&quot;</span>] <span class="op">|</span> [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;recipients&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">ChannelsIdRecipients</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>)
             }
+            [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;thread-members&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChannelsIdThreadMembers</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
+            [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;threads&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChannelsIdThreads</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;typing&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ChannelsIdTyping</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;webhooks&quot;</span>] <span class="op">|</span> [<span class="string">&quot;channels&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;webhooks&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">ChannelsIdWebhooks</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>)
@@ -652,6 +677,7 @@
             [<span class="string">&quot;guilds&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;roles&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GuildsIdRolesId</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;guilds&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;templates&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GuildsIdTemplates</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;guilds&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;templates&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GuildsIdTemplatesCode</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
+            [<span class="string">&quot;guilds&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;threads&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GuildsIdThreads</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;guilds&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;vanity-url&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GuildsIdVanityUrl</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;guilds&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;voice-states&quot;</span>, <span class="kw">_</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GuildsIdVoiceStates</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),
             [<span class="string">&quot;guilds&quot;</span>, <span class="ident">id</span>, <span class="string">&quot;welcome-screen&quot;</span>] <span class="op">=</span><span class="op">&gt;</span> <span class="ident">GuildsIdWelcomeScreen</span>(<span class="ident">parse_id</span>(<span class="ident">id</span>)<span class="question-mark">?</span>),

@@ -190,6 +190,8 @@
 <span id="190">190</span>
 <span id="191">191</span>
 <span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">error::Error</span>,
     <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
@@ -206,6 +208,7 @@
         <span class="ident">channel</span>::{
             <span class="ident">invite</span>::{<span class="ident">CreateInvite</span>, <span class="ident">DeleteInvite</span>},
             <span class="ident">message</span>::{<span class="ident">DeleteMessage</span>, <span class="ident">DeleteMessages</span>},
+            <span class="ident">thread::UpdateThread</span>,
             <span class="ident">webhook</span>::{
                 <span class="ident">CreateWebhook</span>, <span class="ident">DeleteWebhook</span>, <span class="ident">DeleteWebhookMessage</span>, <span class="ident">UpdateWebhook</span>,
                 <span class="ident">UpdateWebhookMessage</span>,
@@ -255,6 +258,7 @@
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">DeleteRole</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">UpdateRole</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">UpdateGuild</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">UpdateThread</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
     <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">UpdateWebhookMessage</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {}
 }
 

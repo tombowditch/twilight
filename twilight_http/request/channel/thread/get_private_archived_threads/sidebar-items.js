@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GetPrivateArchivedThreads","Returns archived private threads in the channel."]]});

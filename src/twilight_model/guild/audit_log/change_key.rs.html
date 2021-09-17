@@ -698,6 +698,18 @@
 <span id="698">698</span>
 <span id="699">699</span>
 <span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>};
 
@@ -717,8 +729,12 @@
     <span class="ident">AfkTimeout</span>,
     <span class="doccomment">/// Allowed permissions of a permission overwrite target.</span>
     <span class="ident">Allow</span>,
+    <span class="doccomment">/// Thread was archived or unarchived.</span>
+    <span class="ident">Archived</span>,
     <span class="doccomment">/// ID of an application.</span>
     <span class="ident">ApplicationId</span>,
+    <span class="doccomment">/// Auto archive duration of a thread.</span>
+    <span class="ident">AutoArchiveDuration</span>,
     <span class="doccomment">/// Hash of an avatar.</span>
     <span class="ident">AvatarHash</span>,
     <span class="doccomment">/// Hash of a guild banner.</span>
@@ -733,6 +749,8 @@
     <span class="ident">Color</span>,
     <span class="doccomment">/// Whether a user is guild deafened.</span>
     <span class="ident">Deaf</span>,
+    <span class="doccomment">/// Default auto archive duration for new threads.</span>
+    <span class="ident">DefaultAutoArchiveDuration</span>,
     <span class="doccomment">/// Default message notification level for a guild.</span>
     <span class="ident">DefaultMessageNotifications</span>,
     <span class="doccomment">/// Denied permissions of a permission overwrite target.</span>
@@ -757,6 +775,8 @@
     <span class="ident">Id</span>,
     <span class="doccomment">/// ID of the user who created an invite.</span>
     <span class="ident">InviterId</span>,
+    <span class="doccomment">/// Thread was locked or unlocked.</span>
+    <span class="ident">Locked</span>,
     <span class="doccomment">/// Maximum age of an invite.</span>
     <span class="ident">MaxAge</span>,
     <span class="doccomment">/// Maximum uses of an invite.</span>
@@ -845,6 +865,8 @@
             <span class="ident"><span class="self">Self</span>::AfkTimeout</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;afk_timeout&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Allow</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;allow&quot;</span>,
             <span class="ident"><span class="self">Self</span>::ApplicationId</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;application_id&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::AutoArchiveDuration</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;auto_archive_duration&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Archived</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;archived&quot;</span>,
             <span class="ident"><span class="self">Self</span>::AvatarHash</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;avatar_hash&quot;</span>,
             <span class="ident"><span class="self">Self</span>::BannerHash</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;banner_hash&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Bitrate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;bitrate&quot;</span>,
@@ -852,6 +874,7 @@
             <span class="ident"><span class="self">Self</span>::Code</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;code&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Color</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;color&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Deaf</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;deaf&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::DefaultAutoArchiveDuration</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;default_auto_archive_duration&quot;</span>,
             <span class="ident"><span class="self">Self</span>::DefaultMessageNotifications</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;default_message_notifications&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Deny</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;deny&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Description</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;description&quot;</span>,
@@ -864,6 +887,7 @@
             <span class="ident"><span class="self">Self</span>::IconHash</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;icon_hash&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Id</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;id&quot;</span>,
             <span class="ident"><span class="self">Self</span>::InviterId</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;inviter_id&quot;</span>,
+            <span class="ident"><span class="self">Self</span>::Locked</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;locked&quot;</span>,
             <span class="ident"><span class="self">Self</span>::MaxAge</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;max_age&quot;</span>,
             <span class="ident"><span class="self">Self</span>::MaxUses</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;max_uses&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Mentionable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;mentionable&quot;</span>,

@@ -243,6 +243,7 @@
 <span id="243">243</span>
 <span id="244">244</span>
 <span id="245">245</span>
+<span id="246">246</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">config::ResourceType</span>, <span class="ident">InMemoryCache</span>, <span class="ident">UpdateCache</span>};
 <span class="kw">use</span> <span class="ident">std::borrow::Cow</span>;
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{<span class="ident">application::interaction::Interaction</span>, <span class="ident">gateway::payload::InteractionCreate</span>};
@@ -397,6 +398,7 @@
                                 <span class="ident">name</span>: <span class="string">&quot;sticker name&quot;</span>.<span class="ident">to_owned</span>(),
                             }],
                             <span class="ident">referenced_message</span>: <span class="prelude-val">None</span>,
+                            <span class="ident">thread</span>: <span class="prelude-val">None</span>,
                             <span class="ident">timestamp</span>: <span class="string">&quot;2020-02-02T02:02:02.020000+00:00&quot;</span>.<span class="ident">to_owned</span>(),
                             <span class="ident">tts</span>: <span class="bool-val">false</span>,
                             <span class="ident">webhook_id</span>: <span class="prelude-val">None</span>,

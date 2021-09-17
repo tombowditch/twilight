@@ -792,6 +792,12 @@
 <span id="792">792</span>
 <span id="793">793</span>
 <span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
 </pre><pre class="rust"><code><span class="doccomment">//! # twilight-cache-inmemory</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [![discord badge][]][discord link] [![github badge][]][github link] [![license badge][]][license link] ![rust badge]</span>
@@ -1493,6 +1499,12 @@
             <span class="ident">StageInstanceCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
             <span class="ident">StageInstanceDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
             <span class="ident">StageInstanceUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
+            <span class="ident">ThreadCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
+            <span class="ident">ThreadUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
+            <span class="ident">ThreadDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
+            <span class="ident">ThreadListSync</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
+            <span class="ident">ThreadMemberUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="ident">ThreadMembersUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {}
             <span class="ident">TypingStart</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {}
             <span class="ident">UnavailableGuild</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),
             <span class="ident">UserUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">update</span>(<span class="ident">v</span>),

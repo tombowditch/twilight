@@ -104,6 +104,15 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Audit Logs, created whenever an administrative action is performed within a</span>
 <span class="doccomment">//! guild.</span>
 <span class="doccomment">//!</span>
@@ -127,7 +136,10 @@
     <span class="ident">optional_entry_info::AuditLogOptionalEntryInfo</span>,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">channel::Webhook</span>, <span class="ident">user::User</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">channel</span>::{<span class="ident">GuildChannel</span>, <span class="ident">Webhook</span>},
+    <span class="ident">user::User</span>,
+};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="doccomment">/// Paginated audit log entries with additional information.</span>
@@ -142,6 +154,8 @@
     <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AuditLogEntry</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Information about mentioned integrations.</span>
     <span class="kw">pub</span> <span class="ident">integrations</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AuditLogGuildIntegration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Information about mentioned threads.</span>
+    <span class="kw">pub</span> <span class="ident">threads</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">GuildChannel</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Information about mentioned users.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// For example, [users that performed the action][`AuditLogEntry::user_id`]</span>
@@ -182,6 +196,7 @@
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">AuditLog</span> {
             <span class="ident">entries</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">integrations</span>: <span class="ident">Vec::new</span>(),
+            <span class="ident">threads</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">users</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">webhooks</span>: <span class="ident">Vec::new</span>(),
         };
@@ -191,12 +206,15 @@
             <span class="kw-2">&amp;</span>[
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;AuditLog&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">4</span>,
+                    <span class="ident">len</span>: <span class="number">5</span>,
                 },
                 <span class="ident">Token::Str</span>(<span class="string">&quot;audit_log_entries&quot;</span>),
                 <span class="ident">Token::Seq</span> { <span class="ident">len</span>: <span class="prelude-val">Some</span>(<span class="number">0</span>) },
                 <span class="ident">Token::SeqEnd</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;integrations&quot;</span>),
+                <span class="ident">Token::Seq</span> { <span class="ident">len</span>: <span class="prelude-val">Some</span>(<span class="number">0</span>) },
+                <span class="ident">Token::SeqEnd</span>,
+                <span class="ident">Token::Str</span>(<span class="string">&quot;threads&quot;</span>),
                 <span class="ident">Token::Seq</span> { <span class="ident">len</span>: <span class="prelude-val">Some</span>(<span class="number">0</span>) },
                 <span class="ident">Token::SeqEnd</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;users&quot;</span>),

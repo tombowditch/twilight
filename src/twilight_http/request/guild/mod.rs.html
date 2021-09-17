@@ -37,6 +37,8 @@
 <span id="37">37</span>
 <span id="38">38</span>
 <span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ban</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">create_guild</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">create_guild_channel</span>;
@@ -52,6 +54,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">user</span>;
 
 <span class="kw">mod</span> <span class="ident">delete_guild</span>;
+<span class="kw">mod</span> <span class="ident">get_active_threads</span>;
 <span class="kw">mod</span> <span class="ident">get_guild</span>;
 <span class="kw">mod</span> <span class="ident">get_guild_channels</span>;
 <span class="kw">mod</span> <span class="ident">get_guild_invites</span>;
@@ -67,8 +70,9 @@
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::{
     <span class="ident">create_guild::CreateGuild</span>, <span class="ident">create_guild_channel::CreateGuildChannel</span>,
-    <span class="ident">create_guild_prune::CreateGuildPrune</span>, <span class="ident">delete_guild::DeleteGuild</span>, <span class="ident">get_audit_log::GetAuditLog</span>,
-    <span class="ident">get_guild::GetGuild</span>, <span class="ident">get_guild_channels::GetGuildChannels</span>, <span class="ident">get_guild_invites::GetGuildInvites</span>,
+    <span class="ident">create_guild_prune::CreateGuildPrune</span>, <span class="ident">delete_guild::DeleteGuild</span>,
+    <span class="ident">get_active_threads::GetActiveThreads</span>, <span class="ident">get_audit_log::GetAuditLog</span>, <span class="ident">get_guild::GetGuild</span>,
+    <span class="ident">get_guild_channels::GetGuildChannels</span>, <span class="ident">get_guild_invites::GetGuildInvites</span>,
     <span class="ident">get_guild_preview::GetGuildPreview</span>, <span class="ident">get_guild_prune_count::GetGuildPruneCount</span>,
     <span class="ident">get_guild_vanity_url::GetGuildVanityUrl</span>, <span class="ident">get_guild_voice_regions::GetGuildVoiceRegions</span>,
     <span class="ident">get_guild_webhooks::GetGuildWebhooks</span>, <span class="ident">get_guild_welcome_screen::GetGuildWelcomeScreen</span>,

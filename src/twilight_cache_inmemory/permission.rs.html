@@ -754,6 +754,44 @@
 <span id="754">754</span>
 <span id="755">755</span>
 <span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Calculate the permissions for members in on a guild- or channel-level with</span>
 <span class="doccomment">//! information from the cache.</span>
 <span class="doccomment">//!</span>
@@ -785,7 +823,7 @@
     <span class="ident">fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">FmtResult</span>},
 };
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
-    <span class="ident">channel::GuildChannel</span>,
+    <span class="ident">channel</span>::{<span class="ident">permission_overwrite::PermissionOverwrite</span>, <span class="ident">GuildChannel</span>},
     <span class="ident">guild::Permissions</span>,
     <span class="ident">id</span>::{<span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">RoleId</span>, <span class="ident">UserId</span>},
 };
@@ -1090,16 +1128,21 @@
             .<span class="ident">map_err</span>(<span class="ident">ChannelError::from_member_roles</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">overwrites</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">channel</span>.<span class="ident">data</span> {
-            <span class="ident">GuildChannel::Category</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">permission_overwrites</span>,
-            <span class="ident">GuildChannel::Stage</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">permission_overwrites</span>,
-            <span class="ident">GuildChannel::Text</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">permission_overwrites</span>,
-            <span class="ident">GuildChannel::Voice</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">permission_overwrites</span>,
+            <span class="ident">GuildChannel::Category</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">permission_overwrites</span>.<span class="ident">clone</span>(),
+            <span class="ident">GuildChannel::NewsThread</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parent_overwrites</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">id</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>,
+            <span class="ident">GuildChannel::PrivateThread</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="self">self</span>.<span class="ident">parent_overwrites</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">id</span>, <span class="prelude-val">Some</span>(<span class="ident">c</span>.<span class="ident">permission_overwrites</span>.<span class="ident">clone</span>()))<span class="question-mark">?</span>
+            }
+            <span class="ident">GuildChannel::PublicThread</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parent_overwrites</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>.<span class="ident">id</span>, <span class="prelude-val">None</span>)<span class="question-mark">?</span>,
+            <span class="ident">GuildChannel::Stage</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">permission_overwrites</span>.<span class="ident">clone</span>(),
+            <span class="ident">GuildChannel::Text</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">permission_overwrites</span>.<span class="ident">clone</span>(),
+            <span class="ident">GuildChannel::Voice</span>(<span class="ident">c</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">c</span>.<span class="ident">permission_overwrites</span>.<span class="ident">clone</span>(),
         };
 
         <span class="kw">let</span> <span class="ident">calculator</span> <span class="op">=</span>
             <span class="ident">PermissionCalculator::new</span>(<span class="ident">guild_id</span>, <span class="ident">user_id</span>, <span class="ident">everyone</span>, <span class="ident">assigned</span>.<span class="ident">as_slice</span>());
 
-        <span class="prelude-val">Ok</span>(<span class="ident">calculator</span>.<span class="ident">in_channel</span>(<span class="ident">channel</span>.<span class="ident">data</span>.<span class="ident">kind</span>(), <span class="ident">overwrites</span>))
+        <span class="prelude-val">Ok</span>(<span class="ident">calculator</span>.<span class="ident">in_channel</span>(<span class="ident">channel</span>.<span class="ident">data</span>.<span class="ident">kind</span>(), <span class="ident">overwrites</span>.<span class="ident">as_slice</span>()))
     }
 
     <span class="doccomment">/// Calculate the guild-level permissions of a member.</span>
@@ -1221,6 +1264,38 @@
             })
         }
     }
+
+    <span class="kw">fn</span> <span class="ident">parent_overwrites</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">channel_id</span>: <span class="kw-2">&amp;</span><span class="ident">ChannelId</span>,
+        <span class="ident">parent_overwrites</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PermissionOverwrite</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PermissionOverwrite</span><span class="op">&gt;</span>, <span class="ident">ChannelError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> (<span class="self">self</span>.<span class="number">0</span>)
+            .<span class="number">0</span>
+            .<span class="ident">channels_guild</span>
+            .<span class="ident">get</span>(<span class="ident">channel_id</span>)
+            .<span class="ident">ok_or</span>(<span class="ident">ChannelError</span> {
+                <span class="ident">kind</span>: <span class="ident">ChannelErrorType::ChannelUnavailable</span> {
+                    <span class="ident">channel_id</span>: <span class="kw-2">*</span><span class="ident">channel_id</span>,
+                },
+                <span class="ident">source</span>: <span class="prelude-val">None</span>,
+            })<span class="question-mark">?</span>;
+
+        <span class="kw">if</span> <span class="kw">let</span> <span class="ident">GuildChannel::Text</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">channel</span>.<span class="ident">data</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent_overwrites</span>) <span class="op">=</span> <span class="ident">parent_overwrites</span> {
+                <span class="prelude-val">Ok</span>([<span class="ident">c</span>.<span class="ident">permission_overwrites</span>.<span class="ident">clone</span>(), <span class="ident">parent_overwrites</span>].<span class="ident">concat</span>())
+            } <span class="kw">else</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">c</span>.<span class="ident">permission_overwrites</span>.<span class="ident">clone</span>())
+            }
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">ChannelError</span> {
+                <span class="ident">kind</span>: <span class="ident">ChannelErrorType::ChannelUnavailable</span> {
+                    <span class="ident">channel_id</span>: <span class="kw-2">*</span><span class="ident">channel_id</span>,
+                },
+                <span class="ident">source</span>: <span class="prelude-val">None</span>,
+            })
+        }
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -1318,6 +1393,7 @@
             <span class="ident">stage_instances</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">system_channel_id</span>: <span class="prelude-val">None</span>,
             <span class="ident">system_channel_flags</span>: <span class="ident">SystemChannelFlags::SUPPRESS_JOIN_NOTIFICATIONS</span>,
+            <span class="ident">threads</span>: <span class="ident">Vec::new</span>(),
             <span class="ident">rules_channel_id</span>: <span class="prelude-val">None</span>,
             <span class="ident">unavailable</span>: <span class="bool-val">false</span>,
             <span class="ident">verification_level</span>: <span class="ident">VerificationLevel::VeryHigh</span>,

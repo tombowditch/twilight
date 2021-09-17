@@ -1535,6 +1535,15 @@
 <span id="1535">1535</span>
 <span id="1536">1536</span>
 <span id="1537">1537</span>
+<span id="1538">1538</span>
+<span id="1539">1539</span>
+<span id="1540">1540</span>
+<span id="1541">1541</span>
+<span id="1542">1542</span>
+<span id="1543">1543</span>
+<span id="1544">1544</span>
+<span id="1545">1545</span>
+<span id="1546">1546</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Contains all of the input validation functions for requests.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is in a centralised place so that the validation parameters can be kept</span>
@@ -1547,7 +1556,7 @@
 };
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
     <span class="ident">application::component</span>::{<span class="ident">select_menu::SelectMenuOption</span>, <span class="ident">Component</span>, <span class="ident">ComponentType</span>},
-    <span class="ident">channel::embed::Embed</span>,
+    <span class="ident">channel</span>::{<span class="ident">embed::Embed</span>, <span class="ident">ChannelType</span>},
 };
 
 <span class="doccomment">/// A provided [`Component`] is invalid.</span>
@@ -2689,6 +2698,15 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">guild_command_permissions</span>(<span class="ident">count</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
     <span class="comment">// https://discord.com/developers/docs/interactions/application-commands#registering-a-command</span>
     <span class="ident">count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">InteractionError::GUILD_COMMAND_PERMISSION_LIMIT</span>
+}
+
+<span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">is_thread</span>(<span class="ident">channel_type</span>: <span class="ident">ChannelType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="macro">matches!</span>(
+        <span class="ident">channel_type</span>,
+        <span class="ident">ChannelType::GuildNewsThread</span>
+            <span class="op">|</span> <span class="ident">ChannelType::GuildPublicThread</span>
+            <span class="op">|</span> <span class="ident">ChannelType::GuildPrivateThread</span>
+    )
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>

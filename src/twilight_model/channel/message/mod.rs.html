@@ -565,6 +565,10 @@
 <span id="565">565</span>
 <span id="566">566</span>
 <span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">allowed_mentions</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sticker</span>;
 
@@ -588,7 +592,7 @@
 <span class="kw">use</span> <span class="ident"><span class="self">self</span>::sticker::MessageSticker</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">application::component::Component</span>,
-    <span class="ident">channel</span>::{<span class="ident">embed::Embed</span>, <span class="ident">Attachment</span>, <span class="ident">ChannelMention</span>},
+    <span class="ident">channel</span>::{<span class="ident">embed::Embed</span>, <span class="ident">Attachment</span>, <span class="ident">Channel</span>, <span class="ident">ChannelMention</span>},
     <span class="ident">guild::PartialMember</span>,
     <span class="ident">id</span>::{<span class="ident">ApplicationId</span>, <span class="ident">ChannelId</span>, <span class="ident">GuildId</span>, <span class="ident">MessageId</span>, <span class="ident">RoleId</span>, <span class="ident">WebhookId</span>},
     <span class="ident">user::User</span>,
@@ -646,6 +650,8 @@
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">sticker_items</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MessageSticker</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">timestamp</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">thread</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Channel</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">tts</span>: <span class="ident">bool</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing_if</span> <span class="op">=</span> <span class="string">&quot;Option::is_none&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">webhook_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">WebhookId</span><span class="op">&gt;</span>,
@@ -725,6 +731,7 @@
             }],
             <span class="ident">referenced_message</span>: <span class="prelude-val">None</span>,
             <span class="ident">timestamp</span>: <span class="string">&quot;2020-02-02T02:02:02.020000+00:00&quot;</span>.<span class="ident">to_owned</span>(),
+            <span class="ident">thread</span>: <span class="prelude-val">None</span>,
             <span class="ident">tts</span>: <span class="bool-val">false</span>,
             <span class="ident">webhook_id</span>: <span class="prelude-val">None</span>,
         };
@@ -925,6 +932,7 @@
             }],
             <span class="ident">referenced_message</span>: <span class="prelude-val">None</span>,
             <span class="ident">timestamp</span>: <span class="string">&quot;2020-02-02T02:02:02.020000+00:00&quot;</span>.<span class="ident">to_owned</span>(),
+            <span class="ident">thread</span>: <span class="prelude-val">None</span>,
             <span class="ident">tts</span>: <span class="bool-val">false</span>,
             <span class="ident">webhook_id</span>: <span class="prelude-val">Some</span>(<span class="ident">WebhookId</span>(<span class="number">1</span>)),
         };

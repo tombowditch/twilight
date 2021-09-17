@@ -351,6 +351,42 @@
 <span id="351">351</span>
 <span id="352">352</span>
 <span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident"><span class="kw">super</span>::payload</span>::<span class="kw-2">*</span>, <span class="ident">Event</span>, <span class="ident">EventConversionError</span>, <span class="ident">EventType</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{
     <span class="ident">de</span>::{<span class="ident">Deserialize</span>, <span class="ident">DeserializeSeed</span>, <span class="ident">Deserializer</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="ident">DeError</span>, <span class="ident">IgnoredAny</span>},
@@ -408,6 +444,12 @@
     <span class="ident">StageInstanceCreate</span>(<span class="ident">StageInstanceCreate</span>),
     <span class="ident">StageInstanceDelete</span>(<span class="ident">StageInstanceDelete</span>),
     <span class="ident">StageInstanceUpdate</span>(<span class="ident">StageInstanceUpdate</span>),
+    <span class="ident">ThreadCreate</span>(<span class="ident">ThreadCreate</span>),
+    <span class="ident">ThreadDelete</span>(<span class="ident">ThreadDelete</span>),
+    <span class="ident">ThreadListSync</span>(<span class="ident">ThreadListSync</span>),
+    <span class="ident">ThreadMemberUpdate</span>(<span class="ident">ThreadMemberUpdate</span>),
+    <span class="ident">ThreadMembersUpdate</span>(<span class="ident">ThreadMembersUpdate</span>),
+    <span class="ident">ThreadUpdate</span>(<span class="ident">ThreadUpdate</span>),
     <span class="ident">TypingStart</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">TypingStart</span><span class="op">&gt;</span>),
     <span class="ident">UnavailableGuild</span>(<span class="ident">UnavailableGuild</span>),
     <span class="ident">UserUpdate</span>(<span class="ident">UserUpdate</span>),
@@ -460,6 +502,12 @@
             <span class="ident"><span class="self">Self</span>::StageInstanceCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceCreate</span>,
             <span class="ident"><span class="self">Self</span>::StageInstanceDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceDelete</span>,
             <span class="ident"><span class="self">Self</span>::StageInstanceUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::StageInstanceUpdate</span>,
+            <span class="ident"><span class="self">Self</span>::ThreadCreate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ThreadCreate</span>,
+            <span class="ident"><span class="self">Self</span>::ThreadDelete</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ThreadDelete</span>,
+            <span class="ident"><span class="self">Self</span>::ThreadListSync</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ThreadListSync</span>,
+            <span class="ident"><span class="self">Self</span>::ThreadMemberUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ThreadMemberUpdate</span>,
+            <span class="ident"><span class="self">Self</span>::ThreadMembersUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ThreadMembersUpdate</span>,
+            <span class="ident"><span class="self">Self</span>::ThreadUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::ThreadUpdate</span>,
             <span class="ident"><span class="self">Self</span>::TypingStart</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::TypingStart</span>,
             <span class="ident"><span class="self">Self</span>::UnavailableGuild</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::UnavailableGuild</span>,
             <span class="ident"><span class="self">Self</span>::UserUpdate</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">EventType::UserUpdate</span>,
@@ -515,6 +563,12 @@
             <span class="ident">Event::StageInstanceCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::StageInstanceCreate</span>(<span class="ident">v</span>),
             <span class="ident">Event::StageInstanceDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::StageInstanceDelete</span>(<span class="ident">v</span>),
             <span class="ident">Event::StageInstanceUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::StageInstanceUpdate</span>(<span class="ident">v</span>),
+            <span class="ident">Event::ThreadCreate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ThreadCreate</span>(<span class="ident">v</span>),
+            <span class="ident">Event::ThreadDelete</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ThreadDelete</span>(<span class="ident">v</span>),
+            <span class="ident">Event::ThreadListSync</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ThreadListSync</span>(<span class="ident">v</span>),
+            <span class="ident">Event::ThreadMemberUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ThreadMemberUpdate</span>(<span class="ident">v</span>),
+            <span class="ident">Event::ThreadMembersUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ThreadMembersUpdate</span>(<span class="ident">v</span>),
+            <span class="ident">Event::ThreadUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::ThreadUpdate</span>(<span class="ident">v</span>),
             <span class="ident">Event::TypingStart</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::TypingStart</span>(<span class="ident">v</span>),
             <span class="ident">Event::UnavailableGuild</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UnavailableGuild</span>(<span class="ident">v</span>),
             <span class="ident">Event::UserUpdate</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident"><span class="self">Self</span>::UserUpdate</span>(<span class="ident">v</span>),
@@ -665,6 +719,24 @@
             }
             <span class="string">&quot;STAGE_INSTANCE_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">DispatchEvent::StageInstanceUpdate</span>(<span class="ident">StageInstanceUpdate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;THREAD_CREATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::ThreadCreate</span>(<span class="ident">ThreadCreate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;THREAD_DELETE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::ThreadDelete</span>(<span class="ident">ThreadDelete::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;THREAD_LIST_SYNC&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::ThreadListSync</span>(<span class="ident">ThreadListSync::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;THREAD_MEMBER_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::ThreadMemberUpdate</span>(<span class="ident">ThreadMemberUpdate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;THREAD_MEMBERS_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::ThreadMembersUpdate</span>(<span class="ident">ThreadMembersUpdate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
+            }
+            <span class="string">&quot;THREAD_UPDATE&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">DispatchEvent::ThreadUpdate</span>(<span class="ident">ThreadUpdate::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>)
             }
             <span class="string">&quot;TYPING_START&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="ident">DispatchEvent::TypingStart</span>(<span class="ident">Box::new</span>(<span class="ident">TypingStart::deserialize</span>(<span class="ident">deserializer</span>)<span class="question-mark">?</span>))

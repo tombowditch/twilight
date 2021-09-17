@@ -71,6 +71,14 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">identify</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">invite_create</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">reaction_remove_emoji</span>;
@@ -114,6 +122,12 @@
 <span class="kw">mod</span> <span class="ident">stage_instance_create</span>;
 <span class="kw">mod</span> <span class="ident">stage_instance_delete</span>;
 <span class="kw">mod</span> <span class="ident">stage_instance_update</span>;
+<span class="kw">mod</span> <span class="ident">thread_create</span>;
+<span class="kw">mod</span> <span class="ident">thread_delete</span>;
+<span class="kw">mod</span> <span class="ident">thread_list_sync</span>;
+<span class="kw">mod</span> <span class="ident">thread_member_update</span>;
+<span class="kw">mod</span> <span class="ident">thread_members_update</span>;
+<span class="kw">mod</span> <span class="ident">thread_update</span>;
 <span class="kw">mod</span> <span class="ident">typing_start</span>;
 <span class="kw">mod</span> <span class="ident">unavailable_guild</span>;
 <span class="kw">mod</span> <span class="ident">update_voice_state</span>;
@@ -139,7 +153,9 @@
     <span class="ident">request_guild_members::RequestGuildMembers</span>, <span class="ident">role_create::RoleCreate</span>, <span class="ident">role_delete::RoleDelete</span>,
     <span class="ident">role_update::RoleUpdate</span>, <span class="ident">stage_instance_create::StageInstanceCreate</span>,
     <span class="ident">stage_instance_delete::StageInstanceDelete</span>, <span class="ident">stage_instance_update::StageInstanceUpdate</span>,
-    <span class="ident">typing_start::TypingStart</span>, <span class="ident">unavailable_guild::UnavailableGuild</span>,
+    <span class="ident">thread_create::ThreadCreate</span>, <span class="ident">thread_delete::ThreadDelete</span>, <span class="ident">thread_list_sync::ThreadListSync</span>,
+    <span class="ident">thread_member_update::ThreadMemberUpdate</span>, <span class="ident">thread_members_update::ThreadMembersUpdate</span>,
+    <span class="ident">thread_update::ThreadUpdate</span>, <span class="ident">typing_start::TypingStart</span>, <span class="ident">unavailable_guild::UnavailableGuild</span>,
     <span class="ident">update_presence::UpdatePresence</span>, <span class="ident">update_voice_state::UpdateVoiceState</span>, <span class="ident">user_update::UserUpdate</span>,
     <span class="ident">voice_server_update::VoiceServerUpdate</span>, <span class="ident">voice_state_update::VoiceStateUpdate</span>,
     <span class="ident">webhooks_update::WebhooksUpdate</span>,
