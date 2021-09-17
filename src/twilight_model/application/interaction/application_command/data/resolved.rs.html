@@ -585,6 +585,18 @@
 <span id="585">585</span>
 <span id="586">586</span>
 <span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">channel</span>::{<span class="ident">ChannelType</span>, <span class="ident">Message</span>},
     <span class="ident">guild</span>::{<span class="ident">Permissions</span>, <span class="ident">Role</span>},
@@ -873,7 +885,9 @@
                 <span class="ident">application_id</span>: <span class="prelude-val">None</span>,
                 <span class="ident">attachments</span>: <span class="ident">Vec::new</span>(),
                 <span class="ident">author</span>: <span class="ident">User</span> {
+                    <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                     <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;</span>.<span class="ident">to_owned</span>()),
+                    <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                     <span class="ident">bot</span>: <span class="bool-val">false</span>,
                     <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                     <span class="ident">email</span>: <span class="prelude-val">None</span>,
@@ -936,7 +950,9 @@
                 <span class="ident">tags</span>: <span class="prelude-val">None</span>,
             }]),
             <span class="ident">users</span>: <span class="ident">Vec::from</span>([<span class="ident">User</span> {
+                <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                 <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;</span>.<span class="ident">to_owned</span>()),
+                <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bot</span>: <span class="bool-val">false</span>,
                 <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                 <span class="ident">email</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;address@example.com&quot;</span>.<span class="ident">to_owned</span>()),
@@ -1005,11 +1021,15 @@
                 <span class="ident">Token::Str</span>(<span class="string">&quot;author&quot;</span>),
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;User&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">5</span>,
+                    <span class="ident">len</span>: <span class="number">7</span>,
                 },
+                <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
                 <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;discriminator&quot;</span>),
@@ -1130,11 +1150,15 @@
                 <span class="ident">Token::Str</span>(<span class="string">&quot;300&quot;</span>),
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;User&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">12</span>,
+                    <span class="ident">len</span>: <span class="number">14</span>,
                 },
+                <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
                 <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;discriminator&quot;</span>),

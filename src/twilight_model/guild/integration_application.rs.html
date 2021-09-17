@@ -123,6 +123,12 @@
 <span id="123">123</span>
 <span id="124">124</span>
 <span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">id::ApplicationId</span>, <span class="ident">user::User</span>};
 
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -184,7 +190,9 @@
     <span class="kw">fn</span> <span class="ident">test_integration_account_complete</span>() {
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">IntegrationApplication</span> {
             <span class="ident">bot</span>: <span class="prelude-val">Some</span>(<span class="ident">User</span> {
+                <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                 <span class="ident">avatar</span>: <span class="prelude-val">None</span>,
+                <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bot</span>: <span class="bool-val">false</span>,
                 <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                 <span class="ident">email</span>: <span class="prelude-val">None</span>,
@@ -216,9 +224,13 @@
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;User&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">5</span>,
+                    <span class="ident">len</span>: <span class="number">7</span>,
                 },
+                <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
+                <span class="ident">Token::None</span>,
+                <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
                 <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
                 <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),

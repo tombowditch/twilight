@@ -79,6 +79,12 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">oauth</span>::{<span class="ident">id::TeamId</span>, <span class="ident">team::TeamMembershipState</span>},
     <span class="ident">user::User</span>,
@@ -106,7 +112,9 @@
             <span class="ident">permissions</span>: <span class="macro">vec!</span>[<span class="string">&quot;*&quot;</span>.<span class="ident">to_owned</span>()],
             <span class="ident">team_id</span>: <span class="ident">TeamId</span>(<span class="number">1</span>),
             <span class="ident">user</span>: <span class="ident">User</span> {
+                <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                 <span class="ident">avatar</span>: <span class="prelude-val">None</span>,
+                <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bot</span>: <span class="bool-val">false</span>,
                 <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                 <span class="ident">email</span>: <span class="prelude-val">None</span>,
@@ -141,9 +149,13 @@
                 <span class="ident">Token::Str</span>(<span class="string">&quot;user&quot;</span>),
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;User&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">5</span>,
+                    <span class="ident">len</span>: <span class="number">7</span>,
                 },
+                <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
+                <span class="ident">Token::None</span>,
+                <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
                 <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
                 <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),

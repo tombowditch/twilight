@@ -259,6 +259,12 @@
 <span id="259">259</span>
 <span id="260">260</span>
 <span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">channel</span>;
 <span class="kw">mod</span> <span class="ident">guild</span>;
 <span class="kw">mod</span> <span class="ident">kind</span>;
@@ -417,7 +423,9 @@
             <span class="ident">token</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;a token&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">url</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;https://a-url&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">user</span>: <span class="prelude-val">Some</span>(<span class="ident">User</span> {
+                <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                 <span class="ident">avatar</span>: <span class="prelude-val">None</span>,
+                <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                 <span class="ident">bot</span>: <span class="bool-val">false</span>,
                 <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                 <span class="ident">email</span>: <span class="prelude-val">None</span>,
@@ -501,9 +509,13 @@
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;User&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">5</span>,
+                    <span class="ident">len</span>: <span class="number">7</span>,
                 },
+                <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
+                <span class="ident">Token::None</span>,
+                <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
                 <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
                 <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),

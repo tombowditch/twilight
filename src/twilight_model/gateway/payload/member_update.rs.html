@@ -112,6 +112,12 @@
 <span id="112">112</span>
 <span id="113">113</span>
 <span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">id</span>::{<span class="ident">GuildId</span>, <span class="ident">RoleId</span>},
     <span class="ident">user::User</span>,
@@ -151,6 +157,8 @@
     <span class="kw">fn</span> <span class="ident">test_member_update</span>() {
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">MemberUpdate</span> {
             <span class="ident">user</span>: <span class="ident">User</span> {
+                <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
+                <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                 <span class="ident">name</span>: <span class="string">&quot;Twilight Sparkle&quot;</span>.<span class="ident">to_string</span>(),
                 <span class="ident">public_flags</span>: <span class="prelude-val">None</span>,
                 <span class="ident">id</span>: <span class="number">424_242</span>.<span class="ident">into</span>(),
@@ -206,11 +214,15 @@
                 <span class="ident">Token::Str</span>(<span class="string">&quot;user&quot;</span>),
                 <span class="ident">Token::Struct</span> {
                     <span class="ident">name</span>: <span class="string">&quot;User&quot;</span>,
-                    <span class="ident">len</span>: <span class="number">5</span>,
+                    <span class="ident">len</span>: <span class="number">7</span>,
                 },
+                <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
                 <span class="ident">Token::Some</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;cool image&quot;</span>),
+                <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
+                <span class="ident">Token::None</span>,
                 <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
                 <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),
                 <span class="ident">Token::Str</span>(<span class="string">&quot;discriminator&quot;</span>),

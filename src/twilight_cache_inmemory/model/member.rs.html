@@ -178,6 +178,8 @@
 <span id="178">178</span>
 <span id="179">179</span>
 <span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 <span class="kw">use</span> <span class="ident">twilight_model</span>::{
     <span class="ident">application::interaction::application_command::InteractionMember</span>,
@@ -308,7 +310,9 @@
 
     <span class="kw">fn</span> <span class="ident">user</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">User</span> {
         <span class="ident">User</span> {
+            <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
             <span class="ident">avatar</span>: <span class="prelude-val">None</span>,
+            <span class="ident">banner</span>: <span class="prelude-val">None</span>,
             <span class="ident">bot</span>: <span class="bool-val">false</span>,
             <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">email</span>: <span class="prelude-val">None</span>,

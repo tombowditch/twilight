@@ -197,12 +197,36 @@
 <span id="197">197</span>
 <span id="198">198</span>
 <span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">PremiumType</span>, <span class="ident">UserFlags</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::id::UserId</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Default</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CurrentUser</span> {
+    <span class="doccomment">/// Accent color of the user&#39;s banner.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is an integer representation of a hexadecimal color code.</span>
+    <span class="kw">pub</span> <span class="ident">accent_color</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
     <span class="doccomment">/// User&#39;s avatar hash.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// To retrieve the url to the avatar, you can follow [Discord&#39;s documentation] on</span>
@@ -210,6 +234,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [Discord&#39;s documentation]: https://discord.com/developers/docs/reference#image-formatting</span>
     <span class="kw">pub</span> <span class="ident">avatar</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Hash of the user&#39;s banner image.</span>
+    <span class="kw">pub</span> <span class="ident">banner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Whether the user belongs to an OAuth2 application.</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bot</span>: <span class="ident">bool</span>,
@@ -268,11 +294,16 @@
         <span class="macro">vec!</span>[
             <span class="ident">Token::Struct</span> {
                 <span class="ident">name</span>: <span class="string">&quot;CurrentUser&quot;</span>,
-                <span class="ident">len</span>: <span class="number">10</span>,
+                <span class="ident">len</span>: <span class="number">12</span>,
             },
+            <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+            <span class="ident">Token::Some</span>,
+            <span class="ident">Token::U64</span>(<span class="number">16_711_680</span>),
             <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
             <span class="ident">Token::Some</span>,
             <span class="ident">Token::Str</span>(<span class="string">&quot;avatar hash&quot;</span>),
+            <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
+            <span class="ident">Token::None</span>,
             <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
             <span class="ident">Token::Bool</span>(<span class="bool-val">true</span>),
             <span class="ident">Token::Str</span>(<span class="string">&quot;discriminator&quot;</span>),
@@ -304,11 +335,16 @@
         <span class="macro">vec!</span>[
             <span class="ident">Token::Struct</span> {
                 <span class="ident">name</span>: <span class="string">&quot;CurrentUser&quot;</span>,
-                <span class="ident">len</span>: <span class="number">12</span>,
+                <span class="ident">len</span>: <span class="number">14</span>,
             },
+            <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+            <span class="ident">Token::None</span>,
             <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
             <span class="ident">Token::Some</span>,
             <span class="ident">Token::Str</span>(<span class="string">&quot;avatar hash&quot;</span>),
+            <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
+            <span class="ident">Token::Some</span>,
+            <span class="ident">Token::Str</span>(<span class="string">&quot;06c16474723fe537c283b8efa61a30c8&quot;</span>),
             <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
             <span class="ident">Token::Bool</span>(<span class="bool-val">true</span>),
             <span class="ident">Token::Str</span>(<span class="string">&quot;discriminator&quot;</span>),
@@ -345,7 +381,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_current_user</span>() {
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">CurrentUser</span> {
+            <span class="ident">accent_color</span>: <span class="prelude-val">Some</span>(<span class="number">16_711_680</span>),
             <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;avatar hash&quot;</span>.<span class="ident">to_owned</span>()),
+            <span class="ident">banner</span>: <span class="prelude-val">None</span>,
             <span class="ident">bot</span>: <span class="bool-val">true</span>,
             <span class="ident">discriminator</span>: <span class="string">&quot;9999&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">email</span>: <span class="prelude-val">None</span>,
@@ -372,7 +410,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_current_user_complete</span>() {
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">CurrentUser</span> {
+            <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
             <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;avatar hash&quot;</span>.<span class="ident">to_owned</span>()),
+            <span class="ident">banner</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;06c16474723fe537c283b8efa61a30c8&quot;</span>.<span class="ident">to_owned</span>()),
             <span class="ident">bot</span>: <span class="bool-val">true</span>,
             <span class="ident">discriminator</span>: <span class="string">&quot;9999&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">email</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;test@example.com&quot;</span>.<span class="ident">to_owned</span>()),

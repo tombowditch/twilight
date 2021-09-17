@@ -464,6 +464,14 @@
 <span id="464">464</span>
 <span id="465">465</span>
 <span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">gateway::presence</span>::{<span class="ident">Presence</span>, <span class="ident">PresenceListDeserializer</span>},
     <span class="ident">guild::member</span>::{<span class="ident">Member</span>, <span class="ident">MemberListDeserializer</span>},
@@ -782,7 +790,9 @@
                     <span class="ident">roles</span>: <span class="macro">vec!</span>[<span class="ident">RoleId</span>(<span class="number">6</span>), <span class="ident">RoleId</span>(<span class="number">7</span>)],
                     <span class="ident">user</span>: <span class="ident">User</span> {
                         <span class="ident">id</span>: <span class="ident">UserId</span>(<span class="number">2</span>),
+                        <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                         <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;dddddddddddddddddddddddddddddddd&quot;</span>.<span class="ident">to_owned</span>()),
+                        <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                         <span class="ident">bot</span>: <span class="bool-val">true</span>,
                         <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                         <span class="ident">name</span>: <span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>(),
@@ -808,7 +818,9 @@
                     <span class="ident">roles</span>: <span class="macro">vec!</span>[<span class="ident">RoleId</span>(<span class="number">6</span>)],
                     <span class="ident">user</span>: <span class="ident">User</span> {
                         <span class="ident">id</span>: <span class="ident">UserId</span>(<span class="number">3</span>),
+                        <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                         <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;cccccccccccccccccccccccccccccccc&quot;</span>.<span class="ident">to_owned</span>()),
+                        <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                         <span class="ident">bot</span>: <span class="bool-val">true</span>,
                         <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                         <span class="ident">name</span>: <span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>(),
@@ -834,7 +846,9 @@
                     <span class="ident">roles</span>: <span class="macro">vec!</span>[<span class="ident">RoleId</span>(<span class="number">6</span>)],
                     <span class="ident">user</span>: <span class="ident">User</span> {
                         <span class="ident">id</span>: <span class="ident">UserId</span>(<span class="number">5</span>),
+                        <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                         <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;</span>.<span class="ident">to_owned</span>()),
+                        <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                         <span class="ident">bot</span>: <span class="bool-val">false</span>,
                         <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                         <span class="ident">name</span>: <span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>(),
@@ -860,7 +874,9 @@
                     <span class="ident">roles</span>: <span class="macro">vec!</span>[<span class="ident">RoleId</span>(<span class="number">6</span>)],
                     <span class="ident">user</span>: <span class="ident">User</span> {
                         <span class="ident">id</span>: <span class="ident">UserId</span>(<span class="number">6</span>),
+                        <span class="ident">accent_color</span>: <span class="prelude-val">None</span>,
                         <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&quot;</span>.<span class="ident">to_owned</span>()),
+                        <span class="ident">banner</span>: <span class="prelude-val">None</span>,
                         <span class="ident">bot</span>: <span class="bool-val">false</span>,
                         <span class="ident">discriminator</span>: <span class="string">&quot;0001&quot;</span>.<span class="ident">to_owned</span>(),
                         <span class="ident">name</span>: <span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>(),

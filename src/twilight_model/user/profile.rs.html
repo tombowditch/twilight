@@ -106,6 +106,19 @@
 <span id="106">106</span>
 <span id="107">107</span>
 <span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">id::UserId</span>,
     <span class="ident">user</span>::{<span class="ident">PremiumType</span>, <span class="ident">UserFlags</span>},
@@ -114,7 +127,13 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Deserialize</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UserProfile</span> {
+    <span class="doccomment">/// Accent color of the user&#39;s banner.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is an integer representation of a hexadecimal color code.</span>
+    <span class="kw">pub</span> <span class="ident">accent_color</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">avatar</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Hash of the user&#39;s banner image.</span>
+    <span class="kw">pub</span> <span class="ident">banner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">default</span>)]</span>
     <span class="kw">pub</span> <span class="ident">bot</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Discriminator used to differentiate people with the same username.</span>
@@ -152,11 +171,16 @@
         <span class="macro">vec!</span>[
             <span class="ident">Token::Struct</span> {
                 <span class="ident">name</span>: <span class="string">&quot;UserProfile&quot;</span>,
-                <span class="ident">len</span>: <span class="number">11</span>,
+                <span class="ident">len</span>: <span class="number">13</span>,
             },
+            <span class="ident">Token::Str</span>(<span class="string">&quot;accent_color&quot;</span>),
+            <span class="ident">Token::Some</span>,
+            <span class="ident">Token::U64</span>(<span class="number">16_579_836</span>),
             <span class="ident">Token::Str</span>(<span class="string">&quot;avatar&quot;</span>),
             <span class="ident">Token::Some</span>,
             <span class="ident">Token::Str</span>(<span class="string">&quot;hash&quot;</span>),
+            <span class="ident">Token::Str</span>(<span class="string">&quot;banner&quot;</span>),
+            <span class="ident">Token::None</span>,
             <span class="ident">Token::Str</span>(<span class="string">&quot;bot&quot;</span>),
             <span class="ident">Token::Bool</span>(<span class="bool-val">false</span>),
             <span class="ident">Token::Str</span>(<span class="string">&quot;discriminator&quot;</span>),
@@ -191,7 +215,9 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_user_profile</span>() {
         <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">UserProfile</span> {
+            <span class="ident">accent_color</span>: <span class="prelude-val">Some</span>(<span class="number">16_579_836</span>),
             <span class="ident">avatar</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;hash&quot;</span>.<span class="ident">to_owned</span>()),
+            <span class="ident">banner</span>: <span class="prelude-val">None</span>,
             <span class="ident">bot</span>: <span class="bool-val">false</span>,
             <span class="ident">discriminator</span>: <span class="string">&quot;0004&quot;</span>.<span class="ident">to_owned</span>(),
             <span class="ident">email</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;email@example.com&quot;</span>.<span class="ident">to_owned</span>()),
