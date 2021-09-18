@@ -1988,6 +1988,9 @@ impl Client {
             kind: InteractionErrorType::ApplicationIdNotPresent,
         })?;
 
+        println!("app id: {}", application_id.clone());
+        println!("interaction token: {}", interaction_token.clone());
+
         Ok(CreateFollowupMessage::new(
             self,
             application_id,
